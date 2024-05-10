@@ -1,0 +1,262 @@
+body {
+    overflow: hidden;
+}
+
+h1 {
+    text-align: center;
+    font-size: calc(1.375rem + 1.5vw);
+    color: #08b668;
+    font-weight: 600;
+}
+
+.error {
+    color: red;
+}
+
+.card1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 522px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 12px;
+    padding: 20px;
+    max-width: 340px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    margin-top: 58px;
+    border-radius: 10px;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 300px;
+}
+
+.Email {
+    margin-bottom: 8px;
+    color: #333;
+    font-size: small;
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.input {
+    width: calc(100% - 10px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.input:focus {
+    outline: none;
+    border-color: #47ef63;
+}
+
+.input-icon {
+    position: absolute;
+    top: 51%;
+    right: 154px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    padding-bottom: 10px;
+    color: grey;
+}
+
+.password-input {
+    position: relative;
+}
+
+.button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #0a8080;
+    color: #fff;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+#filled-basic-email {
+    color: #0a0a0a;
+    height: 6px;
+    padding: 16px;
+}
+
+#filled-basic-password {
+    color: #0a0a0a;
+    height: 6px;
+    padding: 16px;
+}
+
+.button:hover {
+    background-color: #005961;
+    border-color: #005961;
+}
+
+.signup {
+    padding-top: 10px;
+    text-align: center;
+    color: #0a8080;
+    font-size: small;
+}
+
+.forget {
+    color: #0a8080;
+    font-size: small;
+    padding-right: 59%;
+}
+
+.checkbox {
+    padding-top: 20px;
+    margin-bottom: 30px;
+    display: flex;
+}
+
+input[type="checkbox"] {
+    width: 21px;
+    height: 17px;
+    margin-top: 3px;
+}
+
+.text-center>a {
+    text-align: center;
+    color: #0a8080;
+    font-size: small;
+}
+
+.login-secondary {
+    padding-top: 10px;
+}
+
+.input-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.input-icon i {
+    font-size: 1.2rem;
+}
+
+.password-input {
+    position: relative;
+}
+
+.input-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    padding-bottom: 10px;
+    color: grey;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.image {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+.left, .right {
+    flex: 1;
+}
+
+.left {
+    background: linear-gradient(to bottom, rgb(15, 179, 144), rgb(5, 70, 5));
+    height: 100vh;
+}
+
+.right {
+    background-color: #f0f0f0;
+}
+
+.background-image {
+    width: 100%;
+    height: 0;
+    padding-top: calc(585 / 725* 90%);
+    margin-top: 0;
+    background-image: url(/src/assets/images/Revenue-bro.png);
+    background-size: contain;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+}
+
+
+.animation-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4em;
+    color: white;
+    text-align: center;
+    font-weight: 600;
+    padding: 76px;
+}
+
+.word {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    position: relative;
+    z-index: 1;
+    transform-origin: center;
+}
+
+.word:hover {
+    transform: translateY(-0.1em) translateZ(0);
+    font-size: 1.5em;
+    color: #47ef63;
+    z-index: 2;
+}
+
+.word:not(:hover) {
+    transform: none;
+}
+
+/* Media queries for smaller screens */
+@media screen and (max-width: 768px) {
+    .card1 {
+        width: 90%; /* Adjust card width for smaller screens */
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .card1 {
+        width: 100%; /* Adjust card width for smaller screens */
+    }
+
+    .forget {
+        padding-right: 10%; /* Adjust padding for smaller screens */
+    }
+
+    .checkbox {
+        margin-bottom: 20px; /* Reduce margin for smaller screens */
+    }
+}
+
+@media screen and (max-width: 368px) {
+    .card1 {
+        width: 80%; /* Adjust card width for smaller screens */
+    }
+}
