@@ -1,0 +1,28 @@
+/* .actions-container {
+    position: sticky;
+    top: 0;
+    right: 0;
+    background: white;
+    z-index: 1;
+} */
+
+
+.css-1kwdphh-MuiDataGrid-virtualScrollerContent {
+    width: 1530px;
+    height: 368px;
+    font-family: math;
+}
+
+.css-1oudwrl {
+    position: -webkit-sticky;
+    position: sticky;
+    z-index: 4;
+    top: 0;
+    height: 56px;
+    font-family: math;
+    font-weight: bolder;
+}
+
+.MuiDataGrid-cell{
+    height: 5px;
+}
