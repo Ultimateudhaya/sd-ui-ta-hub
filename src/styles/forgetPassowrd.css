@@ -1,3 +1,17 @@
+@font-face {
+    font-family: 'G Centra Book';
+    src: url('../fonts/G centra/GCentra-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Space Grotesk';
+    src: url('../fonts/SpaceGrotesk-Regular.ttf') format('truetype'); /* Adjust the path to your font file */
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
     overflow: hidden;
 }
@@ -11,6 +25,8 @@ body {
     background-image: linear-gradient(to left, rgb(91 239 31), rgb(50 137 50));
     -webkit-background-clip: text; 
     background-clip: text; 
+    font-family: 'Space Grotesk', sans-serif;
+
 }
 
 
