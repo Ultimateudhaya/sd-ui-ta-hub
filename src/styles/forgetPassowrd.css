@@ -61,6 +61,7 @@ body {
 
 .text-top{
     font-size: 13px;
+    font-family: 'G Centra Book', sans-serif; 
 }
 
 .Email {
@@ -76,6 +77,8 @@ body {
     margin-bottom: 20px;
     margin-left: 10px;
     margin-top: 10px;
+    font-family: 'G Centra Book', sans-serif; 
+
 }
 
 .input {
@@ -117,6 +120,8 @@ body {
     width: 97%;
     margin-top: 20px;
     margin-bottom: 10px;
+    font-family: 'G Centra Book', sans-serif; 
+
 }
 
 input::placeholder{
@@ -153,6 +158,7 @@ input::placeholder{
 
 .text{
     margin-top: 30px;
+    font-family: 'G Centra Book', sans-serif; 
 }
 
 .back-to-login{
@@ -168,6 +174,8 @@ input::placeholder{
     color: #0a8080;
     font-size: small;
     padding-right: 55%;
+    font-family: 'G Centra Book', sans-serif; 
+
 }
 
 .checkbox {
@@ -190,6 +198,8 @@ input[type="checkbox"] {
 
 .login-secondary {
     padding-top: 15px;
+    font-family: 'G Centra Book', sans-serif; 
+
 }
 
 .input-icon {
@@ -288,6 +298,7 @@ input[type="checkbox"] {
     text-align: center;
     font-weight: 600;
     padding: 76px;
+    font-family: 'G Centra Book', sans-serif; 
 }
 
 .word {

@@ -231,8 +231,6 @@ input[type="checkbox"] {
     display: flex;
     height: 100vh;
     width: 100%;   
-    font-family: 'G Centra Book', sans-serif; 
-
     /* overflow-y: auto;    */
 }
 
@@ -269,6 +267,8 @@ input[type="checkbox"] {
     text-align: center;
     font-weight: 600;
     padding: 76px;
+    font-family: 'G Centra Book', sans-serif; 
+
 }
 
 .word {
