@@ -1,5 +1,3 @@
-/* Common styles */
-
 @font-face {
     font-family: 'G Centra Book';
     src: url('../fonts/G centra/GCentra-Regular.ttf') format('truetype');
@@ -16,8 +14,6 @@
 
 body {
     overflow: hidden;
-    /* font-family: 'G Centra Book', sans-serif;  */
-
 }
 
 .gradient-text-center {
@@ -29,6 +25,7 @@ body {
     -webkit-background-clip: text; 
     background-clip: text; 
     font-family: 'Space Grotesk', sans-serif;
+
 }
 
 .error {
@@ -50,15 +47,14 @@ body {
     border-radius: 10px;
 }
 
-.form-container-login {
-    display: flex;
-    flex-direction: column;
+.form-container-register {
     padding: 20px;
     width: 300px;
     padding-right: 10px;
     padding-bottom: 0;
-    margin-top: 20px;
+    padding-top: 0px;
     font-family: 'G Centra Book', sans-serif; 
+
 }
 
 .Email {
@@ -103,7 +99,7 @@ body {
     position: relative;
 }
 
-.button-login {
+.button-register {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -111,7 +107,6 @@ body {
     color: #fff;
     cursor: pointer;
     width: 87%;
-    margin-top: 20px;
     margin-bottom: 10px;
     font-family: 'G Centra Book', sans-serif; 
 
@@ -141,7 +136,6 @@ input::placeholder{
 .forget {
     color: #0a8080;
     font-size: small;
-    font-family: 'G Centra Book', sans-serif; 
 }
 
 .checkbox {
@@ -164,9 +158,21 @@ input[type="checkbox"] {
 
 .login-secondary {
     padding-top: 15px;
-    font-family: 'G Centra Book', sans-serif; 
-
 }
+
+#filled-basic-user {
+    color: #0a0a0a;
+    height: 6px;
+    padding: 16px;
+}
+
+#filled-basic-mobile {
+    color: #0a0a0a;
+    height: 6px;
+    padding: 16px;
+}
+
+
 
 #filled-basic-email {
     color: #0a0a0a;
@@ -202,8 +208,6 @@ input[type="checkbox"] {
    border: 1px solid #b1adad;
    min-width: 43%;
    margin-bottom: 20px;
-   font-family: 'G Centra Book', sans-serif; 
-
 }
 
 .or-divider span {
@@ -216,8 +220,6 @@ input[type="checkbox"] {
 .google-signin-button {
     width: 87%;
     margin-top: 20px;
-    font-family: 'G Centra Book', sans-serif; 
-
 }
 
 * {
@@ -231,7 +233,7 @@ input[type="checkbox"] {
     display: flex;
     height: 100vh;
     width: 100%;   
-    /* overflow-y: auto;    */
+    overflow-y: auto;   
 }
 
 .left, .right {
@@ -250,7 +252,7 @@ input[type="checkbox"] {
 .background-image {
     width: 100%;
     height: 100vh;
-    padding-top: calc(550 / 625* 90%);
+    padding-top: calc(550 / 625* 100%);
     margin-top: 0;
     background-image: url(/src/assets/images/Revenue-bro.png);
     background-size: contain;
@@ -287,7 +289,6 @@ input[type="checkbox"] {
 .word:not(:hover) {
     z-index: 1; /* Ensure non-hovered words stay behind */
 }
-
 
 /* Media queries for smaller screens */
 @media screen and (max-width: 768px) {

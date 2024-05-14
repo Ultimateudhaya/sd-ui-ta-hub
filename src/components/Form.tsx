@@ -143,7 +143,7 @@ const Form: NextPage = () => {
     isOpen && (
         <div className='position'>
         <div className='container'>
-        <form onSubmit={submitFormHandler}>
+        <form className='form-req' onSubmit={submitFormHandler}>
         <div className='header'>
           <h3>Client Requirement Form</h3>
           <FaTimes className="close-icon pl-2" onClick={handleClose} />
