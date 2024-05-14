@@ -1,7 +1,7 @@
-import { TextField } from "@mui/material";
+import { TextField, Button } from "@mui/material";
 // import { useState } from "react";
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import '../styles/login.css';
 
 function Login() {
@@ -31,9 +31,9 @@ function Login() {
         <form>
         <div className="card1">
             <div>
-            <h1>Ta-HuB</h1>
+            <h1 className="gradient-text-center">Ta-HuB</h1>
             </div>
-            <div className="form-container">
+            <div className="form-container-login">
             <label htmlFor="email" className="Email">Email Address</label>
             <div className="input-container">
                 <TextField 
@@ -64,20 +64,31 @@ function Login() {
             </div>
 
 
-            <a href="/forget" className="forget">
+            <a href="/forget-password" className="forget">
             Forget password?
             </a>
 
             
-            <button className="button">
+            <button className="button-login">
             Sign In
             </button>
+            <div className="or-divider">
+                <div className="divider"></div>
+                <span>Or</span>
+                <div className="divider"></div>
+            </div>            
+            <Button variant="outlined" className="google-signin-button"  startIcon={<FontAwesomeIcon icon={faGoogle} />}>
+                Sign in with Google
+            </Button>
             <div className="login-secondary">
             <div className="text-center">
-            <div>
-                <a href="/signup" className="signup">
-                Want to sign your company up with TOPS?
-                </a>
+            <div className="link-container">
+                <div className="link">New to Ta-Hub?</div>
+                <span>
+                    <a href="/register" className="signup">
+                        Sign-up
+                    </a>
+                </span>
             </div>
             </div>
         </div>

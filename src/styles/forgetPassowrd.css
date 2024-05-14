@@ -1,17 +1,18 @@
-/* Common styles */
 body {
     overflow: hidden;
 }
 
 .gradient-text-center {
-    text-align: center;
+    text-align: left;
     font-size: calc(1.675rem + 1.5vw);
     font-weight: 600;
     color: transparent;
+    background-color: #005961;
     background-image: linear-gradient(to left, rgb(91 239 31), rgb(50 137 50));
     -webkit-background-clip: text; 
     background-clip: text; 
 }
+
 
 .error {
     color: red;
@@ -22,7 +23,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 550px;
+    min-height: 522px;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 12px;
     padding: 20px;
     max-width: 340px;
@@ -32,14 +33,18 @@ body {
     border-radius: 10px;
 }
 
-.form-container-login {
+.form-container-forget {
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    padding: 16px;
     width: 300px;
     padding-right: 10px;
     padding-bottom: 0;
-    margin-top: 20px;
+    margin-top: -130px;
+}
+
+.text-top{
+    font-size: 13px;
 }
 
 .Email {
@@ -48,11 +53,13 @@ body {
     font-size: small;
 }
 
-.input-container {
+.input-container-forget {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
+    margin-left: 10px;
+    margin-top: 10px;
 }
 
 .input {
@@ -60,7 +67,7 @@ body {
     padding: 10px;
     margin-bottom: 20px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 10px;
     box-sizing: border-box;
     transition: border-color 0.3s ease;
 }
@@ -84,20 +91,38 @@ body {
     position: relative;
 }
 
-.button-login {
+.button-forget {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: #0a8080;
     color: #fff;
     cursor: pointer;
-    width: 87%;
+    width: 97%;
     margin-top: 20px;
     margin-bottom: 10px;
 }
 
 input::placeholder{
     font-size: 13px;
+}
+
+
+#filled-basic-email {
+    color: #0a0a0a;
+    height: 6px;
+    padding: 16px;
+}
+
+#filled-basic-password {
+    color: #0a0a0a;
+    height: 6px;
+    padding: 16px;
+}
+
+.button-forget:hover {
+    background-color: #005961;
+    border-color: #005961;
 }
 
 .link-container {
@@ -110,16 +135,23 @@ input::placeholder{
     font-size: 15px;
 }
 
-.signup {
+.text{
+    margin-top: 30px;
+}
+
+.back-to-login{
     padding-top: 10px;
     text-align: center;
     color: #0a8080;
-    font-size: 15px;
+    font-size: 15px;  
+    margin-left: 93px;
 }
+
 
 .forget {
     color: #0a8080;
     font-size: small;
+    padding-right: 55%;
 }
 
 .checkbox {
@@ -144,18 +176,6 @@ input[type="checkbox"] {
     padding-top: 15px;
 }
 
-#filled-basic-email {
-    color: #0a0a0a;
-    height: 6px;
-    padding: 16px;
-}
-
-#filled-basic-password {
-    color: #0a0a0a;
-    height: 6px;
-    padding: 16px;
-}
-
 .input-icon {
     position: absolute;
     top: 50%;
@@ -166,6 +186,20 @@ input[type="checkbox"] {
 
 .input-icon i {
     font-size: 1.2rem;
+}
+
+.password-input {
+    position: relative;
+}
+
+.input-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    padding-bottom: 10px;
+    color: grey;
 }
 
 .or-divider {
@@ -192,18 +226,17 @@ input[type="checkbox"] {
     margin-top: 20px;
 }
 
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Image styles */
 .image {
     display: flex;
     height: 100vh;
-    width: 100%;   
-    /* overflow-y: auto;    */
+    width: 100%;
 }
 
 .left, .right {
@@ -221,8 +254,8 @@ input[type="checkbox"] {
 
 .background-image {
     width: 100%;
-    height: 100vh;
-    padding-top: calc(550 / 625* 90%);
+    height: 0;
+    padding-top: calc(585 / 725* 90%);
     margin-top: 0;
     background-image: url(/src/assets/images/Revenue-bro.png);
     background-size: contain;
@@ -285,10 +318,3 @@ input[type="checkbox"] {
         width: 80%; /* Adjust card width for smaller screens */
     }
 }
-
-
-@media screen and (max-width: 768px) {
-    .image {
-        flex-direction: column; /* Change flex-direction to column for smaller screens */
-    }
-}   
