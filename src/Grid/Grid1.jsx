@@ -14,15 +14,20 @@ import { setClients } from '../GlobalRedux/Features/clientsSlice';
 
 import { setCandidates } from '../GlobalRedux/Features/candidatesSlice';
 
-import { updateUser, deleteUser } from '../GlobalRedux/Features/usersSlice';
-import { updateCandidate, deleteCandidate } from '../GlobalRedux/Features/candidatesSlice';
-import { updateClient, deleteClient } from '../GlobalRedux/Features/clientsSlice';
+import { updateUser, deleteUser,addNewUser } from '../GlobalRedux/Features/usersSlice';
+import { updateCandidate, deleteCandidate,addNewCandidate } from '../GlobalRedux/Features/candidatesSlice';
+import { updateClient, deleteClient,addNewClient } from '../GlobalRedux/Features/clientsSlice';
 import { updateUserOnServer, deleteUserOnServer } from '../GlobalRedux/Features/usersSlice';
 import { updateCandidateOnServer, deleteCandidateOnServer } from '../GlobalRedux/Features/candidatesSlice';
 import { updateClientOnServer, deleteClientOnServer } from '../GlobalRedux/Features/clientsSlice';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+
 
 import '../styles/Grid1.css';
 
+import ConfirmDialog from '../Grid/ConfirmationDialog';
 
 
     async function fetchDataFromAPI(apiEndpoint) {
@@ -44,61 +49,76 @@ import '../styles/Grid1.css';
         return [];
         }
     }
-    
     function EditToolbar(props) {
-        // eslint-disable-next-line react/prop-types
-        const { setRows } = props;
-    
+        
+        const { setRows, apiEndpoint } = props;
+        const dispatch = useDispatch();
+
         const handleClick = async () => {
             const id = randomId();
             const newEmptyRow = { id, name: '', age: '', isNew: true };
-        
-            // Update local state
-            setRows((oldRows) => [...oldRows, newEmptyRow]);
-        
-            // Dispatch action to add new row to Redux store
-            // dispatch(addNewUser(newEmptyRow));
-        
-            // Add new row to the server
+    
             try {
-                const response = await fetch('http://localhost:8080/api/users/user', {
+                // Update local state
+                setRows((oldRows) => [...oldRows, newEmptyRow]);
+    
+                // Dispatch action to add new row to Redux store
+                if (apiEndpoint === 'http://localhost:8080/api/users/') {
+                    dispatch(addNewUser(newEmptyRow));
+                } else if (apiEndpoint === 'http://localhost:8080/api/candidates/') {
+                    dispatch(addNewCandidate(newEmptyRow));
+                } else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
+                    dispatch(addNewClient(newEmptyRow));
+                }
+    
+                // Add new row to the server
+                const response = await fetch(apiEndpoint, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify(newEmptyRow),
                 });
-        
+    
                 if (!response.ok) {
                     throw new Error('Failed to add new record on the server');
                 }
-        
+    
                 console.log('New record added successfully');
             } catch (error) {
                 console.error('Error adding new record:', error);
                 // Handle error, if needed
             }
         };
-        
-
-    return (
-        <GridToolbarContainer>
-        <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
-            Add record
-        </Button>
-        </GridToolbarContainer>
-    );
+    
+        return (
+            <GridToolbarContainer>
+                <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
+                    Add record
+                </Button>
+            </GridToolbarContainer>
+        );
     }
-
+    
     export default function FullFeaturedCrudGrid(props) {
         // eslint-disable-next-line react/prop-types
         const { apiEndpoint } = props;
-    const [rows, setRows] = useState([]);
-    const [rowModesModel, setRowModesModel] = useState({});
-    // const [pinnedColumns, setPinnedColumns] = useState({  right: ['Actions'] });
-
-    const dispatch = useDispatch();
- 
+        const [rows, setRows] = useState([]);
+        const [rowModesModel, setRowModesModel] = useState({});
+        const [deleteId, setDeleteId] = useState(null);
+        const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+        const dispatch = useDispatch();
+    
+        const [snackbarOpen, setSnackbarOpen] = useState(false);
+        const [snackbarMessage, setSnackbarMessage] = useState('');
+        const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+        
+        const handleOpenSnackbar = (message, severity) => {
+            setSnackbarMessage(message);
+            setSnackbarSeverity(severity);
+            setSnackbarOpen(true);
+        };
+        
 
     useEffect(() => {
         async function fetchData() {
@@ -106,6 +126,7 @@ import '../styles/Grid1.css';
             const data = await fetchDataFromAPI(apiEndpoint);
             if (apiEndpoint === 'http://localhost:8080/api/users/') {
                 dispatch(setUsers(data));
+                
                 console.log("datas",data);
             } else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
                 dispatch(setClients(data));
@@ -138,33 +159,49 @@ import '../styles/Grid1.css';
       
     };
 
-    const handleDeleteClick = (id) => async () => {
+    const handleDeleteClick = (id) => () => {
+        setDeleteId(id);
+        setOpenConfirmDialog(true);
+    };
+
+
+    const handleConfirmDelete = async () => {
         try {
-            const rowData = rows.find(row => row.id === id);
+            const rowData = rows.find(row => row.id === deleteId);
             if (!rowData) {
-                console.error('Row data not found for ID:', id);
+                console.error('Row data not found for ID:', deleteId);
                 return;
             }
-
+    
             if (apiEndpoint === 'http://localhost:8080/api/users/') {
                 const userId = rowData.userId;
                 dispatch(deleteUserOnServer(userId));
                 dispatch(deleteUser(userId));
+                handleOpenSnackbar('Record deleted successfully!', 'success');
+
             } else if (apiEndpoint === 'http://localhost:8080/api/candidates/') {
                 const candidateId = rowData.candidateId;
                 dispatch(deleteCandidateOnServer(candidateId));
                 dispatch(deleteCandidate(candidateId));
+                handleOpenSnackbar('Record deleted successfully!', 'success');
+
             } else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
                 const clientId = rowData.clientId;
                 dispatch(deleteClientOnServer(clientId));
                 dispatch(deleteClient(clientId));
+                handleOpenSnackbar('Record deleted successfully!', 'success');
+
             }
+    
+            // Remove the deleted row from the local state
+            setRows(rows.filter(row => row.id !== deleteId));
         } catch (error) {
             console.error('Error deleting record:', error);
-        }
-    };
+          handleOpenSnackbar('Error deleting record. Please try again.', 'error');
 
-    
+        }
+        setOpenConfirmDialog(false);
+    };
     
     
     const handleCancelClick = (id) => () => {
@@ -179,6 +216,9 @@ import '../styles/Grid1.css';
         }
     };
 
+    const handleCloseDialog = () => {
+        setOpenConfirmDialog(false);
+    };
 
 
     const processRowUpdate = (rowUpdate, row) => {
@@ -187,15 +227,21 @@ import '../styles/Grid1.css';
             dispatch(updateUser(newRow));
 
             dispatch(updateUserOnServer(newRow));
+            handleOpenSnackbar('Record Updated successfully!', 'success');
 
             console.log("User updated successfully:", newRow);
         } else if (apiEndpoint === 'http://localhost:8080/api/candidates/') {
-            dispatch(updateCandidate(newRow));
+            console.log("newcandiaterow",newRow);
+   
+        dispatch(updateCandidate(newRow));
             dispatch(updateCandidateOnServer(newRow));
+            handleOpenSnackbar('Record Updated successfully!', 'success');
+
             console.log("Candidate updated successfully:", newRow);
         } else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
             dispatch(updateClient(newRow));
             dispatch(updateClientOnServer(newRow));
+            handleOpenSnackbar('Record Updated successfully!', 'success');
 
             console.log("Client updated successfully:", newRow);
         }
@@ -211,24 +257,25 @@ import '../styles/Grid1.css';
 
     if (apiEndpoint === 'http://localhost:8080/api/users/') {
         columns = [
-        { field: 'userId', headerName: 'User ID', width:100, editable: true } ,
-        { field: 'firstName', headerName: 'First Name', width: 100, editable: true },
-        { field: 'lastName', headerName: 'Last Name', width: 100, editable: true },
-        { field: 'username', headerName: 'Username', width: 100, editable: true },
-        { field: 'email', headerName: 'Email', width: 140, editable: true },
-        { field: 'phone', headerName: 'Phone', width: 100, editable: true },
-        { field: 'resetToken', headerName: 'Reset Token', width: 100, editable: true },
-        { field: 'password', headerName: 'Password', width: 100, editable: true },
-        { field: 'isActive', headerName: 'Active', width: 100, editable: true },
-        { field: 'currentSessionId', headerName: 'Current Session ID', width: 100, editable: true },
-        { field: 'lastLoginTime', headerName: 'Last Login Time', width: 100, editable: true },
-        { field: 'createdDate', headerName: 'Created Date', width: 200, editable: true },
+        { field: 'userId', headerName: 'User ID', width:100, editable: true , headerAlign: 'center', align:'center'} ,
+        { field: 'firstName', headerName: 'First Name', width: 100, editable: true, headerAlign: 'center', align:'center' },
+        { field: 'lastName', headerName: 'Last Name', width: 100, editable: true , headerAlign: 'center', align:'center'},
+        { field: 'username', headerName: 'Username', width: 100, editable: true, headerAlign: 'center', align:'center' },
+        { field: 'email', headerName: 'Email', width: 140, editable: true, headerAlign: 'center', align:'center' },
+        { field: 'phone', headerName: 'Phone', width: 100, editable: true, headerAlign: 'center', align:'center' },
+        { field: 'resetToken', headerName: 'Reset Token', width: 100, editable: true, headerAlign: 'center', align:'center' },
+        { field: 'password', headerName: 'Password', width: 100, editable: true, headerAlign: 'center', align:'center' },
+        { field: 'isActive', headerName: 'Active', width: 100, editable: true, headerAlign: 'center', align:'center' },
+        { field: 'currentSessionId', headerName: 'Current Session ID', width: 100, editable: true, headerAlign: 'center', align:'center' },
+        { field: 'lastLoginTime', headerName: 'Last Login Time', width: 100, editable: true, headerAlign: 'center', align:'center' },
+        { field: 'createdDate', headerName: 'Created Date', width: 200, editable: true, headerAlign: 'center', align:'center' },
         {
             field: 'actions',
             type: 'actions',
             headerName: 'Actions',
             width: 100,
-
+             headerAlign: 'center', 
+             align:'center',
           
             cellClassName: 'actions',
             getActions: ({ id }) => {
@@ -278,24 +325,25 @@ import '../styles/Grid1.css';
         ];
     }  else if (apiEndpoint === 'http://localhost:8080/api/candidates/') {
         columns = [
-        { field: 'candidateId', headerName: 'CandidateId', width: 100, editable: true },
-        { field: 'candidateName', headerName: 'CandidateName', width: 100, editable: true },
-        { field: 'candidateEmail', headerName: 'CandidateEmail', width: 100, editable: true },
-        { field: 'candidateContact', headerName: 'CandidateContact', width: 100, editable: true },
-        { field: 'technology', headerName: 'Technology', width: 100, editable: true },
-        { field: 'totalExperience', headerName: 'TotalExperience', width: 100, editable: true },
-        { field: 'currentCtc', headerName: 'CurrentCtc', width: 100, editable: true },
-        { field: 'expectedCtc', headerName: 'ExpectedCtc', width: 100, editable: true },
-        { field: 'noticePeriod', headerName: 'NoticePeriod', width: 100, editable: true },
-        { field: 'modeOfWork', headerName: 'ModeOfWork', width: 100, editable: true },
-        { field: 'currentLocation', headerName: 'CurrentLocation', width: 100, editable: true },
-        { field: 'candidateStatus', headerName: 'CandidateStatus', width: 100, editable: true },
-        { field: 'comments', headerName: 'Comments', width: 100, editable: true },
-        { field: 'remarks', headerName: 'Remarks', width: 100, editable: true },
-        { field: 'recruiter', headerName: 'Recruiter', width: 100, editable: true },
-        { field: 'recruitedSource', headerName: 'RecruitedSource', width: 100, editable: true },
-        { field: 'createdDate', headerName: 'CreatedDate', width: 100, editable: true },
+        { field: 'candidateId', headerName: 'CandidateId', width: 100, editable: true, headerAlign: 'center', align:'center'},
+        { field: 'candidateName', headerName: 'CandidateName', width: 100, editable: true , headerAlign: 'center', align:'center'},
+        { field: 'candidateEmail', headerName: 'CandidateEmail', width: 100, editable: true , headerAlign: 'center', align:'center'},
+        { field: 'candidateContact', headerName: 'CandidateContact', width: 100, editable: true, headerAlign: 'center', align:'center' },
+        { field: 'technology', headerName: 'Technology', width: 100, editable: true , headerAlign: 'center', align:'center'},
+        { field: 'totalExperience', headerName: 'TotalExperience', width: 100, editable: true, headerAlign: 'center', align:'center' },
+        { field: 'currentCtc', headerName: 'CurrentCtc', width: 100, editable: true, headerAlign: 'center', align:'center' },
+        { field: 'expectedCtc', headerName: 'ExpectedCtc', width: 100, editable: true , headerAlign: 'center', align:'center'},
+        { field: 'noticePeriod', headerName: 'NoticePeriod', width: 100, editable: true , headerAlign: 'center', align:'center'},
+        { field: 'modeOfWork', headerName: 'ModeOfWork', width: 100, editable: true, headerAlign: 'center', align:'center' },
+        { field: 'currentLocation', headerName: 'CurrentLocation', width: 100, editable: true, headerAlign: 'center', align:'center' },
+        { field: 'candidateStatus', headerName: 'CandidateStatus', width: 100, editable: true, headerAlign: 'center', align:'center' },
+        { field: 'comments', headerName: 'Comments', width: 100, editable: true, headerAlign: 'center', align:'center' },
+        { field: 'remarks', headerName: 'Remarks', width: 100, editable: true , headerAlign: 'center', align:'center'},
+        { field: 'recruiter', headerName: 'Recruiter', width: 100, editable: true, headerAlign: 'center', align:'center' },
+        { field: 'recruitedSource', headerName: 'RecruitedSource', width: 100, editable: true , headerAlign: 'center', align:'center'},
+        { field: 'createdDate', headerName: 'CreatedDate', width: 100, editable: true , headerAlign: 'center', align:'center'},
         {
+             headerAlign: 'center', align:'center',
             field: 'actions',
             type: 'actions',
             headerName: 'Actions',
@@ -351,13 +399,21 @@ import '../styles/Grid1.css';
     } 
     else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
         columns = [
-        { field: 'clientId', headerName: 'clientId', width: 100, editable: true },
-        { field: 'clientName', headerName: 'clientName', width: 100, editable: true },
-        { field: 'clientSpocName', headerName: 'clientSpocName', width: 100, editable: true },
-        { field: 'clientSpocContact', headerName: 'clientSpocContact', width: 100, editable: true },
-        { field: 'clientLocation', headerName: 'clientLocation', width: 100, editable: true },
-        { field: 'createdAt', headerName: 'createdAt', width: 100, editable: true },
+        { field: 'clientId', align:'center', headerName: 'clientId', width: 100, editable: true,    headerAlign: 'center',
+ },
+        { field: 'clientName', align:'center',headerName: 'clientName', width: 100, editable: true ,    headerAlign: 'center',
+    },
+        { field: 'clientSpocName', align:'center',headerName: 'clientSpocName', width: 100, editable: true,    headerAlign: 'center',
+    },
+        { field: 'clientSpocContact', align:'center',headerName: 'clientSpocContact', width: 100, editable: true ,    headerAlign: 'center',
+    },
+        { field: 'clientLocation', align:'center',headerName: 'clientLocation', width: 100, editable: true,    headerAlign: 'center',
+    },
+        { field: 'createdAt', align:'center',headerName: 'createdAt', width: 100, editable: true,    headerAlign: 'center',
+    },
         {
+            headerAlign: 'center',
+             align:'center',
             field: 'actions',
             type: 'actions',
             headerName: 'Actions',
@@ -412,9 +468,14 @@ import '../styles/Grid1.css';
         ];
     } 
         return (
+            
             <Box
+            
+
+            
             sx={{
-                
+                boxShadow: 2,
+              
                 marginTop: 13,
                 marginLeft: 5,
                 height: 600,
@@ -442,6 +503,29 @@ import '../styles/Grid1.css';
                 },
             }}
         >
+            <Snackbar
+    open={snackbarOpen}
+    autoHideDuration={6000}
+    onClose={() => setSnackbarOpen(false)}
+>
+    <MuiAlert
+        elevation={6}
+        variant="filled"
+        onClose={() => setSnackbarOpen(false)}
+        severity={snackbarSeverity}
+    >
+        {snackbarMessage}
+    </MuiAlert>
+</Snackbar>
+
+             <ConfirmDialog
+                open={openConfirmDialog}
+                setOpen={setOpenConfirmDialog} 
+
+                onConfirm={handleConfirmDelete}
+                onClose={handleCloseDialog}
+                deleteId={deleteId}
+            />
             <DataGrid
                 rowHeight={35}
                 rows={rows}

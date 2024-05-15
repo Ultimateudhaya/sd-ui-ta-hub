@@ -1,14 +1,63 @@
 import { TextField } from "@mui/material";
-// import { useState } from "react";
+import { useState } from "react";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import '../styles/register.css';
 
 function Register() {
-//    const [showPassword, setShowPassword] = useState(false);
+    const [formData, setFormData] = useState({
+        userName: "",
+        phoneNo: "",
+        email: "",
+        password: "",
+        confirmPassword: ""
+    });
 
-    
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
 
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        try {
+            const roleId = 1;
+
+            // Construct the payload including roleId
+            const payload = {
+                ...formData,
+                roleId: roleId // Add roleId to the payload
+            };
+
+            const response = await fetch("http://localhost:8080/api/auth/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to register");
+            }
+
+            // Reset the form after successful registration
+            setFormData({
+                userName: "",
+                phoneNo: "",
+                email: "",
+                password: "",
+                confirmPassword: ""
+            });
+
+            alert("Registration successful!");
+        } catch (error) {
+            console.error("Registration error:", error);
+            alert("Failed to register. Please try again.");
+        }
+    };
 
  return(
     <div className="image">
@@ -27,14 +76,14 @@ function Register() {
     <div className="background-image"></div>
     </div>
     <div className="right">
-    <div role="form" onKeyPress={(e) => { if (e.key === 'Enter'); }}>
-        <form>
-        <div className="card1">
+    <div role="form" onKeyPress={(e) => { if (e.key === 'Enter') e.preventDefault(); }}>
+    <form onSubmit={handleSubmit}>
+         <div className="card1">
             <div>
             <h1 className="gradient-text-center">Sign up</h1>
             </div>
             <div className="form-container-register">
-            <label htmlFor="userName" className="Email">User Name</label>
+            <label htmlFor="userName" className="UserName">User Name</label>
             <div className="input-container">
                 <TextField 
                 className="input" 
@@ -43,18 +92,22 @@ function Register() {
                 type="text"
                 name="userName"
                 placeholder="User name" 
+                onChange={handleInputChange}
+
                 />
                 {/* You can add an icon or any other element here */}
             </div>
-            <label htmlFor="phoneNo" className="Email">Mobile No</label>
+            <label htmlFor="phoneNo" className="PhoneNo">Mobile No</label>
             <div className="input-container">
                 <TextField 
                 className="input" 
                 id="filled-basic-mobile" 
                 variant="filled"
-                type="text"
+                type="number"
                 name="phoneNo"
                 placeholder="Mobile No" 
+                onChange={handleInputChange}
+
                 />
                 {/* You can add an icon or any other element here */}
             </div>
@@ -68,11 +121,13 @@ function Register() {
                 type="text"
                 name="email"
                 placeholder="Email" 
+                onChange={handleInputChange}
+
                 />
                 {/* You can add an icon or any other element here */}
             </div>
 
-            <label htmlFor="password" className="Email">New Password</label>
+            <label htmlFor="password" className="NewPassword">New Password</label>
             <div className="input-container">
                 <TextField 
                 className="input" 
@@ -81,29 +136,32 @@ function Register() {
                 type="password"
                 name="password"
                 placeholder="Password" 
+                onChange={handleInputChange}
+
                 />
                 {/* <span className="input-icon" onClick={() => setShowPassword(!showPassword)}>
                 <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
                 </span> */}
             </div>
 
-            <label htmlFor="password" className="Email">Confirm Password</label>
+            <label htmlFor="confirmPassword" className="confirmPassword">Confirm Password</label>
             <div className="input-container">
-                <TextField 
-                className="input" 
-                id="filled-basic-conpassword" 
-                variant="filled"
-                type="password"
-                name="password"
-                placeholder="Confirm Password" 
-                />
+            <TextField 
+                                        className="input" 
+                                        id="filled-basic-conpassword" 
+                                        variant="filled"
+                                        type="password"
+                                        name="confirmPassword"
+                                        placeholder="Confirm Password" 
+                                        onChange={handleInputChange}
+                                    />
                 {/* <span className="input-icon" onClick={() => setShowPassword(!showPassword)}>
                 <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
                 </span> */}
             </div>
             </div>
             
-            <button className="button-register">
+            <button type="submit"  className="button-register">
             Sign In
             </button>
         </div>
