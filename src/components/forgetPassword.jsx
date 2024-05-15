@@ -65,7 +65,7 @@ password reset information sent to </p>
                 <TextField 
                 className="input" 
                 id="filled-basic-email" 
-                variant="filled"
+                variant="standard"
                 type="text"
                 name="email"
                 placeholder="Email address" 

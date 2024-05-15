@@ -61,7 +61,7 @@ function ResetPassword() {
                                         <TextField 
                                             className="input" 
                                             id="filled-basic-password" 
-                                            variant="filled"
+                                            variant="standard"
                                             type="password"
                                             name="password"
                                             placeholder="Old Password" 
@@ -74,7 +74,7 @@ function ResetPassword() {
                                         <TextField 
                                             className="input" 
                                             id="filled-basic-oldpassword" 
-                                            variant="filled"
+                                            variant="standard"
                                             type="password"
                                             name="password"
                                             placeholder="New Password" 
@@ -87,7 +87,7 @@ function ResetPassword() {
                                         <TextField 
                                             className="input" 
                                             id="filled-basic-conpassword" 
-                                            variant="filled"
+                                            variant="standard"
                                             type="password"
                                             name="password"
                                             placeholder="Confirm Password" 

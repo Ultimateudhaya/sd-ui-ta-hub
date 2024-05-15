@@ -71,7 +71,7 @@ function Login() {
                     <form onSubmit={handleLogin}>
                         <div className="card1">
                                 <div>
-                                    <h1 className="gradient-text-center">Ta-HuB</h1>
+                                    <h1 className="gradient-text-login">Ta-HuB</h1>
                                 </div>
                                 <div className="form-container-login">
                                     <label htmlFor="email" className="Email">Email Address</label>
@@ -82,7 +82,7 @@ function Login() {
                                             variant="standard"
                                             type="text"
                                             name="email"
-                                            placeholder="Email"
+                                            placeholder="Email Address"
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
                                         />
@@ -107,6 +107,12 @@ function Login() {
                                     Having trouble signing in?
                                 </a>
 
+                                <div className="checkbox">
+                                    <input type="checkbox" id="remember-device" name="remember-device" className="checkbox" />
+                                    <label htmlFor="remember-device">Remember this device</label>
+                                </div>
+
+
                                 <button type="submit" className="button-login">
                                     Sign In
                                 </button>
@@ -123,7 +129,7 @@ function Login() {
                                 <div className="login-secondary">
                                     <div className="text-center">
                                         <div className="link-container">
-                                            <div className="link">New to Ta-Hub?</div>
+                                            <div className="link">New to TA-HUB?</div>
                                             <span>
                                                 <a href="/register" className="signup">
                                                     Sign-up

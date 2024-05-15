@@ -91,7 +91,7 @@ function Register() {
                 <TextField 
                 className="input" 
                 id="filled-basic-user" 
-                variant="filled"
+                variant="standard"
                 type="text"
                 name="userName"
                 placeholder="User name" 
@@ -106,8 +106,8 @@ function Register() {
                 <TextField 
                 className="input" 
                 id="filled-basic-mobile" 
-                variant="filled"
-                type="number"
+                variant="standard"
+                type="text"
                 name="phoneNo"
                 onChange={handleInputChange}
 
@@ -123,7 +123,7 @@ function Register() {
                 <TextField 
                 className="input" 
                 id="filled-basic-email" 
-                variant="filled"
+                variant="standard"
                 type="text"
                 name="email"
                 placeholder="Email" 
@@ -138,7 +138,7 @@ function Register() {
                 <TextField 
                 className="input" 
                 id="filled-basic-password" 
-                variant="filled"
+                variant="standard"
                 type="password"
                 name="password"
                 onChange={handleInputChange}
@@ -156,7 +156,7 @@ function Register() {
             <TextField 
                                         className="input" 
                                         id="filled-basic-conpassword" 
-                                        variant="filled"
+                                        variant="standard"
                                         type="password"
                                         name="confirmPassword"
                                         placeholder="Confirm Password" 
@@ -169,7 +169,7 @@ function Register() {
             </div>
             
             <button type="submit"  className="button-register">
-            Sign In
+            Submit
     
             </button>
         </div>
