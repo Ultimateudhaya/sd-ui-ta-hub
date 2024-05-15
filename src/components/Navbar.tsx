@@ -1,3 +1,4 @@
+
 "use client"
 import React, { useState } from 'react';
 import type { NextPage } from 'next';
@@ -44,7 +45,7 @@ const Navbar: NextPage = () => {
 
   return (
     <div>
-      <nav className="navbar navbar-light bg-light justify-content-between">
+      <nav className="navbar ">
         <p className="navbar-brand">Tringapps</p>
         <ul className="navbar-nav ">
           <div className="load">
@@ -67,12 +68,11 @@ const Navbar: NextPage = () => {
           </li>
           </div>
         
-          <li>
-            <button className="btn btn-outline-success my-2 my-sm-0 create-button" onClick={openForm}>
+          
+        </ul>
+        <button className="btn btn-outline-success my-2 my-sm-0 create-button" onClick={openForm}>
               Create
             </button>
-          </li>
-        </ul>
       </nav>
       {showGrid && <FullFeaturedCrudGrid apiEndpoint={apiEndpoint} />}
       {showForm && <Form key={formKey} {...closeForm} />}
@@ -81,4 +81,3 @@ const Navbar: NextPage = () => {
 };
 
 export default Navbar;
-
