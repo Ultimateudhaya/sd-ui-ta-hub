@@ -12,7 +12,7 @@ export const candidatesSlice = createSlice({
     setCandidates: (state, action) => {
       state.candidates = action.payload;
     },
-    addCandidate: (state, action) => {
+    addNewCandidate: (state, action) => {
       state.candidates.push(action.payload);
     },
     updateCandidate: (state, action) => {
@@ -28,7 +28,7 @@ export const candidatesSlice = createSlice({
   },
 });
 
-export const { setCandidates, addCandidate, updateCandidate, deleteCandidate } = candidatesSlice.actions;
+export const { setCandidates, addNewCandidate, updateCandidate, deleteCandidate } = candidatesSlice.actions;
 
 // Function to delete candidate on the server
 export const deleteCandidateOnServer = (candidateId) => async () => {
