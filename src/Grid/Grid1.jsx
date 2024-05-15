@@ -476,14 +476,16 @@ import ConfirmDialog from '../Grid/ConfirmationDialog';
             sx={{
                 boxShadow: 2,
               
-                marginTop: 6,
-                marginLeft: 5,
+                
                 height: 600,
-                width: '95%',
+                width: '94%',
+                paddingLeft:10,
+                marginTop:5,
+                background:'none',
                 "& .MuiDataGrid-row--editing .MuiDataGrid-cell": {
                     // border: "none",
                     height: 39,
-                    border:"1px solid black",
+                    // border:"1px solid black",
 
                   },
                   
