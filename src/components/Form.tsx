@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from 'react';
 import type { NextPage } from 'next';
-// import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../styles/Form.css';
 import { FaTimes } from 'react-icons/fa'; 
@@ -32,7 +32,7 @@ const Form: NextPage = () => {
     const [approvedBy, setApprovedBy] = useState('');
     const [yearsOfExperienceRequired, setYearsOfExperienceRequired] = useState('');
     const [noOfOpenings, setNoOfOpenings] = useState<number>(0);
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
     // const formData = useSelector((state: any) => state.form.formData);
     // console.log('Data:',formData)
@@ -95,28 +95,28 @@ const Form: NextPage = () => {
             // setNoOfOpenings('');
 
 
-            // dispatch(submitForm({
-            //     requirementStartDate: isoReqStartDate,
-            //     clientName: clientName,
-            //     clientSpocName: clientSpocName,
-            //     clientSpocContact: clientSpocContact,
-            //     accountManager: accountManager,
-            //     accountManagerEmail: accountManagerEmail,
-            //     jobTitle: jobTitle,
-            //     noOfOpenings: noOfOpenings,
-            //     roleType: roleType,
-            //     modeOfWork: modeOfWork,
-            //     workLocation: workLocation,
-            //     salaryBudget: salaryBudget,
-            //     modeOfInterviews: modeOfInterviews,
-            //     tentativeStartDate: isoStartDate,
-            //     tentativeDuration: isoProjectStartDate,
-            //     approvedBy: approvedBy,
-            //     yearsOfExperienceRequired: yearsOfExperienceRequired,
-            //     primarySkillSet: primarySkill,
-            //     secondarySkillSet: secondarySkill
+            dispatch(submitForm({
+                requirementStartDate: isoReqStartDate,
+                clientName: clientName,
+                clientSpocName: clientSpocName,
+                clientSpocContact: clientSpocContact,
+                accountManager: accountManager,
+                accountManagerEmail: accountManagerEmail,
+                jobTitle: jobTitle,
+                noOfOpenings: noOfOpenings,
+                roleType: roleType,
+                modeOfWork: modeOfWork,
+                workLocation: workLocation,
+                salaryBudget: salaryBudget,
+                modeOfInterviews: modeOfInterviews,
+                tentativeStartDate: isoStartDate,
+                tentativeDuration: isoProjectStartDate,
+                approvedBy: approvedBy,
+                yearsOfExperienceRequired: yearsOfExperienceRequired,
+                primarySkillSet: primarySkill,
+                secondarySkillSet: secondarySkill
                 
-            //   }));
+              }));
              
           } else {
             console.error('Failed to submit form data.');

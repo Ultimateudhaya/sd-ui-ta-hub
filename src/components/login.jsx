@@ -2,15 +2,25 @@ import { TextField } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import '../styles/login.css';
+import CustomSnackbar from "./CustomSnackbar";
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
-
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarVariant, setSnackbarVariant] = useState('success');
     const handleLogin = async (e) => {
         e.preventDefault();
-
+    
+        if (!email || !password) {
+            setSnackbarOpen(true);
+            setSnackbarMessage("Please fill in all fields.");
+            setSnackbarVariant("error");
+            return;
+        }
+    
         try {
             const response = await fetch("http://localhost:8080/api/auth/login", {
                 method: "POST",
@@ -19,19 +29,27 @@ function Login() {
                 },
                 body: JSON.stringify({ email, password })
             });
-
+    
             if (!response.ok) {
                 throw new Error("Failed to login");
             }
-
-            // Redirect user or handle successful login
-            navigate('/dashboard'); // Redirect to dashboard page after successful login
+            setSnackbarOpen(true);
+            setSnackbarMessage("Login success");
+            setSnackbarVariant("success");
+            navigate('/dashboard'); 
         } catch (error) {
             console.error("Error logging in:", error.message);
-            // Handle error, e.g., display error message to the user
+            setSnackbarOpen(true);
+            setSnackbarMessage("Error logging in. Please try again.");
+            setSnackbarVariant("error");
         }
     };
-
+    
+    const handleCloseSnackbar = () => {
+        setSnackbarOpen(false);
+        setSnackbarMessage("");
+      };
+  
     return (
         <div className="image">
             <div className="left">
@@ -120,6 +138,12 @@ function Login() {
                     </form>
                 </div>
             </div>
+            <CustomSnackbar
+        message={snackbarMessage}
+        variant={snackbarVariant}
+        onClose={handleCloseSnackbar}
+        open={snackbarOpen}
+      />
         </div>
         
     );
