@@ -1,19 +1,20 @@
 @font-face {
     font-family: 'G Centra Book';
-    src: url('../fonts/G centra/GCentra-Regular.ttf') format('truetype');
+    src: url('src/assets/fonts/Gusto Brand Kit (External)-G centra/G centra/G centra-book.otf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Space Grotesk';
-    src: url('../fonts/SpaceGrotesk-Regular.ttf') format('truetype'); /* Adjust the path to your font file */
+    src: url('src/assets/fonts/Space_Grotesk/static/SpaceGrotesk-Regular.ttf') format('truetype'); 
     font-weight: normal;
     font-style: normal;
 }
 
 body {
     overflow: hidden;
+   
 }
 
 .gradient-text-sign {
@@ -24,7 +25,7 @@ body {
     background-image: linear-gradient(to left, rgb(91 239 31), rgb(50 137 50));
     -webkit-background-clip: text; 
     background-clip: text; 
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Space Grotesk';
 
 }
 
@@ -44,7 +45,7 @@ body {
     margin: 0 auto;
     background-color: #ffffff;
     margin-top: 58px;
-    border-radius: 40px;
+    border-radius: 20px;
 }
 
 .form-container-register {
@@ -60,7 +61,7 @@ body {
 }
 
 .Email {
-    margin-bottom: 8px;
+    /* margin-bottom: 8px; */
     color: #333;
     font-size: small;
 }
@@ -77,9 +78,14 @@ body {
     padding: 10px;
     margin-bottom: 20px;
     /* border: 1px solid #ccc; */
-    border-radius: 25px 25px 0 0; /* Apply border radius only to the top corners */
+    background-color: #e3e2e2;
+    border-radius: 15px 15px 0 0; /* Apply border radius only to the top corners */
     box-sizing: border-box;
     transition: border-color 0.3s ease;
+}
+
+.input:hover{
+    background-color: #ece8e8;
 }
 
 
@@ -110,7 +116,7 @@ body {
     margin-top: 10px;
     border-radius: 16px;
     font-family: 'G Centra Book', sans-serif;
-    font-size: 13px;
+    font-size: 16px;
 }
 
 
@@ -124,31 +130,9 @@ input::placeholder{
     font-size: 13px;
 }
 
-.link-container {
-    display: flex;
-    align-items: center; 
-}
-
-.link {
-    margin-right: 10px; 
-    font-size: 15px;
-}
-
 .forget {
     color: #0a8080;
     font-size: small;
-}
-
-.checkbox {
-    padding-top: 20px;
-    margin-bottom: 30px;
-    display: flex;
-}
-
-input[type="checkbox"] {
-    width: 21px;
-    height: 17px;
-    margin-top: 3px;
 }
 
 .text-center>a {
@@ -309,7 +293,7 @@ input[type="checkbox"] {
 
 @media screen and (max-width: 368px) {
     .card1 {
-        width: 80%; /* Adjust card width for smaller screens */
+        width: 100%; /* Adjust card width for smaller screens */
     }
 }
 

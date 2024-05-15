@@ -91,10 +91,12 @@ function Register() {
         }
     };
 
+
     const handleCloseSnackbar = () => {
         setSnackbarOpen(false);
         setSnackbarMessage("");
     };
+
 
     return (
         <div className="image">
@@ -125,7 +127,7 @@ function Register() {
                                     <TextField 
                                         className="input" 
                                         id="filled-basic-user" 
-                                        variant="filled"
+                                        variant="standard"
                                         type="text"
                                         name="userName"
                                         placeholder="User name" 
@@ -137,7 +139,7 @@ function Register() {
                                     <TextField 
                                         className="input" 
                                         id="filled-basic-mobile" 
-                                        variant="filled"
+                                        variant="standard"
                                         type="number"
                                         name="phoneNo"
                                         onChange={handleInputChange}
@@ -149,7 +151,7 @@ function Register() {
                                     <TextField 
                                         className="input" 
                                         id="filled-basic-email" 
-                                        variant="filled"
+                                        variant="standard"
                                         type="text"
                                         name="email"
                                         placeholder="Email" 
@@ -161,7 +163,7 @@ function Register() {
                                     <TextField 
                                         className="input" 
                                         id="filled-basic-password" 
-                                        variant="filled"
+                                        variant="standard"
                                         type="password"
                                         name="password"
                                         onChange={handleInputChange}
@@ -173,7 +175,7 @@ function Register() {
                                     <TextField 
                                         className="input" 
                                         id="filled-basic-conpassword" 
-                                        variant="filled"
+                                        variant="standard"
                                         type="password"
                                         name="confirmPassword"
                                         placeholder="Confirm Password" 
@@ -182,18 +184,20 @@ function Register() {
                                 </div>
                             </div>
                             <button type="submit" className="button-register">
-                                Sign Up
+                                Submit
                             </button>
                         </div>
                     </form>
                 </div>
             </div>
+
             <CustomSnackbar
                 message={snackbarMessage}
                 variant={snackbarVariant}
                 onClose={handleCloseSnackbar}
                 open={snackbarOpen}
             />
+
         </div>
     );
 }
