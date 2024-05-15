@@ -17,7 +17,6 @@
 body {
     overflow: hidden;
     /* font-family: 'G Centra Book', sans-serif;  */
-
 }
 
 .gradient-text-center {
@@ -25,6 +24,7 @@ body {
     font-size: calc(1.675rem + 1.5vw);
     font-weight: 600;
     color: transparent;
+    margin-top: -51px;
     background-image: linear-gradient(to left, rgb(91 239 31), rgb(50 137 50));
     -webkit-background-clip: text; 
     background-clip: text; 
@@ -40,7 +40,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 522px;
+    height: 600px;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 12px;
     padding: 20px;
     max-width: 340px;
@@ -57,7 +57,6 @@ body {
     width: 300px;
     padding-right: 10px;
     padding-bottom: 0;
-    margin-top: 20px;
     font-family: 'G Centra Book', sans-serif; 
 }
 
@@ -107,7 +106,7 @@ body {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    background-color: #0a8080;
+    background-color: rgb(44, 153, 129);
     color: #fff;
     cursor: pointer;
     width: 87%;
@@ -115,6 +114,11 @@ body {
     margin-bottom: 10px;
     font-family: 'G Centra Book', sans-serif; 
 
+}
+
+.button-login:hover{
+    background-color: rgb(34, 142, 119);
+    border-color: rgb(34, 142, 119);
 }
 
 input::placeholder{
@@ -128,20 +132,30 @@ input::placeholder{
 
 .link {
     margin-right: 10px; 
-    font-size: 15px;
+    font-size: 12px;
 }
 
 .signup {
-    padding-top: 10px;
     text-align: center;
     color: #0a8080;
     font-size: 15px;
 }
 
-.forget {
+.signup:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.login {
     color: #0a8080;
     font-size: small;
+    padding-right: 102px;
     font-family: 'G Centra Book', sans-serif; 
+}
+
+.login:hover{
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .checkbox {
@@ -214,11 +228,33 @@ input[type="checkbox"] {
 }
 
 .google-signin-button {
+    border: 1px solid black;
+    padding: 5px 15px;
+    font-family: 'G Centra Book', sans-serif;
+    display: inline-flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 12px;
+    border-radius: 9px;
+    height: 40px;
     width: 87%;
-    margin-top: 20px;
-    font-family: 'G Centra Book', sans-serif; 
-
+    background-color: white;
 }
+
+.google-signin-button .icon {
+    margin-left: 36px;
+    width: 20px; 
+    height: 20px; 
+    background-image: url('/src/assets/images/icons8-google-48.png');
+    background-size: cover; /* Adjust the background size if needed */
+}
+/* 
+.google-signin-button .icon svg {
+   
+} */
+
+
+
 
 * {
     margin: 0;
@@ -250,8 +286,8 @@ input[type="checkbox"] {
 .background-image {
     width: 100%;
     height: 100vh;
-    padding-top: calc(550 / 625* 90%);
-    margin-top: 0;
+    padding-top: calc(585 / 825* 100%);
+    margin-top: -13px;
     background-image: url(/src/assets/images/Revenue-bro.png);
     background-size: contain;
     background-position: center bottom;
@@ -272,53 +308,54 @@ input[type="checkbox"] {
 }
 
 .word {
-    display: inline-block;
-    transition: transform 0.3s ease, z-index 0.3s ease; /* Add z-index transition */
+    /* display: inline-block; */
+    transition: transform 0.3s ease, z-index 0.3s ease;
     position: relative;
     transform-origin: center;
+    margin-right: 4px; 
 }
 
 .word:hover {
-    transform: scale(1.5); /* Scale up the hovered word */
+    transform: scale(1.5); 
     color: #47ef63;
-    z-index: 2; /* Bring hovered word to the front */
+    z-index: 2; 
 }
 
 .word:not(:hover) {
-    z-index: 1; /* Ensure non-hovered words stay behind */
+    z-index: 1;
 }
 
 
-/* Media queries for smaller screens */
 @media screen and (max-width: 768px) {
     .card1 {
-        width: 90%; /* Adjust card width for smaller screens */
+        width: 90%; 
     }
 }
 
 @media screen and (max-width: 576px) {
     .card1 {
-        width: 100%; /* Adjust card width for smaller screens */
+        width: 100%;
     }
 
     .forget {
-        padding-right: 10%; /* Adjust padding for smaller screens */
+        padding-right: 10%; 
     }
 
     .checkbox {
-        margin-bottom: 20px; /* Reduce margin for smaller screens */
+        margin-bottom: 20px; 
     }
 }
 
 @media screen and (max-width: 368px) {
     .card1 {
-        width: 80%; /* Adjust card width for smaller screens */
+        width: 80%; 
     }
 }
 
 
 @media screen and (max-width: 768px) {
     .image {
-        flex-direction: column; /* Change flex-direction to column for smaller screens */
+        flex-direction: column;
+        overflow-y: auto;
     }
 }   

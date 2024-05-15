@@ -31,7 +31,7 @@ function Register() {
         <form>
         <div className="card1">
             <div>
-            <h1 className="gradient-text-center">Sign up</h1>
+            <h1 className="gradient-text-sign">Sign up</h1>
             </div>
             <div className="form-container-register">
             <label htmlFor="userName" className="Email">User Name</label>
@@ -46,7 +46,7 @@ function Register() {
                 />
                 {/* You can add an icon or any other element here */}
             </div>
-            <label htmlFor="phoneNo" className="Email">Mobile No</label>
+            <label htmlFor="phoneNo" className="Email">Phone No</label>
             <div className="input-container">
                 <TextField 
                 className="input" 
@@ -54,7 +54,7 @@ function Register() {
                 variant="filled"
                 type="text"
                 name="phoneNo"
-                placeholder="Mobile No" 
+                placeholder="Phone No" 
                 />
                 {/* You can add an icon or any other element here */}
             </div>
@@ -80,7 +80,7 @@ function Register() {
                 variant="filled"
                 type="password"
                 name="password"
-                placeholder="Password" 
+                placeholder="New Password" 
                 />
                 {/* <span className="input-icon" onClick={() => setShowPassword(!showPassword)}>
                 <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
@@ -104,7 +104,7 @@ function Register() {
             </div>
             
             <button className="button-register">
-            Sign In
+            Submit
             </button>
         </div>
 

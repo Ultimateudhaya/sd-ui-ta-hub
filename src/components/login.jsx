@@ -1,7 +1,5 @@
-import { TextField, Button } from "@mui/material";
+import { TextField } from "@mui/material";
 // import { useState } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import '../styles/login.css';
 
 function Login() {
@@ -64,8 +62,8 @@ function Login() {
             </div>
 
 
-            <a href="/forget-password" className="forget">
-            Forget password?
+            <a href="/forget-password" className="login">
+            Having trouble signing in?
             </a>
 
             
@@ -77,9 +75,11 @@ function Login() {
                 <span>Or</span>
                 <div className="divider"></div>
             </div>            
-            <Button variant="outlined" className="google-signin-button"  startIcon={<FontAwesomeIcon icon={faGoogle} />}>
-                Sign in with Google
-            </Button>
+            <button className="google-signin-button">
+                <span className="icon"></span>
+                Continue with Google
+            </button>
+
             <div className="login-secondary">
             <div className="text-center">
             <div className="link-container">
