@@ -21,7 +21,7 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/forget-password" element={<ForgetPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/navbar" element={<Navbar />} />
+            <Route path="/dashboard" element={<Navbar />} />
             {/* <Route path="/grid" element={<FullFeaturedCrudGrid />} />
             <Route path="/form" element={<Form />} />
             <Route path="/datagrid" element={<FullFeaturedCrudGrid />} />

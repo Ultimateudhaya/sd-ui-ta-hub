@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   candidates: [],
+  
 };
 
 export const candidatesSlice = createSlice({
@@ -38,6 +39,7 @@ export const deleteCandidateOnServer = (candidateId) => async () => {
 
     if (!response.ok) {
       throw new Error('Failed to delete candidate on the server');
+
     }
 
     // Dispatch action to delete candidate from the Redux store
@@ -49,15 +51,18 @@ export const deleteCandidateOnServer = (candidateId) => async () => {
 };
 
 // Function to update candidate on the server
-export const updateCandidateOnServer = (updatedCandidate) => async () => {
+export const updateCandidateOnServer = (userData) => async () => {
   try {
-    const response = await fetch(`http://localhost:8080/api/candidates/candidate/${updatedCandidate.id}`, {
+    const {candidateId}=userData
+    const response = await fetch(`http://localhost:8080/api/candidates/candidate/${candidateId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(updatedCandidate),
+      body: JSON.stringify(userData),
     });
+    console.log("id",candidateId);
+
 
     if (!response.ok) {
       throw new Error('Failed to update candidate on the server');

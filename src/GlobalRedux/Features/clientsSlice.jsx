@@ -49,14 +49,15 @@ export const deleteClientOnServer = (clientId) => async () => {
 };
 
 // Function to update client on the server
-export const updateClientOnServer = (updatedClient) => async () => {
+export const updateClientOnServer = (userData) => async () => {
   try {
-    const response = await fetch(`http://localhost:8080/api/clients/client/${updatedClient.id}`, {
+    const {clientId}=userData;
+    const response = await fetch(`http://localhost:8080/api/clients/client/${clientId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(updatedClient),
+      body: JSON.stringify(userData),
     });
 
     if (!response.ok) {
