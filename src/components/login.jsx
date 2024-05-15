@@ -2,6 +2,8 @@ import { TextField, Button } from "@mui/material";
 import { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+
+// import { useState } from "react";
 import '../styles/login.css';
 
 function Login() {
@@ -67,6 +69,35 @@ function Login() {
                     <span className="word">s</span>
                 </div>
                 <div className="background-image"></div>
+
+            <a href="/forget-password" className="login">
+            Having trouble signing in?
+            </a>
+
+            
+            <button className="button-login">
+            Sign In
+            </button>
+            <div className="or-divider">
+                <div className="divider"></div>
+                <span>Or</span>
+                <div className="divider"></div>
+            </div>            
+            <button className="google-signin-button">
+                <span className="icon"></span>
+                Continue with Google
+            </button>
+
+            <div className="login-secondary">
+            <div className="text-center">
+            <div className="link-container">
+                <div className="link">New to Ta-Hub?</div>
+                <span>
+                    <a href="/register" className="signup">
+                        Sign-up
+                    </a>
+                </span>
+            </div>
             </div>
             <div className="right">
                 <div role="form" onKeyPress={(e) => { if (e.key === 'Enter') e.preventDefault(); }}>

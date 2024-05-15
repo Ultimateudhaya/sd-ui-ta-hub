@@ -80,7 +80,7 @@ function Register() {
     <form onSubmit={handleSubmit}>
          <div className="card1">
             <div>
-            <h1 className="gradient-text-center">Sign up</h1>
+            <h1 className="gradient-text-sign">Sign up</h1>
             </div>
             <div className="form-container-register">
             <label htmlFor="userName" className="UserName">User Name</label>
@@ -98,6 +98,7 @@ function Register() {
                 {/* You can add an icon or any other element here */}
             </div>
             <label htmlFor="phoneNo" className="PhoneNo">Mobile No</label>
+
             <div className="input-container">
                 <TextField 
                 className="input" 
@@ -105,8 +106,10 @@ function Register() {
                 variant="filled"
                 type="number"
                 name="phoneNo"
-                placeholder="Mobile No" 
                 onChange={handleInputChange}
+
+
+                placeholder="Phone No" 
 
                 />
                 {/* You can add an icon or any other element here */}
@@ -135,8 +138,9 @@ function Register() {
                 variant="filled"
                 type="password"
                 name="password"
-                placeholder="Password" 
                 onChange={handleInputChange}
+
+                placeholder="New Password" 
 
                 />
                 {/* <span className="input-icon" onClick={() => setShowPassword(!showPassword)}>
@@ -163,6 +167,7 @@ function Register() {
             
             <button type="submit"  className="button-register">
             Sign In
+    
             </button>
         </div>
 

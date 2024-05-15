@@ -32,7 +32,7 @@ function ResetPassword() {
         <div className="card1">
         <div className="form-container-reset">
             <div>
-            <h1 className="gradient-text-center">Reset Password</h1>
+            <h1 className="gradient-text-reset">Reset Password</h1>
             </div>
             <p className="text-top">Strong passwords includes numbers, letters
 and punctuation marks. </p>
@@ -81,7 +81,7 @@ and punctuation marks. </p>
                 </span> */}
             </div>
             </div>            
-            <button className="button-forget">
+            <button className="button-reset">
             Submit
             </button>
         </div>
