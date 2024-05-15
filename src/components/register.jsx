@@ -3,6 +3,8 @@ import { useState } from "react";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import '../styles/register.css';
+import { useNavigate } from "react-router-dom";
+
 
 function Register() {
     const [formData, setFormData] = useState({
@@ -12,6 +14,7 @@ function Register() {
         password: "",
         confirmPassword: ""
     });
+    const navigate = useNavigate();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -42,7 +45,7 @@ function Register() {
             if (!response.ok) {
                 throw new Error("Failed to register");
             }
-
+            navigate('/login');
             // Reset the form after successful registration
             setFormData({
                 userName: "",
