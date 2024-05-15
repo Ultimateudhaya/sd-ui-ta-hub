@@ -11,7 +11,7 @@ export const clientsSlice = createSlice({
     setClients: (state, action) => {
       state.clients = action.payload;
     },
-    addClient: (state, action) => {
+    addNewClient: (state, action) => {
       state.clients.push(action.payload);
     },
     updateClient: (state, action) => {
@@ -27,7 +27,7 @@ export const clientsSlice = createSlice({
   },
 });
 
-export const { setClients, addClient, updateClient, deleteClient } = clientsSlice.actions;
+export const { setClients, addNewClient, updateClient, deleteClient } = clientsSlice.actions;
 
 // Function to delete client on the server
 export const deleteClientOnServer = (clientId) => async () => {
