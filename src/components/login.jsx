@@ -16,7 +16,7 @@ function Login() {
     
         if (!email || !password) {
             setSnackbarOpen(true);
-            setSnackbarMessage("Please fill in all fields.");
+            setSnackbarMessage("Please fill all fields !");
             setSnackbarVariant("error");
             return;
         }
@@ -36,11 +36,14 @@ function Login() {
             setSnackbarOpen(true);
             setSnackbarMessage("Login success");
             setSnackbarVariant("success");
-            navigate('/dashboard'); 
+            setTimeout(() => {
+                navigate('/dashboard'); 
+            }, 2000);
+            
         } catch (error) {
             console.error("Error logging in:", error.message);
             setSnackbarOpen(true);
-            setSnackbarMessage("Error logging in. Please try again.");
+            setSnackbarMessage("Error!! Please try again.");
             setSnackbarVariant("error");
         }
     };

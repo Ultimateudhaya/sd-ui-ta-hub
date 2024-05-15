@@ -52,3 +52,9 @@
    width: 100px;
     }
 }
+
+/* Navbar.css */
+.nav-item.active .nav-link {
+    color: red; /* Change to the desired color */
+  }
+  
