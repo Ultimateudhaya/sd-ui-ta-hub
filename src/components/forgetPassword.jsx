@@ -80,7 +80,7 @@ password reset information sent to </p>
 
             
             <button className="button-forget">
-            Request Resent link
+            Request reset link
             </button>
 
             <div className="login-secondary">

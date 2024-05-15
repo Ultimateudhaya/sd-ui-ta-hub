@@ -40,23 +40,24 @@ body {
     justify-content: center;
     align-items: center;
     height: 600px;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 12px;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 4px 12px;
     padding: 20px;
-    max-width: 340px;
+    max-width: 65%;
     margin: 0 auto;
     background-color: #ffffff;
     margin-top: 58px;
-    border-radius: 10px;
+    border-radius: 40px;
 }
 
 .form-container-forget {
     display: flex;
     flex-direction: column;
-    padding: 16px;
-    width: 300px;
-    padding-right: 10px;
-    padding-bottom: 0;
-    margin-top: -97px;
+    padding: 10px;
+    max-width: 90%; /* Adjusted maximum width */
+    width: 90%; /* Occupy 90% of the width */
+    margin-bottom: 70px;
+    font-family: 'G Centra Book', sans-serif;
+    padding-bottom: 0px;
 }
 
 .text-top{
@@ -85,16 +86,12 @@ body {
     width: calc(100% - 10px);
     padding: 10px;
     margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
+    /* border: 1px solid #ccc; */
+    border-radius: 15px 15px 0 0; /* Apply border radius only to the top corners */
     box-sizing: border-box;
     transition: border-color 0.3s ease;
 }
 
-.input:focus {
-    outline: none;
-    border-color: #47ef63;
-}
 
 .input-icon {
     position: absolute;
@@ -122,6 +119,7 @@ body {
     margin-top: 20px;
     margin-bottom: 10px;
     font-family: 'G Centra Book', sans-serif;
+    font-size: 13px;
 }
 
 input::placeholder{
@@ -284,8 +282,8 @@ input[type="checkbox"] {
 .background-image {
     width: 100%;
     height: 0;
-    padding-top: calc(585 / 825* 100%);
-    margin-top: -13px;
+    padding-top: calc(585 / 790* 100%);
+    margin-top: -68px;
     background-image: url(/src/assets/images/Revenue-bro.png);
     background-size: contain;
     background-position: center bottom;
@@ -346,5 +344,23 @@ input[type="checkbox"] {
 @media screen and (max-width: 368px) {
     .card1 {
         width: 80%; /* Adjust card width for smaller screens */
+    }
+}
+
+@media screen and (min-width: 576px) {
+    .form-container-forget {
+        max-width: 400px; /* Adjusted maximum width for larger screens */
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .form-container-forget {
+        max-width: 500px; /* Adjusted maximum width for even larger screens */
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .form-container-forget {
+        max-width: 600px; /* Adjusted maximum width for extra-large screens */
     }
 }
