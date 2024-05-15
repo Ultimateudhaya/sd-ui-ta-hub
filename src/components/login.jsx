@@ -52,7 +52,6 @@ function Login() {
                 <div role="form" onKeyPress={(e) => { if (e.key === 'Enter') handleLogin(e); }}>
                     <form onSubmit={handleLogin}>
                         <div className="card1">
-                            <div>
                                 <div>
                                     <h1 className="gradient-text-center">Ta-HuB</h1>
                                 </div>
@@ -62,7 +61,7 @@ function Login() {
                                         <TextField
                                             className="input"
                                             id="filled-basic-email"
-                                            variant="filled"
+                                            variant="standard"
                                             type="text"
                                             name="email"
                                             placeholder="Email"
@@ -76,7 +75,7 @@ function Login() {
                                         <TextField
                                             className="input"
                                             id="filled-basic-password"
-                                            variant="filled"
+                                            variant="standard"
                                             type="password"
                                             name="password"
                                             placeholder="Password"
@@ -86,7 +85,7 @@ function Login() {
                                     </div>
                                 </div>
 
-                                <a href="/forget-password" className="login">
+                                <a href="/forget-password" className="login-href">
                                     Having trouble signing in?
                                 </a>
 
@@ -116,7 +115,6 @@ function Login() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
                     </form>
                 </div>
             </div>
