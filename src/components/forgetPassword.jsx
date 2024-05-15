@@ -1,11 +1,34 @@
 import { TextField } from "@mui/material";
-// import { useState } from "react";
+import { useState } from "react";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import '../styles/forgetPassowrd.css';
 
 function ForgetPassword() {
-//    const [showPassword, setShowPassword] = useState(false);
+    const [email, setEmail] = useState("");
+
+    const handleForgetPassword = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await fetch("http://localhost:8080/api/auth/forgot-password", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ email })
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to request reset link");
+            }
+
+            // Reset form fields or show a success message
+        } catch (error) {
+            console.error("Error requesting reset link:", error.message);
+            // Handle error, e.g., display error message to the user
+        }
+    };
 
     
 
@@ -27,8 +50,8 @@ function ForgetPassword() {
     <div className="background-image"></div>
     </div>
     <div className="right">
-    <div role="form" onKeyPress={(e) => { if (e.key === 'Enter'); }}>
-        <form>
+    <div role="form" onKeyPress={(e) => { if (e.key === 'Enter') handleForgetPassword(e); }}>
+        <form onSubmit={handleForgetPassword}>
         <div className="card1">
         <div className="form-container-forget">
             <div>
@@ -46,6 +69,8 @@ password reset information sent to </p>
                 type="text"
                 name="email"
                 placeholder="Email address" 
+                onChange={(e) => setEmail(e.target.value)}
+
                 />
             </div>
             </div>
