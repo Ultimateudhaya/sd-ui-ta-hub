@@ -1,5 +1,6 @@
 import { TextField } from "@mui/material";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import '../styles/forgetPassowrd.css';
@@ -60,7 +61,7 @@ function ForgetPassword() {
             <p className="text-top">Please enter your email address you’d like your 
 password reset information sent to </p>
             <div className="text">
-            <label htmlFor="email" className="Email">Enter Email Address</label>
+            <label htmlFor="email" className="Email-forget">Enter email address</label>
             <div className="input-container-forget">
                 <TextField 
                 className="input" 
@@ -74,9 +75,9 @@ password reset information sent to </p>
                 />
             </div>
             </div>
-            <a href="/reset-password" className="forget">
+            <Link to="/reset-password" className="forget">
             Reset password?
-            </a>
+            </Link>
 
             
             <button className="button-forget">
@@ -87,9 +88,9 @@ password reset information sent to </p>
             <div className="text-center">
             <div className="link-container">
                 <span>
-                    <a href="/login" className="back-to-login">
+                    <Link to="/login" className="back-to-login">
                        Back to Login
-                    </a>
+                    </Link>
                 </span>
             </div>
             </div>

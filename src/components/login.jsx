@@ -1,6 +1,6 @@
 import { TextField } from "@mui/material";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import '../styles/login.css';
 import CustomSnackbar from "./CustomSnackbar";
 
@@ -92,7 +92,7 @@ function Login() {
                                     </div>
 
                                     <label htmlFor="password" className="Email">Password</label>
-                                    <div className="input-container">
+                                    <div className="input-container-password">
                                         <TextField
                                             className="input"
                                             id="filled-basic-password"
@@ -106,9 +106,9 @@ function Login() {
                                     </div>
                                 </div>
 
-                                <a href="/forget-password" className="login-href">
+                                <Link to="/forget-password" className="login-href">
                                     Having trouble signing in?
-                                </a>
+                                </Link>
 
                                 <div className="checkbox">
                                     <input type="checkbox" id="remember-device" name="remember-device" className="checkbox" />
@@ -129,14 +129,14 @@ function Login() {
                                     Continue with Google
                                 </button>
 
-                                <div className="login-secondary">
+                                <div className="login-secondary-login">
                                     <div className="text-center">
                                         <div className="link-container">
                                             <div className="link">New to TA-HUB?</div>
                                             <span>
-                                                <a href="/register" className="signup">
+                                                <Link to="/register" className="signup">
                                                     Sign-up
-                                                </a>
+                                                </Link>
                                             </span>
                                         </div>
                                     </div>

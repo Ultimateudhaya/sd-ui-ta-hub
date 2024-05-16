@@ -27,7 +27,7 @@ body {
 .gradient-text-login {
     text-align: center;
     font-size: calc(1.675rem + 1.5vw);
-    font-weight: 600;
+    font-weight: 900;
     color: transparent;
     margin-top: -51px;
     margin-bottom: 25px;
@@ -50,7 +50,7 @@ body {
     height: 600px;
     box-shadow: rgba(0, 0, 0, 0.5) 0px 4px 12px;
     padding: 20px;
-    max-width: 65%;
+    max-width: 62%;
     margin: 0 auto;
     background-color: #ffffff;
     margin-top: 58px;
@@ -62,8 +62,8 @@ body {
     display: flex;
     flex-direction: column;
     padding: 10px;
-    max-width: 363px; /* Adjusted maximum width */
-    width: 90%; /* Occupy 90% of the width */
+    max-width: 363px; 
+    width: 90%; 
     /* margin: auto;  */
     font-family: 'G Centra Book', sans-serif;
     padding-bottom: 0px;
@@ -114,17 +114,17 @@ body {
 
 .button-login {
     padding: 10px;
+    padding-top: 12px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 10px;
     background-color: rgb(44, 153, 129);
     color: #fff;
     cursor: pointer;
     width: 87%;
     margin-top: 20px;
-    margin-bottom: 10px;
-    font-family: 'G Centra Book', sans-serif; 
+    margin-bottom: 7px;
+    font-family: 'G Centra Book', sans-serif;
     font-size: 13px;
-
 }
 
 
@@ -137,6 +137,7 @@ body {
 
 input::placeholder{
     font-size: 13px;
+    font-family: 'G Centra Book', sans-serif;
 }
 
 .link-container {
@@ -146,14 +147,15 @@ input::placeholder{
 
 .link {
     margin-right: 10px; 
-    font-size: 12px;
+    font-size: 13px;
     cursor: default;
 }
 
 .signup {
     text-align: center;
     color: #0a8080;
-    font-size: 13px;
+    font-size: 14px;
+    text-decoration: none;
 }
 
 .signup:hover{
@@ -162,30 +164,33 @@ input::placeholder{
 }
 
 .login-href {
-    color: #0a8080;
+    color: #0ba871;
     font-size: small;
-    padding-right: 160px; 
+    padding-right: 155px;
+    padding-top: 10px;
     font-family: 'G Centra Book', sans-serif;
+    text-decoration: none;
 }
-.login:hover{
+.login-href:hover{
     text-decoration: underline;
     cursor: pointer;
 }
 
 .checkbox {
-    padding-top: 12px;
+    padding-top: 13px;
     margin-bottom: 8px;
     display: flex;
     /* margin-right: 71px; */
     padding-right: 149px;
     gap: 10px;
-    font-size: 14px;
+    font-size: 13px;
+    font-family: 'G Centra Book', sans-serif;
 }
 
 input[type="checkbox"] {
-    width: 15px;
-    height: 15px;
-    margin-top: 3px;
+    width: 17px;
+    height: 17px;
+    margin-top: -1px;
 }
 
 
@@ -195,8 +200,8 @@ input[type="checkbox"] {
     font-size: small;
 }
 
-.login-secondary {
-    padding-top: 15px;
+.login-secondary-login {
+    padding-top: 7px;
     font-family: 'G Centra Book', sans-serif; 
 
 }
@@ -229,10 +234,11 @@ input[type="checkbox"] {
     display: flex;
     align-items: center;
     width: 87%;
+    margin-left: 7px;
 }
 
 .divider {
-   border: 1px solid #b1adad;
+   border: 1.45px solid #b1adad;
    min-width: 43%;
    margin-bottom: 20px;
    font-family: 'G Centra Book', sans-serif; 
@@ -242,8 +248,9 @@ input[type="checkbox"] {
 .or-divider span {
     margin: 0 10px;
     margin-bottom: 20px;
-    color: gray;
-    font-size: 15px;
+    color: #7b7b7b;
+    font-size: 16px;
+    font-weight: 600;
 }
 
 .google-signin-button {
@@ -267,12 +274,9 @@ input[type="checkbox"] {
     width: 20px; 
     height: 20px; 
     background-image: url('/src/assets/images/icons8-google-48.png');
-    background-size: cover; /* Adjust the background size if needed */
+    background-size: cover; 
 }
-/* 
-.google-signin-button .icon svg {
-   
-} */
+
 
 
 
@@ -315,7 +319,7 @@ input[type="checkbox"] {
     background-repeat: no-repeat;
 }
 
-.animation-container {
+.animation-container{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -324,29 +328,25 @@ input[type="checkbox"] {
     text-align: center;
     font-weight: 600;
     padding: 76px;
-    font-family: 'G Centra Medium', sans-serif; 
-
+    font-family: 'G Centra Book', sans-serif; 
 }
 
-.word {
-    /* display: inline-block; */
-    transition: transform 0.3s ease, z-index 0.3s ease;
+.word{
+    transition: transform 0.3s ease-in-out, z-index 0.3s ease; /* Add transition property */
     position: relative;
     transform-origin: center;
     margin-right: 4px; 
 }
 
 .word:hover {
-    transform: scale(1.5); 
+    transform: scale(1.5) translateY(10px) translateX(6px); /* Enlarge and slide down */
     color: #47ef63;
     z-index: 2; 
 }
 
 .word:not(:hover) {
-    z-index: 1;
+    z-index: 1; /* Ensure non-hovered words stay behind */
 }
-
-
 @media screen and (max-width: 768px) {
     .card1 {
         width: 90%; 
@@ -386,3 +386,22 @@ input[type="checkbox"] {
         max-width: 100%; /* Occupy full width on smaller screens */
     }
 }
+
+@media screen and (max-width: 768px) {
+    .login-href {
+      padding-right: 170px;
+    }
+  }
+  
+  @media screen and (max-width: 576px) {
+    .checkbox {
+      padding-right: 20px;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .google-signin-button {
+      width: 100%;
+    }
+  }
+  

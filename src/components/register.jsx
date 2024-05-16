@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import '../styles/register.css';
@@ -134,7 +134,7 @@ function Register() {
                                         onChange={handleInputChange}
                                     />
                                 </div>
-                                <label htmlFor="phoneNo" className="PhoneNo">Mobile No</label>
+                                <label htmlFor="phoneNo" className="PhoneNo">Phone No</label>
                                 <div className="input-container">
                                     <TextField 
                                         className="input" 
@@ -154,7 +154,7 @@ function Register() {
                                         variant="standard"
                                         type="text"
                                         name="email"
-                                        placeholder="Email" 
+                                        placeholder="Email Address" 
                                         onChange={handleInputChange}
                                     />
                                 </div>
