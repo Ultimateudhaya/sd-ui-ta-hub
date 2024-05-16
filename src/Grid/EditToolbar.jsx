@@ -4,6 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { randomId } from '@mui/x-data-grid-generator';
 
 
+export default 
 function EditToolbar(props) {
     const { setRows, setRowModesModel, dispatch, apiEndpoint } = props;
 

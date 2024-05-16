@@ -1,0 +1,12 @@
+.custom-header {
+    font-weight:bolder;
+    color:black; 
+    text-transform: uppercase;
+    
+    
+    
+  }
+  
+  .MuiDataGrid-cell{
+    color: rgb(61, 60, 60);
+  }
