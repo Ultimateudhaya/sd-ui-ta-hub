@@ -8,6 +8,9 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    
+    const [username, setUsername] = useState(''); // Add username state
+
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarVariant, setSnackbarVariant] = useState('success');
@@ -33,6 +36,11 @@ function Login() {
             if (!response.ok) {
                 throw new Error("Failed to login");
             }
+
+            // const data = await response.json();
+            // setUsername(data.username); 
+           localStorage.setItem("Email",email);
+
             setSnackbarOpen(true);
             setSnackbarMessage("Login success");
             setSnackbarVariant("success");

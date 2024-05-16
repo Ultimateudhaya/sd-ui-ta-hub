@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -11,12 +11,20 @@ import '../styles/MenuPopupState.css';
 
 export default function MenuPopupState() {
     const navigate = useNavigate();
+    const [email,setEmail]=useState();
     const [logoutDialogOpen, setLogoutDialogOpen] = useState(false); 
 
     const confirmLogout = () => {
         setLogoutDialogOpen(true);
     }
-    
+    useEffect(() => {
+        
+        const storedEmail = localStorage.getItem('Email');
+        if (storedEmail) {
+            setEmail(storedEmail);
+        }
+    }, []);
+
     const handleLogoutConfirm = () => {
         navigate("/Login");
     };
@@ -33,7 +41,7 @@ export default function MenuPopupState() {
                         variant="contained" 
                         {...bindTrigger(popupState)}
                     >
-                        Username
+                        {email}
                         <IconButton {...bindTrigger(popupState)} size="small">
                             <ArrowDropDownIcon />
                         </IconButton>
