@@ -48,12 +48,12 @@
 
     .footer{
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1); /* Shadow effect */
-
+        background-color: white;
     }
 
   .calender{
     /* width: 99%; */
-    width: 185%;
+    width: 235%;
     min-height: 40px;
     padding: 8px;
     margin-bottom: 10px;
@@ -68,6 +68,7 @@
 
  
   .header h3 {
+    padding-left: 100px;
     margin: 0;
     font-weight: 200px;
     font-size: 1.25rem; 
@@ -116,6 +117,7 @@
   }
 
   .role-input-box{
+    margin-top: 10px;
     width: 99.5%;
     padding: 8px;
     /* margin-bottom: 10px; */
@@ -215,7 +217,7 @@
     min-height: 116px;
     margin-top: 13px;
     margin-left: 9px;
-    padding: 2px;
+    padding: 4px;
 }
 
 .openings .form-group {
@@ -283,8 +285,8 @@
   .openings .input-close-icon {
     position: absolute;
     /* bottom: 43%; */
-    right: 4px;
-    top: -7px;
+    right: 6px;
+    top: 12px;
     transform: translateY(-50%);
     cursor: pointer;
     color: #8d8d8d;

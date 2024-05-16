@@ -1,16 +1,12 @@
 .navbar-brand{
-    padding: 7px;
     cursor: pointer;
     color: green;
     margin-bottom: 0;
-    padding-left:50px ;
+    padding-left:20px ;
 }
 
-.create-button{
-    margin-right: 10px;
-}
+
 .nav-button{
-    margin-right: 10px;
     border: none;
     color: rgb(23, 117, 23);
     text-decoration: none;
@@ -25,36 +21,28 @@
 .load{
     display: flex;
 
-    width: 70vw;
-    
 }
-/* li{
-    margin-left: 30px;
-} */
+
 .navbar {
     background-color:rgb(207, 207, 206);
     position: fixed;
     top: 0; 
     left: 0;
     width: 100%; 
+    margin-right: 4 0px;
 }
 
 
-.navbar-nav {
-    display: contents;
-  
-}
 
-
-@media screen and (max-width: 810px) {
-    .navbar-nav {
-
-   width: 100px;
-    }
-}
-
-/* Navbar.css */
 .nav-item.active .nav-link {
-    color: red; /* Change to the desired color */
+    color: red; 
   }
   
+  li{
+    padding-left: 20px;
+    padding-top: 10px;
+  }
+
+  .Logout-button{
+    margin-right: 20px;
+  }

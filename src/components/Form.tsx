@@ -150,19 +150,7 @@ const Form: NextPage = () => {
         </div>
           <div className="scrollable-area">
             <div className='fields'>
-            <div className="form-group pt-3 p-2">
-             <label htmlFor="date" className="form-label">Requirement Start Date</label>
-                 <div className="date-picker-container">
-                    <DatePicker
-                        selected={reqStartDate}
-                        onChange={(date) => setReqStartDate(date)}
-                        className="calender"
-                        name="date"
-                        dateFormat="dd/MM/yyyy"
-                        required={true}
-                    />
-                </div>
-            </div>
+          
             <div className="form-group p-2">
               <label htmlFor="cname" className="form-label">Client Name</label>
               <input 
@@ -184,6 +172,19 @@ const Form: NextPage = () => {
                 onChange={(e) => setClientSpocName(e.target.value)} 
                 required={true} 
               />
+            </div>
+            <div className="form-group pt-3 p-2">
+             <label htmlFor="date" className="form-label">Requirement Start Date</label>
+                 <div className="date-picker-container">
+                    <DatePicker
+                        selected={reqStartDate}
+                        onChange={(date) => setReqStartDate(date)}
+                        className="calender"
+                        name="date"
+                        dateFormat="dd/MM/yyyy"
+                        required={true}
+                    />
+                </div>
             </div>
             <div className="form-group p-2">
               <label htmlFor="contact" className="form-label">Client Contact Details</label>
@@ -237,6 +238,7 @@ const Form: NextPage = () => {
                     <div key={index} className="form-group openings">
                         <FaTimes className="input-close-icon" onClick={() => removeOpening(index)} />
                         <div className="form-group p-2 pr-0 pb-0 mb-0">
+                          
                         {/* <label htmlFor={`opening-${index + 1}`} className="form-label">Position</label>    */}
                         <input type="text" placeholder='Position' className="role-input-box" id={`opening-${index + 1}`} name={`opening-${index + 1}`} aria-describedby={`opening-${index + 1}-help`} />
                         </div>

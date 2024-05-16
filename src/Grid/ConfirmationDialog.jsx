@@ -6,21 +6,22 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 
-function ConfirmDialog({ open, setOpen, onConfirm ,deleteId}) {
+function ConfirmDialog({ open, setOpen, onConfirm, message }) {
     const handleClose = () => {
         setOpen(false);
     };
 
     const handleConfirm = () => {
-        onConfirm(deleteId); // Pass the deleteId to the confirmation handler
+        onConfirm(); // No need to pass any parameters to onConfirm
         setOpen(false);
     };
+
     return (
         <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>Confirm Deletion</DialogTitle>
+            <DialogTitle>Confirmation</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    Are you sure you want to delete this record?
+                    {message}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

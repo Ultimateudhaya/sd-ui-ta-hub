@@ -1,23 +1,24 @@
-import React, { useState } from 'react';
-import type { NextPage } from 'next';
+import  { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../styles/Navbar.css';
-import FullFeaturedCrudGrid from '../Grid/Grid1';
-import Form from '../components/Form';  
+import FullFeaturedCrudGrid from '../Grid/FullFeaturedCrudGrid';
+import Form from './Form';
+import MenuPopupState from "../components/MenuPopupState";
 
-const Navbar: NextPage = () => {
+const Navbar = () => {
   const [showGrid, setShowGrid] = useState(false);
   const [apiEndpoint, setApiEndpoint] = useState('');
   const [showForm, setShowForm] = useState(false);
   const [formKey, setFormKey] = useState(0);
   const [activeNavItem, setActiveNavItem] = useState('');
 
-  const openForm = (event: { preventDefault: () => void }) => {
+  const openForm = (event) => {
     event.preventDefault();
     setFormKey((prevKey) => prevKey + 1);
     setShowForm(true);
   };
 
+ 
   const closeForm = () => {
     setShowForm(false);
   };
@@ -42,10 +43,12 @@ const Navbar: NextPage = () => {
 
   return (
     <div>
-      <nav className="navbar ">
-        <p className="navbar-brand">Tringapps</p>
+      <nav className="navbar">
         <ul className="navbar-nav ">
+
           <div className="load">
+          <p className="navbar-brand">Tringapps</p>
+
             <li>
               <a className={`nav-button ${activeNavItem === 'candidates' ? 'active' : ''}`} onClick={handleLoadCandidatesClick}>
                  Candidates
@@ -63,12 +66,24 @@ const Navbar: NextPage = () => {
             </li>
           </div>
         </ul>
-        <button className="btn btn-outline-success my-2 my-sm-0 create-button" onClick={openForm}>
+        <div>
+       
+        </div>
+        <div>
+          
+        <button className="btn btn-outline-success " onClick={openForm}>
           Create
+          
         </button>
+        <MenuPopupState   />
+        </div>
+      
+
+      
       </nav>
       {showGrid && <FullFeaturedCrudGrid apiEndpoint={apiEndpoint} />}
-      {showForm && <Form key={formKey} {...closeForm} />}
+      {showForm && <Form key={formKey} onClose={closeForm} />}
+      
     </div>
   );
 };
