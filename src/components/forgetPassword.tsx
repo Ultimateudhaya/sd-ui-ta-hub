@@ -1,5 +1,6 @@
+"use-client"
 import { TextField } from "@mui/material";
-import { useState } from "react";
+import React,{ useState } from "react";
 import { Link } from "react-router-dom";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
@@ -30,10 +31,6 @@ function ForgetPassword() {
             // Handle error, e.g., display error message to the user
         }
     };
-
-    
-
-
  return(
     <div className="image">
     <div className="left">
@@ -75,9 +72,9 @@ password reset information sent to </p>
                 />
             </div>
             </div>
-            <Link to="/reset-password" className="forget">
+            {/* <Link to="/reset-password" className="forget">
             Reset password?
-            </Link>
+            </Link> */}
 
             
             <button className="button-forget">

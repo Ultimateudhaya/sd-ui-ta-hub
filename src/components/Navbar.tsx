@@ -1,9 +1,9 @@
-import  { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../styles/Navbar.css';
 import FullFeaturedCrudGrid from '../Grid/FullFeaturedCrudGrid';
 import Form from './Form';
-import MenuPopupState from "../components/MenuPopupState";
+import MenuPopupState from "./MenuPopupState";
 
 const Navbar = () => {
   const [showGrid, setShowGrid] = useState(false);
@@ -11,6 +11,38 @@ const Navbar = () => {
   const [showForm, setShowForm] = useState(false);
   const [formKey, setFormKey] = useState(0);
   const [activeNavItem, setActiveNavItem] = useState('');
+  const [clientDetails, setClientDetails] = useState<any[]>([]); // Set type to any[]
+
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const response = await fetch('http://localhost:8080/api/requirement', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Fetched data:', data);
+                // Filter out clientName and clientSPOCName
+                const clients = data.map((item) => ({
+                  clientName: item.clientName,
+                  clientSpocName: item.clientSpocName,
+                  primarySkillSet : item.primarySkillSet
+                }));
+                setClientDetails(clients);
+            } else {
+                console.error('Failed to fetch data:', response.statusText);
+            }
+        } catch (error) {
+            console.error('An error occurred while fetching data:', error);
+        }
+    };
+
+    fetchData();
+}, []);
 
   const openForm = (event) => {
     event.preventDefault();
@@ -83,7 +115,17 @@ const Navbar = () => {
       </nav>
       {showGrid && <FullFeaturedCrudGrid apiEndpoint={apiEndpoint} />}
       {showForm && <Form key={formKey} onClose={closeForm} />}
-      
+      {clientDetails.length > 0 && (
+        <ul>
+          {clientDetails.map((client, index) => (
+            <li key={index}>
+              <div>Client Name: {client.clientName}</div>
+              <div>Client SPOC Name: {client.clientSpocName}</div>
+              <div>Primary Skill Set: {client.primarySkillSet}</div>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

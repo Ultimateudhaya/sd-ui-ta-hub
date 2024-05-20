@@ -1,5 +1,5 @@
 import { TextField } from "@mui/material";
-import { useState } from "react";
+import React,{ useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import '../styles/login.css';
 import CustomSnackbar from "./CustomSnackbar";
@@ -29,10 +29,13 @@ function Login() {
                 },
                 body: JSON.stringify({ email, password })
             });
+
+            localStorage.setItem('email', email)
     
             if (!response.ok) {
                 throw new Error("Failed to login");
             }
+
             setSnackbarOpen(true);
             setSnackbarMessage("Login success");
             setSnackbarVariant("success");

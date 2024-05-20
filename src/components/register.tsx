@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React,{ useState } from 'react';
 import { TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import '../styles/register.css';
@@ -140,7 +140,7 @@ function Register() {
                                         className="input" 
                                         id="filled-basic-mobile" 
                                         variant="standard"
-                                        type="number"
+                                        type="text"
                                         name="phoneNo"
                                         onChange={handleInputChange}
                                         placeholder="Phone No" 
