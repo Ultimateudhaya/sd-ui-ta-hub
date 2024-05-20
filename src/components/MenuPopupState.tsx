@@ -41,7 +41,9 @@ export default function MenuPopupState() {
                     
                     <Menu {...bindMenu(popupState)}>
                         {/* <MenuItem onClick={popupState.close}>Profile</MenuItem> */}
-                        <MenuItem onClick={handleReset}>Reset Password</MenuItem>
+                        <MenuItem onClick={handleReset}>
+                            Reset Password
+                        </MenuItem>
                         <MenuItem onClick={confirmLogout}>Logout</MenuItem>
                     </Menu>
                     <ConfirmDialog 

@@ -118,12 +118,12 @@ body {
     background-color: rgb(44, 153, 129);
     color: #fff;
     cursor: pointer;
-    width: 92%;
-    margin-left: 12px;
+    width: 100%;
+    /* margin-left: 12px; */
     margin-top: 20px;
     margin-bottom: 10px;
     font-family: 'G Centra Book', sans-serif;
-    font-size: 18px;    
+    font-size: 18px;   
 }
 
 input::placeholder{

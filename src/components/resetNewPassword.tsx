@@ -1,5 +1,5 @@
 import { TextField } from "@mui/material";
-import { useState } from "react";
+import React, { useState } from "react";
 import '../styles/resetPassword.css';
 
 function ResetPassword() {
@@ -7,26 +7,28 @@ function ResetPassword() {
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
+    const email = localStorage.getItem("email");
+    console.log('Email from local storage:', email)
+
     const handleResetPassword = async (e) => {
         e.preventDefault();
 
         try {
-            const response = await fetch("http://localhost:8080/api/auth/reset-password", {
+            const response = await fetch("http://localhost:8080/api/auth/reset-new-password", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ oldPassword, newPassword, confirmPassword })
+                body: JSON.stringify({ email, oldPassword, newPassword, confirmPassword })
             });
+            console.log('Data:', response)
 
             if (!response.ok) {
                 throw new Error("Failed to reset password");
             }
 
-            // Reset form fields or show a success message
         } catch (error) {
             console.error("Error resetting password:", error.message);
-            // Handle error, e.g., display error message to the user
         }
     };
 

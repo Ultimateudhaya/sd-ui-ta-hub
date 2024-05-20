@@ -4,7 +4,8 @@ import Navbar from "./components/Navbar";
 import Login from "./components/login";
 import Register from "./components/register";
 import ForgetPassword from "./components/forgetPassword";
-import ResetPassword from "./components/resetPassword";
+import ResetPassword from "./components/resetNewPassword";
+import ResetNew from "./components/resetPassword";
 
 const App = () => {
   return (
@@ -17,7 +18,7 @@ const App = () => {
             <Route path="/forget-password" element={<ForgetPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/dashboard" element={<Navbar />} />
-          
+            <Route path="/reset-new" element={<ResetNew/>} />
           </Route>
         </Routes>
       </BrowserRouter>
