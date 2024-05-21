@@ -1,6 +1,6 @@
 .navbar-brand{
     cursor: pointer;
-    color: green;
+    color: green !important ;
     margin-bottom: 0;
     padding-left:20px ;
 }
@@ -8,14 +8,14 @@
 
 .nav-button{
     border: none;
-    color: rgb(23, 117, 23);
+    color: rgb(121, 120, 120);
     text-decoration: none;
 }
 .nav-button:hover{
     margin-right: 10px;
     border: none;
     background:none;
-    color: rgb(13, 206, 13);
+    color: rgb(0, 0, 0);
     cursor: pointer;
 }
 .load{
@@ -24,13 +24,14 @@
 }
 
 .navbar {
-    background-color:rgb(207, 207, 206);
+    /* background-color:rgb(207, 207, 206); */
     position: fixed;
     top: 0; 
     left: 0;
     width: 100%; 
     margin-right: 4 0px;
-}
+    /* border-bottom: 1px solid grey; */
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;}
 
 
 
@@ -45,4 +46,14 @@
 
   .Logout-button{
     margin-right: 20px;
+  }
+
+  p>a{
+    text-decoration: none;
+    color: rgb(70, 174, 85);
+
+  }
+
+  .create-btn{
+    border: none;
   }

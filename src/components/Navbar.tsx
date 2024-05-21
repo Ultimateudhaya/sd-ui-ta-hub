@@ -4,6 +4,11 @@ import '../styles/Navbar.css';
 import FullFeaturedCrudGrid from '../Grid/FullFeaturedCrudGrid';
 import Form from './Form';
 import MenuPopupState from "./MenuPopupState";
+import KanDash from './KanDash';
+import Sidebar from './Sidebar';
+import "../styles/KanDash.css";
+import styled from 'styled-components';
+import Board from './Dnd';
 
 const Navbar = () => {
   const [showGrid, setShowGrid] = useState(false);
@@ -15,34 +20,34 @@ const Navbar = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-        try {
-            const response = await fetch('http://localhost:8080/api/requirement', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
+      try {
+        const response = await fetch('http://localhost:8080/api/requirement', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
 
-            if (response.ok) {
-                const data = await response.json();
-                console.log('Fetched data:', data);
-                // Filter out clientName and clientSPOCName
-                const clients = data.map((item) => ({
-                  clientName: item.clientName,
-                  clientSpocName: item.clientSpocName,
-                  primarySkillSet : item.primarySkillSet
-                }));
-                setClientDetails(clients);
-            } else {
-                console.error('Failed to fetch data:', response.statusText);
-            }
-        } catch (error) {
-            console.error('An error occurred while fetching data:', error);
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Fetched data:', data);
+          // Filter out clientName and clientSPOCName
+          const clients = data.map((item) => ({
+            clientName: item.clientName,
+            clientSpocName: item.clientSpocName,
+            primarySkillSet: item.primarySkillSet
+          }));
+          setClientDetails(clients);
+        } else {
+          console.error('Failed to fetch data:', response.statusText);
         }
+      } catch (error) {
+        console.error('An error occurred while fetching data:', error);
+      }
     };
 
     fetchData();
-}, []);
+  }, []);
 
   const openForm = (event) => {
     event.preventDefault();
@@ -50,7 +55,6 @@ const Navbar = () => {
     setShowForm(true);
   };
 
- 
   const closeForm = () => {
     setShowForm(false);
   };
@@ -73,47 +77,62 @@ const Navbar = () => {
     setShowGrid(true);
   };
 
+  const ProfileContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const ProfilePhoto = styled.div`
+  width: 35px;
+  height: 35px;
+  background-color: #bbb;
+  border-radius: 50%;
+  margin-left:20px;
+  margin-top:3px;
+  background-image: url("src/assets/images/icons8-google-48.png");
+  background-size: cover;
+  padding:6px;
+`;
+
   return (
     <div>
       <nav className="navbar">
         <ul className="navbar-nav ">
-
           <div className="load">
-          <p className="navbar-brand">Tringapps</p>
-
+             <ProfileContainer>
+        <ProfilePhoto />
+      </ProfileContainer>
+            <p className="navbar-brand" ><a href='/dashboard'>Tringapps</a></p>
             <li>
               <a className={`nav-button ${activeNavItem === 'candidates' ? 'active' : ''}`} onClick={handleLoadCandidatesClick}>
-                 Candidates
+                Candidates
               </a>
             </li>
-            <li>
+            <li>  
               <a className={`nav-button ${activeNavItem === 'clients' ? 'active' : ''}`} onClick={handleLoadClientsClick}>
-                 Clients
+                Clients
               </a>
             </li>
             <li>
               <a className={`nav-button ${activeNavItem === 'users' ? 'active' : ''}`} onClick={handleLoadUsersClick}>
-                 Users
+                Users
               </a>
             </li>
           </div>
         </ul>
         <div>
-       
+          <button className="btn btn-outline-success create-btn" onClick={openForm}>
+            Create
+          </button>
+          <MenuPopupState   />
         </div>
-        <div>
-          
-        <button className="btn btn-outline-success " onClick={openForm}>
-          Create
-          
-        </button>
-        <MenuPopupState   />
-        </div>
-      
-
-      
       </nav>
+      <Sidebar/>
       {showGrid && <FullFeaturedCrudGrid apiEndpoint={apiEndpoint} />}
+      <div className='kandash'>
+        <Board />
+      </div>
       {showForm && <Form key={formKey} onClose={closeForm} />}
       {clientDetails.length > 0 && (
         <ul>

@@ -20,7 +20,7 @@ export default function MenuPopupState() {
 
     useEffect(() => {
 
-        const storedEmail = localStorage.getItem('Email');
+        const storedEmail = localStorage.getItem('email');
         if (storedEmail) {
             setEmail(storedEmail);
         }
@@ -39,12 +39,12 @@ export default function MenuPopupState() {
             {(popupState) => (
                 <React.Fragment>
                     <Button 
-                        style={{color:"darkblue",backgroundColor:"rgb(207, 207, 206)",boxShadow:"none"}}
+                        style={{color:"grey",backgroundColor:"rgb(207, 207, 206)",boxShadow:"none",background:"none",textTransform:"lowercase"}}
                         variant="contained" 
                         {...bindTrigger(popupState)}
                     >
                          {email}
-                        <IconButton {...bindTrigger(popupState)} size="small">
+                        <IconButton {...bindTrigger(popupState)}  className='arrow' size="small">
                             <ArrowDropDownIcon />
                         </IconButton>
                     </Button>

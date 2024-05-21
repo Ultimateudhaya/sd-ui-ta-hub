@@ -29,12 +29,12 @@ export default function CustomSnackbar({ message, variant, onClose, open }) {
       onClose={handleClose}
       // autoHideDuration={3000}
     >
-      <div style={{ backgroundColor: `${bgColor}`, width: '300px', color: 'black', padding: '10px', borderRadius: '4px', position: 'relative' }}>
+      <div style={{ backgroundColor: `${bgColor}`, width: '700px', color: 'black', padding: '10px', borderRadius: '4px', position: 'relative' }}>
         <IconButton
           size="small"
           aria-label="close"
           color="inherit"
-          style={{ position: 'absolute', color:'white',top: '50%', left: '60%', transform: 'translate(160%, -50%)', background:'none' }}
+          style={{ position: 'absolute', color:'white',top: '50%', left: '83%', transform: 'translate(160%, -50%)', background:'none' }}
           onClick={handleClose}
         >
           <CloseIcon  />
