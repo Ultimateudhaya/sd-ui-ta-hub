@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
@@ -8,9 +8,7 @@ import { DataGrid, GridActionsCellItem, GridRowEditStopReasons, GridRowModes } f
 import { useDispatch } from 'react-redux';
 import { setUsers } from '../GlobalRedux/Features/usersSlice';
 import { setClients } from '../GlobalRedux/Features/clientsSlice';
-
 import { setCandidates } from '../GlobalRedux/Features/candidatesSlice';
-
 import { updateUser, deleteUser } from '../GlobalRedux/Features/usersSlice';
 import { updateCandidate, deleteCandidate } from '../GlobalRedux/Features/candidatesSlice';
 import { updateClient, deleteClient } from '../GlobalRedux/Features/clientsSlice';
@@ -20,10 +18,12 @@ import { updateClientOnServer, deleteClientOnServer } from '../GlobalRedux/Featu
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import ConfirmDialog from '../Grid/ConfirmationDialog';
-
 import fetchDataFromAPI from '../Grid/FetchApi';
 import EditToolbar from "../Grid/EditToolbar";
-import "../styles/FullFeaturedCrudGrid.css";
+// import "../styles/FullFeaturedCrudGrid.css";
+
+
+
 export default function FullFeaturedCrudGrid(props) {
     // eslint-disable-next-line react/prop-types
     const { apiEndpoint } = props;
@@ -46,7 +46,6 @@ export default function FullFeaturedCrudGrid(props) {
 
 useEffect(() => {
     async function fetchData() {
-        // Fetch data from the database
         const data = await fetchDataFromAPI(apiEndpoint);
         if (apiEndpoint === 'http://localhost:8080/api/users/') {
             dispatch(setUsers(data));
@@ -117,7 +116,6 @@ const handleConfirmDelete = async () => {
 
         }
 
-        // Remove the deleted row from the local state
         setRows(rows.filter(row => row.id !== deleteId));
     } catch (error) {
         console.error('Error deleting record:', error);
@@ -400,73 +398,71 @@ else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
 
         
         sx={{
-            boxShadow: 2,
-          
-            
+            // boxShadow: 2,
+            paddingLeft:30,
+            backgroundColor:'white',
             height: 600,
-            width: '98%',
-            paddingLeft:3,
+            width: '95%',
             marginTop:5,
             background:'none',
             "& .MuiDataGrid-row--editing .MuiDataGrid-cell": {
                 height: 39,
 
               },
-              
-            // lineHeight:2,
-            
-            '& .textPrimary': {
-                color: 'text.primary',
-            },
-            '& .MuiDataGrid-scrollbar': {
-                '&::-webkit-scrollbar': {
-                    width: '5px',
-                    height: '2px',
-                },
-                '&::-webkit-scrollbar-thumb': {
-                    backgroundColor: '#888',
-                },
-            },
-        }}
-    >
-        <Snackbar
-open={snackbarOpen}
-autoHideDuration={6000}
-onClose={() => setSnackbarOpen(false)}
->
-<MuiAlert
-    elevation={6}
-    variant="filled"
-    onClose={() => setSnackbarOpen(false)}
-    severity={snackbarSeverity}
->
-    {snackbarMessage}
-</MuiAlert>
-</Snackbar>
+                    
+                    // lineHeight:2,
+                    '& .textPrimary': {
+                        color: 'text.primary',
+                    },
+                    '& .MuiDataGrid-scrollbar': {
+                        '&::-webkit-scrollbar': {
+                            width: '5px',
+                            height: '2px',
+                        },
+                        '&::-webkit-scrollbar-thumb': {
+                            backgroundColor: '#888',
+                        },
+                    },
+                }}
+            >
+                            <Snackbar
+            open={snackbarOpen}
+            autoHideDuration={6000}
+            onClose={() => setSnackbarOpen(false)}
+            >
+            <MuiAlert
+                elevation={6}
+                variant="filled"
+                onClose={() => setSnackbarOpen(false)}
+                severity={snackbarSeverity}
+            >
+                {snackbarMessage}
+            </MuiAlert>
+            </Snackbar>
 
-<ConfirmDialog
-    open={openConfirmDialog}
-    setOpen={setOpenConfirmDialog} 
-    onConfirm={handleConfirmDelete}
-    onClose={handleCloseDialog}
-    deleteId={deleteId}
-    message="Are you sure you want to delete this row?"
-/>
+            <ConfirmDialog
+                open={openConfirmDialog}
+                setOpen={setOpenConfirmDialog} 
+                onConfirm={handleConfirmDelete}
+                onClose={handleCloseDialog}
+                deleteId={deleteId}
+                message="Are you sure you want to delete this row?"
+            />
 
-        <DataGrid
-            rowHeight={35}
-            rows={rows}
-            columns={columns}
-            editMode="row"
-            rowModesModel={rowModesModel}
-            onRowModesModelChange={handleRowModesModelChange}
-            onRowEditStop={handleRowEditStop}
-            processRowUpdate={processRowUpdate}
-            // pinnedColumns={pinnedColumns}
-            components={{
-                Toolbar: EditToolbar,
-            }}
-        />
+                <DataGrid
+                    rowHeight={35}
+                    rows={rows}
+                    columns={columns}
+                    editMode="row"
+                    rowModesModel={rowModesModel}
+                    onRowModesModelChange={handleRowModesModelChange}
+                    onRowEditStop={handleRowEditStop}
+                    processRowUpdate={processRowUpdate}
+                    // pinnedColumns={pinnedColumns}
+                    components={{
+                        Toolbar: EditToolbar,
+                    }}
+                />
     </Box>
 );
 }
