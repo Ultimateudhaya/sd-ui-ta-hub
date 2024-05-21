@@ -8,6 +8,10 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { RiAddCircleFill } from 'react-icons/ri';
 import { submitForm } from '../GlobalRedux/Features/formSlice';
+import SimplePopup from './popUp';
+import { Grid, TextField, Select, MenuItem, Button } from '@mui/material';
+import { DataGrid, GridColDef, GridToolbarContainer, GridActionsCellItem, GridRowId, GridRowModel, GridRowEditStopReasons, GridRowModesModel, GridRowModes } from '@mui/x-data-grid';
+
 
 interface Position {
   jobTitle: string;
@@ -36,6 +40,8 @@ function Form() {
     const [noOfOpenings, setNoOfOpenings] = useState<number>(0);
     const [positions, setPositions] = useState<Position[]>([]);
     const dispatch = useDispatch();
+    const [showPopup, setShowPopup] = useState<boolean>(false);
+    const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
 
     useEffect(() => {
       const fetchData = async () => {
@@ -128,13 +134,77 @@ function Form() {
       }
   };
 
-  const handleClose = () => {
-      setIsOpen(false);
+  const handleAddField = () => {
+    setShowPopup(true);
   };
 
-  const handleAddField = () => {
-      setPositions([...positions, { jobTitle: '', noOfOpenings: '', roleType: '', modeOfWork: '', workLocation: '' }]);
+  const handleClosePopup = () => {
+    setShowPopup(false);
   };
+
+  const handleClose = () => {
+    setIsOpen(false);
+};
+
+const handlePositionChange = (index: number, key: keyof Position, value: string) => {
+    const updatedPositions = [...positions];
+    updatedPositions[index][key] = value;
+    setPositions(updatedPositions);
+  };
+
+  const handleAddPosition = () => {
+    const newPosition: Position = {
+      jobTitle: '',
+      noOfOpenings: '',
+      roleType: '',
+      modeOfWork: '',
+      workLocation: '',
+    };
+    setPositions([...positions, newPosition]);
+  };
+
+  // Function to handle saving changes to a position
+  const handleSavePosition = (id: GridRowId) => () => {
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+  };
+
+  // Function to handle deleting a position
+  const handleDeletePosition = (id: GridRowId) => () => {
+    const updatedPositions = [...positions];
+    updatedPositions.splice(id as number, 1);
+    setPositions(updatedPositions);
+    setRowModesModel({});
+  };
+
+  // Columns configuration for the DataGrid
+  const columns: GridColDef[] = [
+    { field: 'jobTitle', headerName: 'Job Title', width: 150, editable: true },
+    { field: 'noOfOpenings', headerName: 'No. of Openings', width: 150, editable: true },
+    { field: 'roleType', headerName: 'Role Type', width: 150, editable: true },
+    { field: 'modeOfWork', headerName: 'Mode of Work', width: 150, editable: true },
+    { field: 'workLocation', headerName: 'Work Location', width: 150, editable: true },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      width: 120,
+      sortable: false,
+      filterable: false,
+      disableColumnMenu: true,
+      renderCell: (params) => (
+        <>
+          {rowModesModel[params.id]?.mode === GridRowModes.Edit ? (
+            <>
+              <Button onClick={handleSavePosition(params.id as number)}>Save</Button>
+              <Button onClick={() => setRowModesModel({ ...rowModesModel, [params.id]: { mode: GridRowModes.View } })}>Cancel</Button>
+            </>
+          ) : (
+            <Button onClick={handleDeletePosition(params.id as number)}>Delete</Button>
+          )}
+        </>
+      ),
+    },
+  ];
+
 
   const removeOpening = (index: number) => {
       const updatedPositions = [...positions];
@@ -221,7 +291,7 @@ function Form() {
                                         aria-describedby="emailHelp" 
                                     />
                                 </div>
-                                <div className="form-group p-2 pb-0 mt-0 position-relative">
+                                {/* <div className="form-group p-2 pb-0 mt-0 position-relative">
                                     <label htmlFor="openings" className="form-label">No. of Openings</label>
                                     <div className="input-container">
                                         <input type="number" className="input-box" name='openings' value={noOfOpenings} onChange={(e) => setNoOfOpenings(Number(e.target.value))} aria-describedby="emailHelp" />
@@ -317,7 +387,47 @@ function Form() {
                                             </div>
                                         </div>
                                     </div>
-                                ))}
+                                ))} */}
+
+<div className="form-group p-2 pb-0 mt-0 position-relative">
+        <label htmlFor="openings" className="form-label">No. of Openings</label>
+        <div className="input-container">
+          <input
+            type="number"
+            className="input-box"
+            name='openings'
+            value={noOfOpenings}
+            onChange={(e) => setNoOfOpenings(Number(e.target.value))}
+            aria-describedby="emailHelp"
+          />
+          <RiAddCircleFill className="add-icon" onClick={handleAddField} />
+        </div>
+      </div>
+
+      {showPopup && (
+        <SimplePopup onClose={handleClosePopup}>
+           <Button onClick={handleAddPosition}>Add Position</Button>
+      
+      {/* Render the DataGrid */}
+      <div style={{ height: '80%', width: '100%' }}>
+        <DataGrid
+          rows={positions}
+          columns={columns}
+          editMode="row"
+          rowModesModel={rowModesModel}
+          onRowEditStop={(params, event) => {
+            if (params.reason === GridRowEditStopReasons.COMMIT) {
+              const updatedPositions = [...positions];
+              updatedPositions[params.id as number] = params.row as Position;
+              setPositions(updatedPositions);
+            }
+          }}
+          onRowModesModelChange={setRowModesModel}
+        />
+      </div>
+          <button onClick={handleClosePopup}>Close</button>
+        </SimplePopup>
+      )}
 
                                 <div className="form-group row p-2">
                                     <div className="col">
