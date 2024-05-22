@@ -1,7 +1,38 @@
-.sidebar{
+.sidebar {
     margin-top: 63px;
+    z-index: 2;
 }
 
-.jUgKUp:focus{
-    background:none;
+
+
+.board {
+    padding-left: 10px;
+}
+
+
+.plan1{
+    color: rgb(97, 95, 95);
+    font-size: small;
+    font-weight: 600;
+    
+}
+
+.plan{
+    color: rgb(97, 95, 95);
+    
+}
+
+.menuItem:hover{
+    background-color: rgb(100, 158, 206);
+}
+
+.iGKDfN{
+    height: 30px;
+
+}
+.iGKDfN:hover {
+    background-color: #e6effc !important;
+    height: 30px;
+    border-radius: 2px;
+
 }

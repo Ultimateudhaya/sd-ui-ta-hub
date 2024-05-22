@@ -12,7 +12,7 @@ function ConfirmDialog({ open, setOpen, onConfirm, message }) {
     };
 
     const handleConfirm = () => {
-        onConfirm(); // No need to pass any parameters to onConfirm
+        onConfirm(); 
         setOpen(false);
     };
 

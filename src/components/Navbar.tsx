@@ -9,14 +9,16 @@ import Sidebar from './Sidebar';
 import "../styles/KanDash.css";
 import styled from 'styled-components';
 import Board from './Dnd';
-
+import Timeline from './Timeline';
+import List from './List';
 const Navbar = () => {
   const [showGrid, setShowGrid] = useState(false);
   const [apiEndpoint, setApiEndpoint] = useState('');
   const [showForm, setShowForm] = useState(false);
   const [formKey, setFormKey] = useState(0);
   const [activeNavItem, setActiveNavItem] = useState('');
-  const [clientDetails, setClientDetails] = useState<any[]>([]); // Set type to any[]
+  const [clientDetails, setClientDetails] = useState<any[]>([]); 
+  const [activeComponent, setActiveComponent] = useState('board'); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,7 +33,6 @@ const Navbar = () => {
         if (response.ok) {
           const data = await response.json();
           console.log('Fetched data:', data);
-          // Filter out clientName and clientSPOCName
           const clients = data.map((item) => ({
             clientName: item.clientName,
             clientSpocName: item.clientSpocName,
@@ -103,7 +104,7 @@ const ProfilePhoto = styled.div`
              <ProfileContainer>
         <ProfilePhoto />
       </ProfileContainer>
-            <p className="navbar-brand" ><a href='/dashboard'>Tringapps</a></p>
+            <p className="navbar-brand" ><a href='/navbar'>Tringapps</a></p>
             <li>
               <a className={`nav-button ${activeNavItem === 'candidates' ? 'active' : ''}`} onClick={handleLoadCandidatesClick}>
                 Candidates
@@ -122,16 +123,18 @@ const ProfilePhoto = styled.div`
           </div>
         </ul>
         <div>
-          <button className="btn btn-outline-success create-btn" onClick={openForm}>
-            Create
+          <button className="btn btn-primary " onClick={openForm}>
+            CREATE
           </button>
           <MenuPopupState   />
         </div>
       </nav>
-      <Sidebar/>
+      <Sidebar setActiveComponent={setActiveComponent} /> {/* Pass setActiveComponent function as prop */}
       {showGrid && <FullFeaturedCrudGrid apiEndpoint={apiEndpoint} />}
       <div className='kandash'>
-        <Board />
+        {activeComponent === 'board' && <Board />}
+        {activeComponent === 'timeline' && <Timeline />}
+        {activeComponent === 'list' && <List />}
       </div>
       {showForm && <Form key={formKey} onClose={closeForm} />}
       {clientDetails.length > 0 && (

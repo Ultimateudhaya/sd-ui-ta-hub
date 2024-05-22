@@ -6,6 +6,9 @@ import Register from "./components/register";
 import ForgetPassword from "./components/forgetPassword";
 import ResetPassword from "./components/resetNewPassword";
 import ResetNew from "./components/resetPassword";
+import Board from "./components/Dnd";
+// import Dashboard from "./components/Dashboard";
+import Sidebar from "./components/Sidebar";
 
 const App = () => {
   return (
@@ -17,8 +20,13 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/forget-password" element={<ForgetPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/dashboard" element={<Navbar />} />
+            <Route path="/navbar" element={<Navbar />} />
             <Route path="/reset-new" element={<ResetNew/>} />
+            <Route path="/side-bar" element={<Sidebar/>} />
+
+            <Route path="/board" element={<Board/>} />
+            {/* <Route path="/dashboard" element={<Dashboard/>} /> */}
+
           </Route>
         </Routes>
       </BrowserRouter>

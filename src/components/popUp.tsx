@@ -3,7 +3,7 @@ import '../styles/popup.css';
 
 interface PopupProps {
     children: React.ReactNode; 
-    onClose: () => void;
+    onClose: () => void;  
 }
   
 
