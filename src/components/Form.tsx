@@ -14,6 +14,7 @@ import { DataGrid, GridColDef, GridToolbarContainer, GridActionsCellItem, GridRo
 
 
 interface Position {
+  id: number;
   jobTitle: string;
   noOfOpenings: string;
   roleType: string;
@@ -145,15 +146,9 @@ function Form() {
   const handleClose = () => {
     setIsOpen(false);
 };
-
-const handlePositionChange = (index: number, key: keyof Position, value: string) => {
-    const updatedPositions = [...positions];
-    updatedPositions[index][key] = value;
-    setPositions(updatedPositions);
-  };
-
-  const handleAddPosition = () => {
+const handleAddPosition = () => {
     const newPosition: Position = {
+      id: positions.length ? positions[positions.length - 1].id + 1 : 0,
       jobTitle: '',
       noOfOpenings: '',
       roleType: '',
@@ -161,27 +156,80 @@ const handlePositionChange = (index: number, key: keyof Position, value: string)
       workLocation: '',
     };
     setPositions([...positions, newPosition]);
+    setRowModesModel((prevModel) => ({
+      ...prevModel,
+      [newPosition.id]: { mode: GridRowModes.Edit, fieldToFocus: 'jobTitle' },
+    }));
   };
 
-  // Function to handle saving changes to a position
   const handleSavePosition = (id: GridRowId) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+    setRowModesModel((prevModel) => ({
+      ...prevModel,
+      [id]: { mode: GridRowModes.View }
+    }));
   };
 
-  // Function to handle deleting a position
   const handleDeletePosition = (id: GridRowId) => () => {
-    const updatedPositions = [...positions];
-    updatedPositions.splice(id as number, 1);
-    setPositions(updatedPositions);
-    setRowModesModel({});
+    setPositions((prevPositions) => prevPositions.filter((pos) => pos.id !== id));
+    setRowModesModel((prevModel) => {
+      const newModel = { ...prevModel };
+      delete newModel[id];
+      return newModel;
+    });
   };
 
-  // Columns configuration for the DataGrid
+  const roleTypeOptions = [
+    { value: 'Full-Time', label: 'Full-Time' },
+    { value: 'Part-Time', label: 'Part-Time' },
+    { value: 'Contract', label: 'Contract' },
+  ];
+
+  const modeOfWorkOptions = [
+    { value: 'Onsite', label: 'Onsite' },
+    { value: 'Remote', label: 'Remote' },
+    { value: 'Hybrid', label: 'Hybrid' },
+  ];
+
+  const DropdownEditCell = (props) => {
+    const { id, field, value, api } = props;
+    const handleChange = (event) => {
+      api.setEditCellValue({ id, field, value: event.target.value });
+    };
+
+    const options = field === 'roleType' ? roleTypeOptions : modeOfWorkOptions;
+
+    return (
+      <Select
+        value={value}
+        onChange={handleChange}
+        sx={{ width: '100%' }}
+      >
+        {options.map((option) => (
+          <MenuItem key={option.value} value={option.value}>
+            {option.label}
+          </MenuItem>
+        ))}
+      </Select>
+    );
+  };
+
   const columns: GridColDef[] = [
     { field: 'jobTitle', headerName: 'Job Title', width: 150, editable: true },
     { field: 'noOfOpenings', headerName: 'No. of Openings', width: 150, editable: true },
-    { field: 'roleType', headerName: 'Role Type', width: 150, editable: true },
-    { field: 'modeOfWork', headerName: 'Mode of Work', width: 150, editable: true },
+    {
+      field: 'roleType',
+      headerName: 'Role Type',
+      width: 150,
+      editable: true,
+      renderEditCell: (params) => <DropdownEditCell {...params} />,
+    },
+    {
+      field: 'modeOfWork',
+      headerName: 'Mode of Work',
+      width: 150,
+      editable: true,
+      renderEditCell: (params) => <DropdownEditCell {...params} />,
+    },
     { field: 'workLocation', headerName: 'Work Location', width: 150, editable: true },
     {
       field: 'actions',
@@ -193,18 +241,38 @@ const handlePositionChange = (index: number, key: keyof Position, value: string)
       renderCell: (params) => (
         <>
           {rowModesModel[params.id]?.mode === GridRowModes.Edit ? (
-            <>
-              <Button onClick={handleSavePosition(params.id as number)}>Save</Button>
-              <Button onClick={() => setRowModesModel({ ...rowModesModel, [params.id]: { mode: GridRowModes.View } })}>Cancel</Button>
-            </>
+            <Button
+              onClick={handleSavePosition(params.id)}
+              color="primary"
+              size="small"
+            >
+              Save
+            </Button>
           ) : (
-            <Button onClick={handleDeletePosition(params.id as number)}>Delete</Button>
+            <Button
+              onClick={() => {
+                setRowModesModel((prevModel) => ({
+                  ...prevModel,
+                  [params.id]: { mode: GridRowModes.Edit, fieldToFocus: 'jobTitle' },
+                }));
+              }}
+              color="primary"
+              size="small"
+            >
+              Edit
+            </Button>
           )}
+          <Button
+            onClick={handleDeletePosition(params.id)}
+            color="secondary"
+            size="small"
+          >
+            Delete
+          </Button>
         </>
       ),
     },
   ];
-
 
   const removeOpening = (index: number) => {
       const updatedPositions = [...positions];
@@ -291,143 +359,51 @@ const handlePositionChange = (index: number, key: keyof Position, value: string)
                                         aria-describedby="emailHelp" 
                                     />
                                 </div>
-                                {/* <div className="form-group p-2 pb-0 mt-0 position-relative">
-                                    <label htmlFor="openings" className="form-label">No. of Openings</label>
-                                    <div className="input-container">
-                                        <input type="number" className="input-box" name='openings' value={noOfOpenings} onChange={(e) => setNoOfOpenings(Number(e.target.value))} aria-describedby="emailHelp" />
-                                        <RiAddCircleFill className="add-icon" onClick={handleAddField} />
-                                    </div>
+
+                                <div className="form-group p-2 pb-0 mt-0 position-relative">
+                                <label htmlFor="openings" className="form-label">No. of Openings</label>
+                                <div className="input-container">
+                                    <input
+                                    type="number"
+                                    className="input-box"
+                                    name="openings"
+                                    value={noOfOpenings}
+                                    onChange={(e) => setNoOfOpenings(Number(e.target.value))}
+                                    aria-describedby="emailHelp"
+                                    />
+                                    <RiAddCircleFill className="add-icon" onClick={handleAddField} />
                                 </div>
-                                {positions.map((position, index) => (
-                                    <div key={index} className="form-group openings">
-                                        <FaTimes className="input-close-icon" onClick={() => removeOpening(index)} />
-                                        <div className="form-group p-2 pr-0 pb-0 mb-0">
-                                            <input 
-                                                type="text" 
-                                                placeholder='Position' 
-                                                className="role-input-box" 
-                                                id={`opening-${index + 1}`} 
-                                                name={`opening-${index + 1}`} 
-                                                value={position.jobTitle} 
-                                                onChange={(e) => {
-                                                    const updatedPositions = [...positions];
-                                                    updatedPositions[index].jobTitle = e.target.value;
-                                                    setPositions(updatedPositions);
-                                                }} 
-                                            />
-                                        </div>
-                                        <div className="input-container form-group row p-2 pb-0">          
-                                            <div className='col'>
-                                                <select 
-                                                    className="role" 
-                                                    name="role" 
-                                                    value={position.roleType} 
-                                                    onChange={(e) => {
-                                                        const updatedPositions = [...positions];
-                                                        updatedPositions[index].roleType = e.target.value;
-                                                        setPositions(updatedPositions);
-                                                    }} 
-                                                    required
-                                                >
-                                                    <option value="">Select a Role Type</option>                                                   
-                                                    <option value="option1">Option 1</option>
-                                                    <option value="option2">Option 2</option>
-                                                    <option value="option3">Option 3</option>
-                                                </select>
-                                            </div>
-                                            <div className='col pr-0 mt-0'>
-                                                <input 
-                                                    type="text" 
-                                                    placeholder='No. of position' 
-                                                    className="role" 
-                                                    id={`opening-${index + 1}`} 
-                                                    name={`opening-${index + 1}`} 
-                                                    value={position.noOfOpenings} 
-                                                    onChange={(e) => {
-                                                        const updatedPositions = [...positions];
-                                                        updatedPositions[index].noOfOpenings = e.target.value;
-                                                        setPositions(updatedPositions);
-                                                    }} 
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="input-container form-group row p-2 pb-0 pt-0">
-                                            <div className='col '>
-                                                <select 
-                                                    className="mof" 
-                                                    name="modeOfWork" 
-                                                    value={position.modeOfWork} 
-                                                    onChange={(e) => {
-                                                        const updatedPositions = [...positions];
-                                                        updatedPositions[index].modeOfWork = e.target.value;
-                                                        setPositions(updatedPositions);
-                                                    }} 
-                                                    required
-                                                >
-                                                    <option value="">Select Mode of Work</option>
-                                                    <option value="option1">Option 1</option>
-                                                    <option value="option2">Option 2</option>
-                                                    <option value="option3">Option 3</option>
-                                                </select>
-                                            </div>
-                                            <div className='col'>
-                                                <input 
-                                                    type="text" 
-                                                    placeholder='Work Location' 
-                                                    className="mof" 
-                                                    name="location" 
-                                                    value={position.workLocation} 
-                                                    onChange={(e) => {
-                                                        const updatedPositions = [...positions];
-                                                        updatedPositions[index].workLocation = e.target.value;
-                                                        setPositions(updatedPositions);
-                                                    }} 
-                                                    required={true} 
-                                                />
-                                            </div>
-                                        </div>
+                                </div>
+
+                                {showPopup && (
+                                <SimplePopup onClose={handleClosePopup}>
+                                    <Button onClick={handleAddPosition}>Add Position</Button>
+                                    <div style={{ height: '89%', width: '100%' }}>
+                                    <DataGrid
+                                        rows={positions}
+                                        columns={columns}
+                                        editMode="row"
+                                        rowModesModel={rowModesModel}
+                                        onRowEditStop={(params, event) => {
+                                        if (event.reason === GridRowEditStopReasons.escapeKeyDown) {
+                                            setRowModesModel((prevModel) => ({
+                                            ...prevModel,
+                                            [params.id]: { mode: GridRowModes.View },
+                                            }));
+                                        }
+                                        }}
+                                        processRowUpdate={(newRow: GridRowModel) => {
+                                        const updatedPositions = positions.map((position) =>
+                                            position.id === newRow.id ? { ...position, ...newRow } : position
+                                        );
+                                        setPositions(updatedPositions);
+                                        return newRow;
+                                        }}
+                                        onRowModesModelChange={setRowModesModel}
+                                    />
                                     </div>
-                                ))} */}
-
-<div className="form-group p-2 pb-0 mt-0 position-relative">
-        <label htmlFor="openings" className="form-label">No. of Openings</label>
-        <div className="input-container">
-          <input
-            type="number"
-            className="input-box"
-            name='openings'
-            value={noOfOpenings}
-            onChange={(e) => setNoOfOpenings(Number(e.target.value))}
-            aria-describedby="emailHelp"
-          />
-          <RiAddCircleFill className="add-icon" onClick={handleAddField} />
-        </div>
-      </div>
-
-      {showPopup && (
-        <SimplePopup onClose={handleClosePopup}>
-           <Button onClick={handleAddPosition}>Add Position</Button>
-      
-      {/* Render the DataGrid */}
-      <div style={{ height: '80%', width: '100%' }}>
-        <DataGrid
-          rows={positions}
-          columns={columns}
-          editMode="row"
-          rowModesModel={rowModesModel}
-          onRowEditStop={(params, event) => {
-            if (params.reason === GridRowEditStopReasons.COMMIT) {
-              const updatedPositions = [...positions];
-              updatedPositions[params.id as number] = params.row as Position;
-              setPositions(updatedPositions);
-            }
-          }}
-          onRowModesModelChange={setRowModesModel}
-        />
-      </div>
-          <button onClick={handleClosePopup}>Close</button>
-        </SimplePopup>
-      )}
+                                </SimplePopup>
+                                )}
 
                                 <div className="form-group row p-2">
                                     <div className="col">
