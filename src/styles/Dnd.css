@@ -1,104 +1,159 @@
+*{
+  font-family: inherit;
+}
 .draggable-item {
-    /* padding: 8px; */
-    margin-bottom: 8px;
-    background-color: #f4f4f4;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
-  }
+  margin-bottom: 1px;
+  background-color: #f4f4f4;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
   
-  .draggable-item:hover {
-    background-color: #e0e0e0;
-  }
-  
-  .cards {
-    width: 300px;
-    height: 400px;
-    padding: 10px;  
-    overflow: auto;
-    background-color: rgb(246, 246, 246);
-    border-radius: 4px;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    margin-top: 25px;
-  }  
-  .column {
-    display: flex;
-    margin-right: 20px;
-  }
-  
-  .card {
-    margin-top: 10px;
-  }
-  
-  h4 {
-    text-align: center;
-    text-transform: capitalize;
-  }
-  
-  .container1 {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    height: auto;
-    padding: 1rem;
-    border-radius: 0.5rem;
-  }
-  
-
-  
-  .header1 {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 1rem;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #dee2e6;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-
-  }
-  
-  .search-container {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  
-  .kanboard {
-    display: flex;
-    flex-direction: row;
-    margin-top: 20px;
-    margin-left: 20px;
-  }
-
-  .search-container,h8,h4{
-    padding-top: 20px;
-    padding-left: 10px;
-
-  }
-  
-  h5{
-
-    color: rgb(31, 29, 34) !important;
-    text-align: center;
-    font-family:Georgia, 'Times New Roman', Times, serif;
-    font-size: initial;
 }
 
-h7{
-    background-color: rgb(51, 185, 51);
-    width: 100px;
-    display: block;
-   padding-left: 10px;
-   color: white;
-   border-radius: 2rem;
-   padding-bottom: 2px;
-   box-shadow: rgba(111, 228, 56, 0.2) 0px 7px 29px 0px;
-  }
-
-.taskId{
-    margin-right: 100px;
-    font-size: small;
-    text-transform: capitalize;
+.draggable-item:hover {
+  background-color: #e0e0e0;
 }
-  
 
+
+.cards {
+  width: 260px;
+  height: 500px;
+  cursor: pointer;
+  box-sizing: border-box;
+  display: flex;
+  background-color: #f7f8f9;
+
+  /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
+  padding: 6px;
+  overflow: auto;
+  flex-direction: column;
+  border-radius: 3px;
+  box-sizing: border-box;
+  filter: none;
+}
+.column {
+  display: flex;
+  margin-right: 20px;
+  
+}
+
+.card {
+  border: none !important;
+}
+
+h4 {
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.container1 {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: auto;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.header1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  position: sticky;
+  top: 0;
+  margin-left: 10px;
+ 
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.kanboard {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+.kanboard1 {
+  width: 300px;
+  height: 200px;
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+}
+.search-container,
+h8,
+h4 {
+  padding-top: 20px;
+  padding-left: 10px;
+}
+
+.columnTitle{
+  color: rgb(97, 96, 98) !important;
+  padding: 10px;
+  position: sticky;
+  top: 0; 
+  background-color: #f7f8f9;
+  z-index: 1;
+  font-size: small !important;
+}
+
+
+.getstat {
+  background-color: #dfd8fd;
+  width: 80px;
+  height: 15px;
+  display: block;
+  padding-left: 5px;
+  color: #42319a;
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: x-small;
+  padding-bottom: 4px;
+  box-shadow: rgba(111, 228, 56, 0.2) 0px 7px 29px 0px;
+  font-family: var(--ds-font-family-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif);
+}
+
+.taskId {
+  margin-right: 40px;
+  font-size: small;
+  text-transform: capitalize;
+}
+
+.css-46bh2p-MuiCardContent-root:last-child {
+  padding-bottom: 24px;
+  height: 103px;
+}
+
+.task-detail{
+  font-size: smaller;
+}
+
+.kanboard{
+  height: 700px;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 0px;
+  box-sizing: border-box;
+  box-shadow: rgba(158, 159, 158, 0.2) 0px 7px 29px 0px;
+
+
+}
+.cardcontent{
+display: block;
+float: right;
+}
+
+.addBtn{
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+}

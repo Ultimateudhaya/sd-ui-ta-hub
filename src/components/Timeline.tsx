@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import "../styles/Dnd.css";
 import { Card, CardContent, TextField, Button } from '@mui/material';
 import { CgProfile } from "react-icons/cg";
 import ConfirmDialog from "../Grid/ConfirmationDialog";
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import AddBoxIcon from '@mui/icons-material/AddBox';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-const Board = () => {
+const Timeline = () => {
   const [tasks, setTasks] = useState([]);
   const [columns, setColumns] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -16,7 +14,6 @@ const Board = () => {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false); // State to control delete confirmation dialog
   const [deleteItemId, setDeleteItemId] = useState(""); // State to store the ID of the item to delete
   const [deleteItemType, setDeleteItemType] = useState(""); // State to store the type of item to delete
-  const [showPreview, setShowPreview] = useState(false); // State to control showing the preview
 
   useEffect(() => {
     const fetchColumns = async () => {
@@ -96,11 +93,6 @@ const Board = () => {
 
   const handleAddButtonClick = () => {
     setShowAddForm(true);
-    setShowPreview(true);
-  };
-
-  const handlePreviewClose = () => {
-    setShowPreview(false);
   };
 
   const handleAddFormSubmit = async () => {
@@ -129,7 +121,7 @@ const Board = () => {
   const handleDeleteColumn = async (id) => {
     setDeleteConfirmation(true);
     setDeleteItemId(id);
-    setDeleteItemType("column");
+    setDeleteItemType("Board");
   };
 
   const handleDeleteTask = async (taskId) => {
@@ -182,8 +174,8 @@ const Board = () => {
   return (
     <div className="board-container">
       <div className="header1">
-        <h8>Projects / My Kandan Project</h8>
-        <h8>KAN Board</h8>
+        <h4>Projects / My Kandan Project</h4>
+        <h8>KAN Timeline</h8>
         <div className="search-container">
           <TextField label="Search" variant="outlined" size="small" />
           <Button variant="contained" color="primary">Search</Button>
@@ -194,7 +186,7 @@ const Board = () => {
           <div key={column.id} className="column" onDragOver={(event) => onDragOver(event)} onDrop={(event) => onDrop(event, column.column)}>
             <div className='cards'>
               <div className="column-header d-flex justify-content-between">
-                <h6 className='columnTitle'>{column.title }{"  "}{ column.count}</h6>
+                <h6>{column.title} ({column.count})</h6>
                 <div className="delete-button" onClick={() => handleDeleteColumn(column.id)}>
                   <span className="bi bi-trash"></span>
                 </div>
@@ -209,12 +201,11 @@ const Board = () => {
                             <span className="bi bi-trash"></span>
                           </div>
                         </p>
-                        <h7 className="getstat">Get started</h7>
-                        <div className='mt-1 cardcontent'>
-                          {/* <h8 className="taskId">{task.taskStatus}</h8> */}
+                        <h7>Get started</h7>
+                        <div className='mt-2 cardcontent'>
+                          <h8 className="taskId">{task.taskStatus}</h8>
                           <a href="#">
-                            {/* <CgProfile color='black' /> */}
-                            <AccountCircleIcon color='primary'/>
+                            <CgProfile color='black' />
                           </a>
                         </div>
                       </CardContent>
@@ -226,30 +217,9 @@ const Board = () => {
           </div>
         ))}
         <div className="add-button-container">
-          <div onClick={handleAddButtonClick}><AddBoxIcon color='primary' sx={{ fontSize: 40 }}/></div>
+          <Button variant="contained" color="primary" onClick={handleAddButtonClick}>Add</Button>
         </div>
-        {showPreview && (
-          <div className="kanboard1">
-            <Card className='card'>
-              <CardContent>
-                <TextField
-                  label="Enter Status"
-                  variant="outlined"
-                  size="small"
-                  value={newTaskStatus}
-                  onChange={(e) => setNewTaskStatus(e.target.value)}
-                />
-                <div className='addBtn'>
-                <Button variant="contained" color="primary" onClick={handleAddFormSubmit}>Submit</Button>
-                <Button variant="contained" color="primary" onClick={handlePreviewClose}>Cancel</Button>
-                </div>
-               
-              </CardContent>
-            </Card>
-          </div>
-        )}
-        {/* Show add form when showAddForm is true and showPreview is false */}
-        {showAddForm && !showPreview && (
+        {showAddForm && (
           <div className="add-form-container">
             <TextField
               label="Enter Status"
@@ -274,4 +244,4 @@ const Board = () => {
   );
 };
 
-export default Board;
+export default Timeline;
