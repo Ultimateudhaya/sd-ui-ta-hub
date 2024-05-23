@@ -13,10 +13,10 @@ const Board = () => {
   const [columns, setColumns] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [newTaskStatus, setNewTaskStatus] = useState("");
-  const [deleteConfirmation, setDeleteConfirmation] = useState(false); // State to control delete confirmation dialog
-  const [deleteItemId, setDeleteItemId] = useState(""); // State to store the ID of the item to delete
-  const [deleteItemType, setDeleteItemType] = useState(""); // State to store the type of item to delete
-  const [showPreview, setShowPreview] = useState(false); // State to control showing the preview
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState(""); 
+  const [deleteItemType, setDeleteItemType] = useState(""); 
+  const [showPreview, setShowPreview] = useState(false); 
 
   useEffect(() => {
     const fetchColumns = async () => {
@@ -24,13 +24,13 @@ const Board = () => {
         const response = await fetch('http://localhost:8080/api/board/columns');
         if (response.ok) {
           const data = await response.json();
-          // Set columns based on received data
-          setColumns(data.map(column => ({
+-          setColumns(data.map(column => ({
             id: column.id,
             column: column.column,
             title: column.column.toUpperCase(),
             count: 0
           })));
+          console.log("columns",columns);
         } else {
           console.error('Failed to fetch columns:', response.statusText);
         }
@@ -56,7 +56,15 @@ const Board = () => {
         const response = await fetch('http://localhost:8080/api/tasks/');
         if (response.ok) {
           const data = await response.json();
-          setTasks(data);
+          const updatedTasks = data.map(task => {
+            // Check if taskStatus is null, default it to "todo"
+            if (!task.taskStatus) {
+              return { ...task, taskStatus: "todo" };
+            }
+            return task;
+          });
+          setTasks(updatedTasks);
+          console.log("task datas", updatedTasks);
         } else {
           console.error('Failed to fetch tasks:', response.statusText);
         }
@@ -64,9 +72,10 @@ const Board = () => {
         console.error('An error occurred while fetching tasks:', error);
       }
     };
-
+  
     fetchTasks();
   }, []);
+  
 
   const onDrop = async (event, status) => {
     event.preventDefault();
@@ -190,6 +199,7 @@ const Board = () => {
         </div>
       </div>
       <div className="kanboard">
+        
         {columns.map(column => (
           <div key={column.id} className="column" onDragOver={(event) => onDragOver(event)} onDrop={(event) => onDrop(event, column.column)}>
             <div className='cards'>
