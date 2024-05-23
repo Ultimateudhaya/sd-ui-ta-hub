@@ -91,7 +91,7 @@ const ProfilePhoto = styled.div`
   border-radius: 50%;
   margin-left:20px;
   margin-top:3px;
-  background-image: url("src/assets/images/icons8-google-48.png");
+  // background-image: url("src/assets/images/icons8-google-48.png");
   background-size: cover;
   padding:6px;
 `;
@@ -102,7 +102,7 @@ const ProfilePhoto = styled.div`
         <ul className="navbar-nav ">
           <div className="load">
              <ProfileContainer>
-        <ProfilePhoto />
+        {/* <ProfilePhoto /> */}
       </ProfileContainer>
             <p className="navbar-brand" ><a href='/navbar'>Tringapps</a></p>
             <li>
