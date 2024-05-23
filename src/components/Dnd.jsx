@@ -57,6 +57,14 @@ const Board = () => {
         if (response.ok) {
           const data = await response.json();
           setTasks(data);
+          const updatedTasks = data.map(task => {
+            if (!task.taskStatus) {
+              return { ...task, taskStatus: "todo" };
+            }
+            return task;
+          });
+          setTasks(updatedTasks);
+          console.log("task datas", updatedTasks);
         } else {
           console.error('Failed to fetch tasks:', response.statusText);
         }
@@ -189,6 +197,8 @@ const Board = () => {
           <Button variant="contained" color="primary">Search</Button>
         </div>
       </div>
+      <div className={columns.length > 4 ? "kanboard-container scrollable" : "kanboard-container"}>
+
       <div className="kanboard">
         {columns.map(column => (
           <div key={column.id} className="column" onDragOver={(event) => onDragOver(event)} onDrop={(event) => onDrop(event, column.column)}>
@@ -225,6 +235,8 @@ const Board = () => {
             </div>
           </div>
         ))}
+
+
         <div className="add-button-container">
           <div onClick={handleAddButtonClick}><AddBoxIcon color='primary' sx={{ fontSize: 40 }}/></div>
         </div>
@@ -262,6 +274,8 @@ const Board = () => {
           </div>
         )}
       </div>
+      </div>
+
       {/* Confirmation dialog for delete */}
       <ConfirmDialog
         open={deleteConfirmation}
