@@ -122,7 +122,6 @@ import ConfirmDialog from '../Grid/ConfirmationDialog';
 
     useEffect(() => {
         async function fetchData() {
-            // Fetch data from the database
             const data = await fetchDataFromAPI(apiEndpoint);
             if (apiEndpoint === 'http://localhost:8080/api/users/') {
                 dispatch(setUsers(data));
