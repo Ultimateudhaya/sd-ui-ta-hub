@@ -399,6 +399,7 @@ else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
         
         sx={{
             // boxShadow: 2,
+            marginBottom:30,
             paddingLeft:30,
             backgroundColor:'white',
             height: 600,
