@@ -11,6 +11,7 @@ import { submitForm } from '../GlobalRedux/Features/formSlice';
 import SimplePopup from './popUp';
 import { Grid, TextField, Select, MenuItem, Button } from '@mui/material';
 import { DataGrid, GridColDef, GridToolbarContainer, GridActionsCellItem, GridRowId, GridRowModel, GridRowEditStopReasons, GridRowModesModel, GridRowModes } from '@mui/x-data-grid';
+import CustomSnackbar from "../components/CustomSnackbar";
 
 
 interface Position {
@@ -43,6 +44,11 @@ function Form() {
     const dispatch = useDispatch();
     const [showPopup, setShowPopup] = useState<boolean>(false);
     const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
+
+
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarVariant, setSnackbarVariant] = useState('success');
 
     useEffect(() => {
       const fetchData = async () => {
@@ -110,6 +116,9 @@ function Form() {
 
           if (response.ok) {
               console.log('Form data submitted successfully!');
+              setSnackbarOpen(true);
+              setSnackbarMessage("Form data submitted successfully!");
+              setSnackbarVariant("success");
               setReqStartDate(null);
               setStartDate(null);
               setProjectStartDate(null);
@@ -279,7 +288,12 @@ const handleAddPosition = () => {
       updatedPositions.splice(index, 1);
       setPositions(updatedPositions);
   };
-     
+    
+  
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+    setSnackbarMessage("");
+  };
 
     return (
         isOpen && (
@@ -514,6 +528,12 @@ const handleAddPosition = () => {
                         </div>
                     </form>
                 </div>
+                <CustomSnackbar
+        message={snackbarMessage}
+        variant={snackbarVariant}
+        onClose={handleCloseSnackbar}
+        open={snackbarOpen}
+      />
             </div>
         )
     );
