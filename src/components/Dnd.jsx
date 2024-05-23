@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import "../styles/Dnd.css";
 import { Card, CardContent, TextField, Button } from '@mui/material';
-import { CgProfile } from "react-icons/cg";
+// import { CgProfile } from "react-icons/cg";
 import ConfirmDialog from "../Grid/ConfirmationDialog";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import AddBoxIcon from '@mui/icons-material/AddBox';

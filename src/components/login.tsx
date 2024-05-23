@@ -40,7 +40,7 @@ function Login() {
             setSnackbarMessage("Login success");
             setSnackbarVariant("success");
             setTimeout(() => {
-                navigate('/dashboard'); 
+                navigate('/navbar'); 
             }, 2000);
             
         } catch (error) {
