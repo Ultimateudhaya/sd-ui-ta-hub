@@ -6,7 +6,7 @@ import CustomSnackbar from "./CustomSnackbar";
 
 function Register() {
     const [formData, setFormData] = useState({
-        userName: "",
+        username: "",
         phoneNo: "",
         email: "",
         password: "",
@@ -75,7 +75,7 @@ function Register() {
                 navigate('/login');
             }, 2000);
             setFormData({
-                userName: "",
+                username: "",
                 phoneNo: "",
                 email: "",
                 password: "",
