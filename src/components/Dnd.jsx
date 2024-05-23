@@ -59,7 +59,6 @@ const Board = () => {
           setTasks(data);
    
           const updatedTasks = data.map(task => {
-            // Check if taskStatus is null, default it to "todo"
             if (!task.taskStatus) {
               return { ...task, taskStatus: "todo" };
             }
