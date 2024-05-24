@@ -1,5 +1,4 @@
-  
-.container {
+ .container {
     margin-top: 15px;
     margin-right: 0;
     display: flex;
@@ -35,19 +34,19 @@
 }
 
 
-.header {
+.header-form {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
   min-height: 55px;
-  background: white;
-  box-shadow: 0 4px 4px -4px rgba(0, 0, 0, 0.2), 0 -4px 4px -4px rgba(0, 0, 0, 0.2); /* Top and bottom shadow */
+  background: #f8f8f8;
+  box-shadow: 0 4px 4px -4px rgba(0, 0, 0, 0.2), 0 -4px 4px -4px rgba(0, 0, 0, 0.2); 
 }
 
 
     .footer{
-        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1); /* Shadow effect */
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1); 
         background-color: white;
     }
 
@@ -67,7 +66,7 @@
   }
 
  
-  .header h3 {
+  .header-form h3 {
     padding-left: 100px;
     margin: 0;
     font-weight: 200px;
@@ -126,31 +125,23 @@
     height: 30px;
     font-size: 13px;
   }
-
-  .duration-input-container {
-    position: relative;
+  .input-with-label {
     display: flex;
     align-items: center;
   }
   
-  .duration-input-container .form-control {
-    width: 99%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 2px solid #e9e8e8;
-    border-radius: 4px;
-    min-height: 45px;
-    padding-right: 120px; 
+  .input-box {
+    flex: 1;
+    padding-right: 40px; /* Add padding to make space for the label */
   }
   
-  .duration-suffix {
+  .input-label {
     position: absolute;
     right: 10px;
-    font-size: 17px;
-    pointer-events: none;
-    color: #666;
-    white-space: nowrap; 
+    margin-left: -35px; /* Adjust this value to align the label properly */
+    pointer-events: none; /* Prevent the label from blocking clicks to the input */
   }
+  
   .view-positions {
     color: blue;
     cursor: pointer;

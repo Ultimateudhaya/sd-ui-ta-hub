@@ -114,17 +114,17 @@ function Form() {
               roleType: position.roleType,
               modeOfWork: position.modeOfWork,
               workLocation: position.workLocation,
-              yearsOfExperienceRequired: parseInt(yearsOfExperienceRequired as string),
-              primarySkillSet: primarySkill,
-              secondarySkillSet: secondarySkill
+              yearsOfExperienceRequired: position.yearsOfExperienceRequired,
+              primarySkillSet: position.primarySkillSet,
+              secondarySkillSet: position.secondarySkillSet
           })),
           salaryBudget: parseFloat(salaryBudget as string),
           modeOfInterviews,
           tentativeStartDate: startDate?.toISOString(),
           tentativeDuration: projectStartDate,
           approvedBy,
-          primarySkillSet: primarySkill,
-          secondarySkillSet: secondarySkill
+        //   primarySkillSet: primarySkill,
+        //   secondarySkillSet: secondarySkill
       }];
 
       // Debugging: Log the formData to see its structure
@@ -324,7 +324,7 @@ const handleAddPosition = () => {
             <div className='position'>
                 <div className='container'>
                     <form className='form-req' onSubmit={submitFormHandler}>
-                        <div className='header'>
+                        <div className='header-form'>
                             <h3>Client Requirement Form</h3>
                             <FaTimes className="close-icon pl-2" onClick={handleClose} />
                         </div>
@@ -537,23 +537,24 @@ const handleAddPosition = () => {
                                         />
                                     </div>
                                 </div> */}
-                                <div className="form-group p-2">
-                                    <label htmlFor="proj-duration" className="form-label">Project Duration</label>
-                                    <div className="duration-input-container">
-                                        <input
-                                        type="number"
-                                        id="proj-duration"
-                                        className="form-control"
-                                        value={projectStartDate}
-                                        onChange={(e) => setProjectStartDate(e.target.value)}
-                                        name="proj-duration"
-                                        required
-                                        min="1"
-                                        />
-                                        {errors.projectStartDate && <span className="error-message">{errors.projectStartDate}</span>}
-                                        <span className="duration-suffix">months</span>
-                                    </div>
+                            <div className="form-group p-2">
+                                <label htmlFor="proj-duration" className="form-label">Project Duration</label>
+                                <div className="input-with-label">
+                                    <input 
+                                    type="number" 
+                                    id='proj-duration'
+                                    className="input-box" 
+                                    name="contact" 
+                                    value={projectStartDate} 
+                                    onChange={(e) => setProjectStartDate(e.target.value)} 
+                                    required={true} 
+                                    min="1"
+                                    />
+                                    <span className="input-label">months</span>
                                 </div>
+                                {errors.projectStartDate && <span className="error-message">{errors.projectStartDate}</span>}
+                                </div>
+
                                 <div className="form-group p-2">
                                     <label htmlFor="email" className="form-label">Approval request</label>
                                     <input 
@@ -566,41 +567,8 @@ const handleAddPosition = () => {
                                     />
                                     {errors.approvedBy && <span className="error-message">{errors.approvedBy}</span>}
                                 </div>
-                                {/* <div className="form-group p-2">
-                                    <label htmlFor="ex" className="form-label">Years of Experience</label>
-                                    <input 
-                                        type="number" 
-                                        className="input-box" 
-                                        name="ex" 
-                                        value={yearsOfExperienceRequired} 
-                                        onChange={(e) => setYearsOfExperienceRequired(e.target.value)} 
-                                        required={true} 
-                                    />
-                                </div> */}
-                                {/* <div className="form-group p-2">
-                                    <label htmlFor="primary-skill" className="form-label">Primary Skill set</label>
-                                    <textarea 
-                                        className="text-area" 
-                                        name="primarySkill" 
-                                        id="primary-skill" 
-                                        rows={3}
-                                        value={primarySkill} 
-                                        onChange={(e) => setPrimarySkill(e.target.value)} 
-                                        required
-                                    />
-                                </div> */}
-                                {/* <div className="form-group p-2">
-                                    <label htmlFor="secondary-skill" className="form-label">Secondary Skill set</label>
-                                    <textarea
-                                        className="text-area" 
-                                        name="secondarySkill" 
-                                        id="secondary-skill" 
-                                        rows={3}
-                                        value={secondarySkill} 
-                                        onChange={(e) => setSecondarySkill(e.target.value)} 
-                                        required
-                                    />
-                                </div> */}
+
+
                             </div>
                         </div>
                         <div className='footer'>
