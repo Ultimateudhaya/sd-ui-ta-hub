@@ -53,15 +53,16 @@ export const deleteCandidateOnServer = (candidateId) => async () => {
 // Function to update candidate on the server
 export const updateCandidateOnServer = (userData) => async () => {
   try {
-    const {candidateId}=userData
-    const response = await fetch(`http://localhost:8080/api/candidates/candidate/${candidateId}`, {
+    // const {candidateId}=userData
+    // console.log("candiateid",candidateId);
+    const response = await fetch(`http://localhost:8080/api/candidates/candidate/${userData.candidateId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(userData),
     });
-    console.log("id",candidateId);
+    // console.log("id",candidateId);
 
 
     if (!response.ok) {
@@ -75,5 +76,29 @@ export const updateCandidateOnServer = (userData) => async () => {
     // Handle error, if needed
   }
 };
+
+
+export const handleCandidateAdd = async (newEmptyRow) => {
+  try {
+    const response = await fetch('http://localhost:8080/api/candidates/candidate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newEmptyRow),
+    });
+
+    if (response.ok) {
+      // Dispatch the addNewCandidate action to update Redux state
+      // dispatch(addNewCandidate(newEmptyRow)); // Assuming you have access to `dispatch`
+      // Handle success
+    } else {
+      // Handle failure
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
 
 export default candidatesSlice.reducer;

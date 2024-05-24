@@ -72,4 +72,27 @@ export const updateClientOnServer = (userData) => async () => {
   }
 };
 
+
+export const handleClientAdd = async (newEmptyRow) => {
+  try {
+    const response = await fetch('http://localhost:8080/api/clients/client', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newEmptyRow),
+    });
+
+    if (response.ok) {
+      // Dispatch the addNewClient action to update Redux state
+      // dispatch(addNewClient(newEmptyRow)); // Assuming you have access to `dispatch`
+      // Handle success
+    } else {
+      // Handle failure
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
 export default clientsSlice.reducer;

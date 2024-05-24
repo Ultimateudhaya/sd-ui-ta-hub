@@ -129,7 +129,7 @@ const ProfilePhoto = styled.div`
           <MenuPopupState   />
         </div>
       </nav>
-      <Sidebar setActiveComponent={setActiveComponent} /> {/* Pass setActiveComponent function as prop */}
+      <Sidebar setActiveComponent={setActiveComponent} /> 
       {showGrid && <FullFeaturedCrudGrid apiEndpoint={apiEndpoint} />}
       <div className='kandash'>
         {activeComponent === 'board' && <Board />}
