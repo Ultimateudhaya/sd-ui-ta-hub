@@ -12,6 +12,8 @@ import SimplePopup from './popUp';
 import { Grid, TextField, Select, MenuItem, Button } from '@mui/material';
 import { DataGrid, GridColDef, GridToolbarContainer, GridActionsCellItem, GridRowId, GridRowModel, GridRowEditStopReasons, GridRowModesModel, GridRowModes } from '@mui/x-data-grid';
 import CustomSnackbar from "../components/CustomSnackbar";
+import { Tooltip } from '@mui/material';
+
 
 
 interface Position {
@@ -21,12 +23,15 @@ interface Position {
   roleType: string;
   modeOfWork: string;
   workLocation: string;
+  yearsOfExperienceRequired: string;
+  primarySkillSet: string;
+  secondarySkillSet: string;
 }
 
 function Form() {      
     const [startDate, setStartDate] = useState<Date | null>(null);
     const [reqStartDate, setReqStartDate] = useState<Date | null>(null);
-    const [projectStartDate, setProjectStartDate] = useState<Date | null>(null);
+    const [projectStartDate, setProjectStartDate] = useState('');
     const [primarySkill, setPrimarySkill] = useState('');
     const [secondarySkill, setSecondarySkill] = useState('');
     const [isOpen, setIsOpen] = useState(true);
@@ -44,38 +49,56 @@ function Form() {
     const dispatch = useDispatch();
     const [showPopup, setShowPopup] = useState<boolean>(false);
     const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
-
+    const [errors, setErrors] = useState({
+        clientName: '',
+        clientSpocName: '',
+        reqStartDate: '',
+        clientSpocContact: '',
+        accountManager: '',
+        accountManagerEmail: '',
+        salaryBudget: '',
+        modeOfInterviews: '',
+        startDate: '',
+        projectStartDate: '',
+        approvedBy: '',
+    });
+    
 
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarVariant, setSnackbarVariant] = useState('success');
 
     useEffect(() => {
-      const fetchData = async () => {
-          try {
-              const response = await fetch('http://localhost:8080/api/requirement', {
-                  method: 'GET',
-                  headers: {
-                      'Content-Type': 'application/json'
-                  }
-              });
-
-              if (response.ok) {
-                  const data = await response.json();
-                  console.log('Fetched data:', data);
-              } else {
-                  console.error('Failed to fetch data:', response.statusText);
-              }
-          } catch (error) {
-              console.error('An error occurred while fetching data:', error);
-          }
-      };
-
-      fetchData();
-  }, []);
+        const totalOpenings = positions.reduce((sum, position) => sum + parseInt(position.noOfOpenings, 10), 0);
+        setNoOfOpenings(totalOpenings);
+      }, [positions]);
+      
 
     const submitFormHandler = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
+
+      const newErrors = {
+        clientName: clientName ? '' : 'Client Name is required',
+        clientSpocName: clientSpocName ? '' : 'Client SPOC Name is required',
+        reqStartDate: reqStartDate ? '' : 'Requirement Start Date is required',
+        clientSpocContact: clientSpocContact ? '' : 'Client Contact Details are required',
+        accountManager: accountManager ? '' : 'Account Manager Name is required',
+        accountManagerEmail: accountManagerEmail ? '' : 'Account Manager E-mail is required',
+        salaryBudget: salaryBudget ? '' : 'Salary Budget is required',
+        modeOfInterviews: modeOfInterviews ? '' : 'Mode of Interview is required',
+        startDate: startDate ? '' : 'Project Start Date is required',
+        projectStartDate: projectStartDate ? '' : 'Project Duration is required',
+        approvedBy: approvedBy ? '' : 'Approval request is required',
+    };
+
+    setErrors(newErrors);
+
+    // Check if there are any errors
+    const hasErrors = Object.values(newErrors).some((error) => error !== '');
+    if (hasErrors) {
+        return;
+    }
+
 
       const formData = [{
           requirementStartDate: reqStartDate?.toISOString(),
@@ -84,20 +107,22 @@ function Form() {
           clientSpocContact,
           accountManager,
           accountManagerEmail,
-          totalNoOfOpenings: positions.length,
+          totalNoOfOpenings: positions.reduce((sum, position) => sum + parseInt(position.noOfOpenings, 10), 0),
           positions: positions.map((position) => ({
               jobTitle: position.jobTitle,
               noOfOpenings: position.noOfOpenings.toString(),
               roleType: position.roleType,
               modeOfWork: position.modeOfWork,
-              workLocation: position.workLocation
+              workLocation: position.workLocation,
+              yearsOfExperienceRequired: parseInt(yearsOfExperienceRequired as string),
+              primarySkillSet: primarySkill,
+              secondarySkillSet: secondarySkill
           })),
           salaryBudget: parseFloat(salaryBudget as string),
           modeOfInterviews,
           tentativeStartDate: startDate?.toISOString(),
-          tentativeDuration: projectStartDate?.toISOString(),
+          tentativeDuration: projectStartDate,
           approvedBy,
-          yearsOfExperienceRequired: parseInt(yearsOfExperienceRequired as string),
           primarySkillSet: primarySkill,
           secondarySkillSet: secondarySkill
       }];
@@ -121,7 +146,7 @@ function Form() {
               setSnackbarVariant("success");
               setReqStartDate(null);
               setStartDate(null);
-              setProjectStartDate(null);
+              setProjectStartDate('');
               setPrimarySkill('');
               setSecondarySkill('');
               setClientName('');
@@ -163,6 +188,9 @@ const handleAddPosition = () => {
       roleType: '',
       modeOfWork: '',
       workLocation: '',
+      yearsOfExperienceRequired: '',
+      primarySkillSet: '',
+      secondarySkillSet: '',
     };
     setPositions([...positions, newPosition]);
     setRowModesModel((prevModel) => ({
@@ -240,6 +268,9 @@ const handleAddPosition = () => {
       renderEditCell: (params) => <DropdownEditCell {...params} />,
     },
     { field: 'workLocation', headerName: 'Work Location', width: 150, editable: true },
+    { field: 'yearsOfExperienceRequired', headerName: 'Years of Experience', width: 150, editable: true },
+    { field: 'primarySkillSet', headerName: 'Primary Skill set', width: 150, editable: true },
+    { field: 'secondarySkillSet', headerName: 'Secondary Skill set', width: 150, editable: true },
     {
       field: 'actions',
       headerName: 'Actions',
@@ -283,13 +314,6 @@ const handleAddPosition = () => {
     },
   ];
 
-  const removeOpening = (index: number) => {
-      const updatedPositions = [...positions];
-      updatedPositions.splice(index, 1);
-      setPositions(updatedPositions);
-  };
-    
-  
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);
     setSnackbarMessage("");
@@ -314,8 +338,9 @@ const handleAddPosition = () => {
                                         name="cname"  
                                         value={clientName} 
                                         onChange={(e) => setClientName(e.target.value)}  
-                                        required={true} 
+                                        required
                                     />
+                                    {errors.clientName && <span className="error-message">{errors.clientName}</span>}
                                 </div>
                                 <div className="form-group p-2">
                                     <label htmlFor="spocname" className="form-label">Client SPOC Name</label>
@@ -327,6 +352,7 @@ const handleAddPosition = () => {
                                         onChange={(e) => setClientSpocName(e.target.value)} 
                                         required={true} 
                                     />
+                                    {errors.clientSpocName && <span className="error-message">{errors.clientSpocName}</span>}
                                 </div>
                                 <div className="form-group pt-3 p-2">
                                     <label htmlFor="date" className="form-label">Requirement Start Date</label>
@@ -339,6 +365,7 @@ const handleAddPosition = () => {
                                             dateFormat="dd/MM/yyyy"
                                             required={true}
                                         />
+                                        {errors.reqStartDate && <span className="error-message">{errors.reqStartDate}</span>}
                                     </div>
                                 </div>
                                 <div className="form-group p-2">
@@ -351,6 +378,7 @@ const handleAddPosition = () => {
                                         onChange={(e) => setClientSpocContact(e.target.value)} 
                                         required={true} 
                                     />
+                                    {errors.clientSpocContact && <span className="error-message">{errors.clientSpocContact}</span>}
                                 </div>
                                 <div className="form-group p-2">
                                     <label htmlFor="manager" className="form-label">Account Manager Name</label>
@@ -361,6 +389,7 @@ const handleAddPosition = () => {
                                         onChange={(e) => setAccountManager(e.target.value)} 
                                         required={true} 
                                     />
+                                    {errors.accountManager && <span className="error-message">{errors.accountManager}</span>}
                                 </div>
                                 <div className="form-group p-2">
                                     <label htmlFor="email" className="form-label">Account Manager E-mail</label>
@@ -372,21 +401,38 @@ const handleAddPosition = () => {
                                         onChange={(e) => setAccountManagerEmail(e.target.value)} 
                                         aria-describedby="emailHelp" 
                                     />
+                                    {errors.accountManagerEmail && <span className="error-message">{errors.accountManagerEmail}</span>}
                                 </div>
 
                                 <div className="form-group p-2 pb-0 mt-0 position-relative">
-                                <label htmlFor="openings" className="form-label">No. of Openings</label>
-                                <div className="input-container">
-                                    <input
-                                    type="number"
-                                    className="input-box"
-                                    name="openings"
-                                    value={noOfOpenings}
-                                    onChange={(e) => setNoOfOpenings(Number(e.target.value))}
-                                    aria-describedby="emailHelp"
-                                    />
-                                    <RiAddCircleFill className="add-icon" onClick={handleAddField} />
-                                </div>
+                                    <label htmlFor="openings" className="form-label">No. of Openings</label>
+                                    <div className="input-container">
+                                        <input
+                                            type="number"
+                                            className="input-box"
+                                            name="openings"
+                                            value={noOfOpenings}
+                                            readOnly
+                                            aria-describedby="emailHelp"
+                                        />
+                                        <RiAddCircleFill className="add-icon" onClick={handleAddField} />
+                                    </div>
+                                    <Tooltip
+                                        title={
+                                            <div>
+                                                {positions.map((position, index) => (
+                                                    <div key={index}>
+                                                        {position.jobTitle}: {position.noOfOpenings} openings
+                                                    </div>
+                                                ))}
+                                                <div>Total: {noOfOpenings}</div>
+                                            </div>
+                                        }
+                                        placement="right"
+                                        arrow
+                                    >
+                                        <div className="view-positions">View Positions</div>
+                                    </Tooltip>
                                 </div>
 
                                 {showPopup && (
@@ -430,6 +476,7 @@ const handleAddPosition = () => {
                                             onChange={(e) => setSalaryBudget(e.target.value)} 
                                             aria-describedby="mobileHelp" 
                                         />
+                                        {errors.salaryBudget && <span className="error-message">{errors.salaryBudget}</span>}
                                     </div>
                                     <div className="col">
                                         <div className="form-group">
@@ -446,10 +493,11 @@ const handleAddPosition = () => {
                                                 <option value="option2">Option 2</option>
                                                 <option value="option3">Option 3</option>
                                             </select>
+                                            {errors.modeOfInterviews && <span className="error-message">{errors.modeOfInterviews}</span>}
                                         </div>
                                     </div>
                                 </div>
-                                <div className="form-group p-2">
+                                <div className="form-group pt-3 p-2">
                                     <label htmlFor="date" className="form-label">Project Start Date</label>
                                     <div className="date-picker-container">
                                         <DatePicker
@@ -458,11 +506,25 @@ const handleAddPosition = () => {
                                             className="calender"
                                             name="date"
                                             dateFormat="dd/MM/yyyy"
-                                            required
+                                            required={true}
                                         />
+                                        {errors.startDate && <span className="error-message">{errors.startDate}</span>}
                                     </div>
                                 </div>
-                                <div className="form-group p-2">
+                                {/* <div className="form-group p-2">
+                                    <label htmlFor="date" className="form-label">Project Start Date</label>
+                                    <div className="date-picker-container">
+                                        <DatePicker
+                                            selected={startDate}
+                                            onChange={(date) => setStartDate(date)}
+                                            className="calender"
+                                            name="date"
+                                            dateFormat="dd/MM/yyyy"
+                                            required={true}
+                                        />
+                                    </div>
+                                </div> */}
+                                {/* <div className="form-group p-2">
                                     <label htmlFor="proj-duration" className="form-label">Project Duration</label>
                                     <div className="date-picker-container">
                                         <DatePicker
@@ -474,9 +536,26 @@ const handleAddPosition = () => {
                                             required={true}
                                         />
                                     </div>
+                                </div> */}
+                                <div className="form-group p-2">
+                                    <label htmlFor="proj-duration" className="form-label">Project Duration</label>
+                                    <div className="duration-input-container">
+                                        <input
+                                        type="number"
+                                        id="proj-duration"
+                                        className="form-control"
+                                        value={projectStartDate}
+                                        onChange={(e) => setProjectStartDate(e.target.value)}
+                                        name="proj-duration"
+                                        required
+                                        min="1"
+                                        />
+                                        {errors.projectStartDate && <span className="error-message">{errors.projectStartDate}</span>}
+                                        <span className="duration-suffix">months</span>
+                                    </div>
                                 </div>
                                 <div className="form-group p-2">
-                                    <label htmlFor="email" className="form-label">Approved By</label>
+                                    <label htmlFor="email" className="form-label">Approval request</label>
                                     <input 
                                         type="email" 
                                         className="input-box" 
@@ -485,8 +564,9 @@ const handleAddPosition = () => {
                                         onChange={(e) => setApprovedBy(e.target.value)} 
                                         required={true} 
                                     />
+                                    {errors.approvedBy && <span className="error-message">{errors.approvedBy}</span>}
                                 </div>
-                                <div className="form-group p-2">
+                                {/* <div className="form-group p-2">
                                     <label htmlFor="ex" className="form-label">Years of Experience</label>
                                     <input 
                                         type="number" 
@@ -496,8 +576,8 @@ const handleAddPosition = () => {
                                         onChange={(e) => setYearsOfExperienceRequired(e.target.value)} 
                                         required={true} 
                                     />
-                                </div>
-                                <div className="form-group p-2">
+                                </div> */}
+                                {/* <div className="form-group p-2">
                                     <label htmlFor="primary-skill" className="form-label">Primary Skill set</label>
                                     <textarea 
                                         className="text-area" 
@@ -508,8 +588,8 @@ const handleAddPosition = () => {
                                         onChange={(e) => setPrimarySkill(e.target.value)} 
                                         required
                                     />
-                                </div>
-                                <div className="form-group p-2">
+                                </div> */}
+                                {/* <div className="form-group p-2">
                                     <label htmlFor="secondary-skill" className="form-label">Secondary Skill set</label>
                                     <textarea
                                         className="text-area" 
@@ -520,7 +600,7 @@ const handleAddPosition = () => {
                                         onChange={(e) => setSecondarySkill(e.target.value)} 
                                         required
                                     />
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                         <div className='footer'>
@@ -529,11 +609,11 @@ const handleAddPosition = () => {
                     </form>
                 </div>
                 <CustomSnackbar
-        message={snackbarMessage}
-        variant={snackbarVariant}
-        onClose={handleCloseSnackbar}
-        open={snackbarOpen}
-      />
+                    message={snackbarMessage}
+                    variant={snackbarVariant}
+                    onClose={handleCloseSnackbar}
+                    open={snackbarOpen}
+                />
             </div>
         )
     );
