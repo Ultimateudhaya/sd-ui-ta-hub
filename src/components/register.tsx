@@ -123,7 +123,7 @@ function Register() {
                             </div>
                             <div className="form-container-register">
                                 <label htmlFor="userName" className="UserName">User Name</label>
-                                <div className="input-container">
+                                <div className="input-container-register">
                                     <TextField 
                                         className="input" 
                                         id="filled-basic-user" 
@@ -135,7 +135,7 @@ function Register() {
                                     />
                                 </div>
                                 <label htmlFor="phoneNo" className="PhoneNo">Phone No</label>
-                                <div className="input-container">
+                                <div className="input-container-register">
                                     <TextField 
                                         className="input" 
                                         id="filled-basic-mobile" 
@@ -147,7 +147,7 @@ function Register() {
                                     />
                                 </div>
                                 <label htmlFor="email" className="Email">Email Address</label>
-                                <div className="input-container">
+                                <div className="input-container-register">
                                     <TextField 
                                         className="input" 
                                         id="filled-basic-email" 
@@ -159,7 +159,7 @@ function Register() {
                                     />
                                 </div>
                                 <label htmlFor="password" className="NewPassword">New Password</label>
-                                <div className="input-container">
+                                <div className="input-container-register">
                                     <TextField 
                                         className="input" 
                                         id="filled-basic-password" 
@@ -171,7 +171,7 @@ function Register() {
                                     />
                                 </div>
                                 <label htmlFor="confirmPassword" className="confirmPassword">Confirm Password</label>
-                                <div className="input-container">
+                                <div className="input-container-register">
                                     <TextField 
                                         className="input" 
                                         id="filled-basic-conpassword" 
