@@ -2,11 +2,9 @@ import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import "../styles/Dnd.css";
 import { Card, CardContent, TextField, Button } from '@mui/material';
-// import { CgProfile } from "react-icons/cg";
 import ConfirmDialog from "../Grid/ConfirmationDialog";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import AddBoxIcon from '@mui/icons-material/AddBox';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const Board = () => {
   const [tasks, setTasks] = useState([]);
@@ -14,9 +12,10 @@ const Board = () => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [newTaskStatus, setNewTaskStatus] = useState("");
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
-  const [deleteItemId, setDeleteItemId] = useState(""); 
-  const [deleteItemType, setDeleteItemType] = useState(""); 
-  const [showPreview, setShowPreview] = useState(false); 
+  const [deleteItemId, setDeleteItemId] = useState("");
+  const [deleteItemType, setDeleteItemType] = useState("");
+  const [showPreview, setShowPreview] = useState(false);
+  const [deleteErrorMessage, setDeleteErrorMessage] = useState("");
 
   useEffect(() => {
     const fetchColumns = async () => {
@@ -24,13 +23,13 @@ const Board = () => {
         const response = await fetch('http://localhost:8080/api/board/columns');
         if (response.ok) {
           const data = await response.json();
--          setColumns(data.map(column => ({
+          const initialColumns = data.map(column => ({
             id: column.id,
             column: column.column,
             title: column.column.toUpperCase(),
             count: 0
-          })));
-          console.log("columns",columns);
+          }));
+          setColumns(initialColumns);
         } else {
           console.error('Failed to fetch columns:', response.statusText);
         }
@@ -42,22 +41,12 @@ const Board = () => {
     fetchColumns();
   }, []);
 
-  const onDragStart = (event, task) => {
-    event.dataTransfer.setData("task", JSON.stringify(task));
-  };
-
-  const onDragOver = (event) => {
-    event.preventDefault();
-  };
-
   useEffect(() => {
     const fetchTasks = async () => {
       try {
         const response = await fetch('http://localhost:8080/api/tasks/');
         if (response.ok) {
           const data = await response.json();
-          setTasks(data);
-   
           const updatedTasks = data.map(task => {
             if (!task.taskStatus) {
               return { ...task, taskStatus: "todo" };
@@ -73,10 +62,25 @@ const Board = () => {
         console.error('An error occurred while fetching tasks:', error);
       }
     };
-  
+
     fetchTasks();
   }, []);
-  
+
+  useEffect(() => {
+    const columnCounts = columns.map(column => ({
+      ...column,
+      count: tasks.filter(task => task.taskStatus === column.column).length
+    }));
+    setColumns(columnCounts);
+  }, [tasks]); 
+
+  const onDragStart = (event, task) => {
+    event.dataTransfer.setData("task", JSON.stringify(task));
+  };
+
+  const onDragOver = (event) => {
+    event.preventDefault();
+  };
 
   const onDrop = async (event, status) => {
     event.preventDefault();
@@ -136,13 +140,19 @@ const Board = () => {
     }
   };
 
-  const handleDeleteColumn = async (id) => {
-    setDeleteConfirmation(true);
-    setDeleteItemId(id);
-    setDeleteItemType("column");
+  const handleDeleteColumn = (id) => {
+    const columnTasks = tasks.filter(task => task.taskStatus === id);
+    console.log("length",columnTasks.length);
+    if (columnTasks.length > 0) {
+      setDeleteErrorMessage('Cannot delete column with tasks inside.');
+    } else {
+      setDeleteConfirmation(true);
+      setDeleteItemId(id);
+      setDeleteItemType("column");
+    }
   };
 
-  const handleDeleteTask = async (taskId) => {
+  const handleDeleteTask = (taskId) => {
     setDeleteConfirmation(true);
     setDeleteItemId(taskId);
     setDeleteItemType("task");
@@ -187,10 +197,11 @@ const Board = () => {
     setDeleteConfirmation(false);
     setDeleteItemId("");
     setDeleteItemType("");
+    setDeleteErrorMessage("");
   };
 
   return (
-    <div className="board-container">
+    <div className="board-container ">
       <div className="header1">
         <h8>Projects / My Kandan Project</h8>
         <h8>KAN Board</h8>
@@ -199,46 +210,44 @@ const Board = () => {
           <Button variant="contained" color="primary">Search</Button>
         </div>
       </div>
+
       <div className={columns.length > 4 ? "kanboard-container scrollable" : "kanboard-container"}>
-
-      <div className="kanboard">
-        
-        {columns.map(column => (
-          <div key={column.id} className="column" onDragOver={(event) => onDragOver(event)} onDrop={(event) => onDrop(event, column.column)}>
-            <div className='cards'>
-              <div className="column-header d-flex justify-content-between">
-                <h6 className='columnTitle'>{column.title }{"  "}{ column.count}</h6>
-                <div className="delete-button" onClick={() => handleDeleteColumn(column.id)}>
-                  <span className="bi bi-trash"></span>
-                </div>
-              </div>
-              {tasks.map((task) => (
-                (task.taskStatus === column.column) && (
-                  <div className="draggable-item" key={task.taskId.toString()} draggable="true" onDragStart={(event) => onDragStart(event, task)}>
-                    <Card className='card'>
-                      <CardContent >
-                        <p className='task-detail d-flex justify-content-between'>Ticket Details: {task.taskId}
-                          <div className="delete-task-button" onClick={() => handleDeleteTask(task.taskId)}>
-                            <span className="bi bi-trash"></span>
-                          </div>
-                        </p>
-                        <h7 className="getstat">Get started</h7>
-                        <div className='mt-1 cardcontent'>
-                          {/* <h8 className="taskId">{task.taskStatus}</h8> */}
-                          <a href="#">
-                            {/* <CgProfile color='black' /> */}
-                            <AccountCircleIcon color='primary'/>
-                          </a>
-                        </div>
-                      </CardContent>
-                    </Card>
+        <div className="kanboard">
+          {columns.map(column => (
+            <div key={column.id} className="column" onDragOver={(event) => onDragOver(event)} onDrop={(event) => onDrop(event, column.column)}>
+              <div className='cards'>
+                <div className="column-header d-flex justify-content-between">
+                  <h6 className='columnTitle'>{column.title}{" "}{column.count}</h6>
+                  <div className="delete-button" onClick={() => handleDeleteColumn(column.id)}>
+                    <span className="bi bi-trash"></span>
                   </div>
-                )
-              ))}
+                </div>
+                {tasks.map((task) => (
+                  (task.taskStatus === column.column) && (
+                    <div className="draggable-item" key={task.taskId.toString()} draggable="true" onDragStart={(event) => onDragStart(event, task)}>
+                      <Card className='card'>
+                        <CardContent >
+                          <p className='task-detail d-flex justify-content-between '>
+                            <h7 className="getstat clientName ">Tezzract</h7>
+                            <div className="delete-task-button " onClick={() => handleDeleteTask(task.taskId)}>
+                              <span className="bi bi-trash"></span>
+                            </div>
+                          </p>
+                          <div className='d-flex justify-content-between'>
+                            <h7 className="getstat ">{task.roleType}</h7>
+                          </div>
+                          <div className='d-flex justify-content-between mt-2'>
+                            <h7 className="getstat ">{task.workLocation}</h7>
+                            <h7 className="getstat">{task.modeOfWork}</h7>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  )
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
-
+          ))}
 
         <div className="add-button-container">
           <div onClick={handleAddButtonClick}><AddBoxIcon color='primary' sx={{ fontSize: 40 }}/></div>

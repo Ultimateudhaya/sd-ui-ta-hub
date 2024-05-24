@@ -56,6 +56,51 @@ function Login() {
         setSnackbarMessage("");
       };
   
+
+      
+  const handleGoogleSignIn = async () => {
+  try {
+    const response = await fetch("http://localhost:8080/api/google-sign-in", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: 'include'
+    });
+
+    if (response.ok) {
+      const redirectUrl = await response.json();
+      console.log("Redirect URL", redirectUrl);
+      window.location.href = redirectUrl;
+    } else {
+      const errorText = await response.text();
+      console.error("Error response:", errorText);
+      throw new Error('Failed to get Google sign-in URL');
+    }
+  } catch (error) {
+    console.error("Error signing in with Google:", error.message);
+  }
+};
+
+
+    //   const handleGoogleSignInCallback = async () => {
+    //     const code = new URLSearchParams(window.location.search).get("code");
+    //     if (code) {
+    //       try {
+    //         const response = await fetch("http://localhost:8080/api/google-sign-in/callback", {
+    //           method: "POST",
+    //           headers: {
+    //             "Content-Type": "application/json"
+    //           },
+    //           body: JSON.stringify({ code })
+    //         });
+      
+    //         const accessToken = response.json().access_token;
+    //       } catch (error) {
+    //         console.error("Error exchanging authorization code for access token:", error.message);
+    //       }
+    //     }
+    //   };
     return (
         <div className="image">
             <div className="left">
@@ -127,7 +172,7 @@ function Login() {
                                     <span>Or</span>
                                     <div className="divider"></div>
                                 </div>
-                                <button className="google-signin-button">
+                                <button   onClick={handleGoogleSignIn} className="google-signin-button">
                                     <span className="icon"></span>
                                     Continue with Google
                                 </button>

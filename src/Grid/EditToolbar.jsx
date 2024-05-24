@@ -14,7 +14,6 @@ function EditToolbar(props) {
 
         setRows((oldRows) => [...oldRows, newEmptyRow]);
 
-        // dispatch(addNewUser(newEmptyRow));
 
         try {
             const response = await fetch('http://localhost:8080/api/users/user', {

@@ -46,30 +46,51 @@ export const deleteUserOnServer = (userId) => async (dispatch) => {
     console.error('Error deleting record:', error);
   }
 };
-
-export const updateUserOnServer = (userData) => async () => {
-  const { userId } = userData; 
-  
+export const updateUserOnServer = async (userData) => {
   try {
-    const response = await fetch(`http://localhost:8080/api/users/user/${userId}`, {
-      method: 'PUT',
+     
+      const response = await fetch(`http://localhost:8080/api/users/user/${userData.userId}`, {
+          method: 'PUT',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userData),
+      });
+
+      if (!response.ok) {
+          throw new Error('Failed to update user');
+      }
+
+      // Handle successful response
+      // For example, you might parse the response JSON and return some data
+      const updatedUserData = await response.json();
+      return updatedUserData;
+  } catch (error) {
+      // Handle errors
+      console.error('Error updating user:', error);
+      throw error;
+  }
+};
+	
+export const handleUserAdd = async (newEmptyRow) => {
+  try {
+    const response = await fetch('http://localhost:8080/api/users/user', {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(userData),
+      body: JSON.stringify(newEmptyRow),
     });
-    console.log("userid",userId);
 
-
-    if (!response.ok) {
-      throw new Error('Failed to update user on the server');
+    if (response.ok) {
+      // Dispatch the addNewUser action to update Redux state
+      // dispatch(addNewUser(newEmptyRow)); // Assuming you have access to `dispatch`
+      // Handle success
+    } else {
+      // Handle failure
     }
-
-    // Dispatch any success action if needed
-    // dispatch(updateUserSuccess(userData));
   } catch (error) {
-    // Dispatch any failure action if needed
-    // dispatch(updateUserFailure(error.message));
+    console.error('Error:', error);
   }
 };
 

@@ -2,6 +2,12 @@ import  { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import {  GridToolbarContainer } from '@mui/x-data-grid';
+import Button from '@mui/material/Button';
+import AddIcon from '@mui/icons-material/Add';
+import { randomId } from '@mui/x-data-grid-generator';
+import { TextField } from '@mui/material';
+
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import { DataGrid, GridActionsCellItem, GridRowEditStopReasons, GridRowModes } from '@mui/x-data-grid';
@@ -10,8 +16,8 @@ import { setUsers } from '../GlobalRedux/Features/usersSlice';
 import { setClients } from '../GlobalRedux/Features/clientsSlice';
 import { setCandidates } from '../GlobalRedux/Features/candidatesSlice';
 import { updateUser, deleteUser } from '../GlobalRedux/Features/usersSlice';
-import { updateCandidate, deleteCandidate } from '../GlobalRedux/Features/candidatesSlice';
-import { updateClient, deleteClient } from '../GlobalRedux/Features/clientsSlice';
+import { updateCandidate, deleteCandidate,handleCandidateAdd } from '../GlobalRedux/Features/candidatesSlice';
+import { updateClient, deleteClient,handleClientAdd } from '../GlobalRedux/Features/clientsSlice';
 import { updateUserOnServer, deleteUserOnServer } from '../GlobalRedux/Features/usersSlice';
 import { updateCandidateOnServer, deleteCandidateOnServer } from '../GlobalRedux/Features/candidatesSlice';
 import { updateClientOnServer, deleteClientOnServer } from '../GlobalRedux/Features/clientsSlice';
@@ -19,9 +25,33 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import ConfirmDialog from '../Grid/ConfirmationDialog';
 import fetchDataFromAPI from '../Grid/FetchApi';
-import EditToolbar from "../Grid/EditToolbar";
+// import EditToolbar from "../Grid/EditToolbar";
 // import "../styles/FullFeaturedCrudGrid.css";
 
+import { handleUserAdd } from '../GlobalRedux/Features/usersSlice';
+function EditToolbar(props) {
+
+    const { setRows, setRowModesModel } = props;
+  
+    const handleClick = () => {
+        const id = randomId();
+        const newEmptyRow = { id, name: '', age: '', roleId: 1, isNew: true };
+        setRows((oldRows) => [...oldRows, newEmptyRow]);
+        setRowModesModel((oldModel) => ({
+          ...oldModel,
+          [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
+        }));
+      };
+      
+  
+    return (
+      <GridToolbarContainer>
+        <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
+          Add record
+        </Button>
+      </GridToolbarContainer>
+    );
+  }
 
 
 export default function FullFeaturedCrudGrid(props) {
@@ -63,7 +93,16 @@ useEffect(() => {
 
 }, [dispatch, apiEndpoint]);
 
+const [searchValue, setSearchValue] = useState('');
 
+const handleSearchChange = (event) => {
+    setSearchValue(event.target.value);
+};
+const filteredRows = rows.filter(row =>
+    Object.values(row).some(value =>
+        typeof value === 'string' && value.toLowerCase().includes(searchValue.toLowerCase())
+    )
+);
 
 const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -75,12 +114,19 @@ const handleEditClick = (id) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
 };
 
-const handleSaveClick = (id) => () => {
+const handleSaveClick = (id, rowData) => async () => {
+    console.log('rowData:', rowData); 
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
 
-  
-  
+    if (rowData.isNew) {
+        
+        const updatedRowData = { ...rowData, isNew: false };
+        await handleUserAdd(updatedRowData); 
+    } else {
+        await updateUserOnServer(rowData); 
+    }
 };
+
 
 const handleDeleteClick = (id) => () => {
     setDeleteId(id);
@@ -142,34 +188,72 @@ const handleCloseDialog = () => {
     setOpenConfirmDialog(false);
 };
 
-
-const processRowUpdate = (rowUpdate, row) => {
+const processRowUpdate = async (rowUpdate, row) => {
     const newRow = { ...row, ...rowUpdate };
-        if (apiEndpoint === 'http://localhost:8080/api/users/') {
-        dispatch(updateUser(newRow));
 
-        dispatch(updateUserOnServer(newRow));
-        handleOpenSnackbar('Record Updated successfully!', 'success');
+    try {
+        if (newRow.isNew) {
+            // If it's a new row, add it based on the API endpoint
+            if (apiEndpoint === 'http://localhost:8080/api/users/') {
+                await handleUserAdd(newRow);
+                handleOpenSnackbar('User Added successfully!', 'success');
+            } else if (apiEndpoint === 'http://localhost:8080/api/candidates/') {
+                await handleCandidateAdd(newRow);
+                handleOpenSnackbar('Candidate Added successfully!', 'success');
+            } else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
+                await handleClientAdd(newRow);
+                handleOpenSnackbar('Client Added successfully!', 'success');
+            }
+            newRow.isNew = false; // Set isNew to false after adding
+        } else {
+         
+            if (apiEndpoint === 'http://localhost:8080/api/users/') {
+                await updateUserOnServer(newRow);
+                handleOpenSnackbar('User Updated successfully!', 'success');
+            } else if (apiEndpoint === 'http://localhost:8080/api/candidates/') {
 
-        console.log("User updated successfully:", newRow);
-    } else if (apiEndpoint === 'http://localhost:8080/api/candidates/') {
-        console.log("newcandiaterow",newRow);
+                const response = await fetch(`http://localhost:8080/api/candidates/candidate/${newRow.candidateId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newRow),
+    });
+    
+    if (!response.ok) {
+        throw new Error('Failed to update candidate on the server');
+      }
+  
+                // await updateCandidateOnServer(newRow);
+                // console.log("candidate row",newRow)
+                handleOpenSnackbar('Candidate Updated successfully!', 'success');
+            } else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
+                const response = await fetch(`http://localhost:8080/api/clients/client/${newRow.clientId}`, {
+                    method: 'PUT',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(newRow),
+                  });
+              
+                  if (!response.ok) {
+                    throw new Error('Failed to update client on the server');
+                  }
 
-    dispatch(updateCandidate(newRow));
-        dispatch(updateCandidateOnServer(newRow));
-        handleOpenSnackbar('Record Updated successfully!', 'success');
-
-        console.log("Candidate updated successfully:", newRow);
-    } else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
-        dispatch(updateClient(newRow));
-        dispatch(updateClientOnServer(newRow));
-        handleOpenSnackbar('Record Updated successfully!', 'success');
-
-        console.log("Client updated successfully:", newRow);
+                // await updateClientOnServer(newRow);
+                handleOpenSnackbar('Client Updated successfully!', 'success');
+            }
+        }
+    } catch (error) {
+        console.error('Error processing record:', error);
+        handleOpenSnackbar('Error processing record. Please try again.', 'error');
+        return null;
     }
 
     return newRow;
 };
+
+
 
 const handleRowModesModelChange = (newRowModesModel) => {
     setRowModesModel(newRowModesModel);
@@ -391,6 +475,11 @@ else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
     },
     ];
 } 
+
+
+
+
+  
     return (
         
         <Box
@@ -402,12 +491,16 @@ else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
             marginBottom:30,
             paddingLeft:30,
             backgroundColor:'white',
+            // fontSize: 10,
+            fontWeight: 'medium',
             height: 600,
             width: '95%',
             marginTop:5,
+            border:'none',
             background:'none',
             "& .MuiDataGrid-row--editing .MuiDataGrid-cell": {
                 height: 39,
+               
 
               },
                     
@@ -449,10 +542,20 @@ else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
                 deleteId={deleteId}
                 message="Are you sure you want to delete this row?"
             />
+                <TextField
+                label="Search"
+                variant="outlined"
+                size="small"
+                value={searchValue}
+                onChange={handleSearchChange}
+                sx={{ marginBottom: 2 }}
+            />
 
                 <DataGrid
                     rowHeight={35}
-                    rows={rows}
+                    rows={filteredRows}
+
+                    // rows={rows}
                     columns={columns}
                     editMode="row"
                     rowModesModel={rowModesModel}
@@ -460,9 +563,12 @@ else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
                     onRowEditStop={handleRowEditStop}
                     processRowUpdate={processRowUpdate}
                     // pinnedColumns={pinnedColumns}
-                    components={{
-                        Toolbar: EditToolbar,
-                    }}
+                    slots={{
+                        toolbar: EditToolbar,
+                      }}
+                      slotProps={{
+                        toolbar: { setRows, setRowModesModel },
+                      }}
                 />
     </Box>
 );
