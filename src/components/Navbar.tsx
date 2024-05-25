@@ -11,14 +11,15 @@ import styled from 'styled-components';
 import Board from './Dnd';
 import Timeline from './Timeline';
 import List from './List';
+
 const Navbar = () => {
   const [showGrid, setShowGrid] = useState(false);
   const [apiEndpoint, setApiEndpoint] = useState('');
   const [showForm, setShowForm] = useState(false);
   const [formKey, setFormKey] = useState(0);
   const [activeNavItem, setActiveNavItem] = useState('');
-  const [clientDetails, setClientDetails] = useState<any[]>([]); 
-  const [activeComponent, setActiveComponent] = useState('board'); 
+  const [clientDetails, setClientDetails] = useState([]);
+  const [activeComponent, setActiveComponent] = useState('board');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -79,57 +80,65 @@ const Navbar = () => {
   };
 
   const ProfileContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  `;
 
-const ProfilePhoto = styled.div`
-  width: 35px;
-  height: 35px;
-  background-color: #bbb;
-  border-radius: 50%;
-  margin-left:20px;
-  margin-top:3px;
-  // background-image: url("src/assets/images/icons8-google-48.png");
-  background-size: cover;
-  padding:6px;
-`;
+  const ProfilePhoto = styled.div`
+    width: 35px;
+    height: 35px;
+    background-color: #bbb;
+    border-radius: 50%;
+    margin-left: 20px;
+    margin-top: 3px;
+    background-size: cover;
+    padding: 6px;
+  `;
 
   return (
     <div>
-      <nav className="navbar">
-        <ul className="navbar-nav ">
-          <div className="load">
-             <ProfileContainer>
-        {/* <ProfilePhoto /> */}
-      </ProfileContainer>
-            <p className="navbar-brand" ><a href='/navbar'>Tringapps</a></p>
-            <li>
-              <a className={`nav-button ${activeNavItem === 'candidates' ? 'active' : ''}`} onClick={handleLoadCandidatesClick}>
-                Candidates
-              </a>
-            </li>
-            <li>  
-              <a className={`nav-button ${activeNavItem === 'clients' ? 'active' : ''}`} onClick={handleLoadClientsClick}>
-                Clients
-              </a>
-            </li>
-            <li>
-              <a className={`nav-button ${activeNavItem === 'users' ? 'active' : ''}`} onClick={handleLoadUsersClick}>
-                Users
-              </a>
-            </li>
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <div className="container-fluid">
+          <ProfileContainer>
+            {/* <ProfilePhoto /> */}
+          </ProfileContainer>
+          <a className="navbar-brand" href="/navbar">Tringapps</a>
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav">
+              <li className="nav-item">
+                <a
+                  className={`nav-link ${activeNavItem === 'candidates' ? 'active' : ''}`}
+                  onClick={handleLoadCandidatesClick}
+                >
+                  Candidates
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  className={`nav-link ${activeNavItem === 'clients' ? 'active' : ''}`}
+                  onClick={handleLoadClientsClick}
+                >
+                  Clients
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  className={`nav-link ${activeNavItem === 'users' ? 'active' : ''}`}
+                  onClick={handleLoadUsersClick}
+                >
+                  Users
+                </a>
+              </li>
+            </ul>
           </div>
-        </ul>
-        <div>
-          <button className="btn btn-primary " onClick={openForm}>
+          <button className="btn btn-primary" onClick={openForm}>
             CREATE
           </button>
-          <MenuPopupState   />
+          <MenuPopupState />
         </div>
       </nav>
-      <Sidebar setActiveComponent={setActiveComponent} /> 
+      <Sidebar setActiveComponent={setActiveComponent} />
       {showGrid && <FullFeaturedCrudGrid apiEndpoint={apiEndpoint} />}
       <div className='kandash'>
         {activeComponent === 'board' && <Board />}
