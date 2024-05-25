@@ -160,14 +160,28 @@ function Form() {
               setYearsOfExperienceRequired('');
               setPositions([]);
               dispatch(submitForm(formData));
-          } else {
-              const errorData = await response.json();
-              console.error('Failed to submit form data.', errorData);
-          }
-      } catch (error) {
-          console.error('An error occurred while submitting form data:', error);
-      }
-  };
+              const emailResponse = await fetch('http://localhost:8080/api/job-approval', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: approvedBy })
+            });
+
+            if (emailResponse.ok) {
+                console.log('Approval email sent successfully!');
+            } else {
+                const errorData = await emailResponse.json();
+                console.error('Failed to send approval email.', errorData);
+            }
+        } else {
+            const errorData = await response.json();
+            console.error('Failed to submit form data.', errorData);
+        }
+    } catch (error) {
+        console.error('An error occurred while submitting form data:', error);
+    }
+};
 
   const handleAddField = () => {
     setShowPopup(true);
