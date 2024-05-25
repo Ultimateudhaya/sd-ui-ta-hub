@@ -416,6 +416,7 @@ else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
 },
     { field: 'clientLocation', align:'center',headerName: 'clientLocation', width: 100, editable: true,    headerAlign: 'center',headerClassName: 'custom-header',
 },
+
     { field: 'createdAt', align:'center',headerName: 'createdAt', width: 100, editable: true,    headerAlign: 'center',headerClassName: 'custom-header',
 },
     {
@@ -500,7 +501,7 @@ else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
             background:'none',
             "& .MuiDataGrid-row--editing .MuiDataGrid-cell": {
                 height: 39,
-               
+            
 
               },
                     
@@ -570,6 +571,9 @@ else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
                         toolbar: { setRows, setRowModesModel },
                       }}
                 />
+
+
+                
     </Box>
 );
 }

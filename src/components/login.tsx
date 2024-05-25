@@ -1,5 +1,5 @@
 import { TextField } from "@mui/material";
-import React,{ useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import '../styles/login.css';
 import CustomSnackbar from "./CustomSnackbar";
@@ -11,16 +11,35 @@ function Login() {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarVariant, setSnackbarVariant] = useState('success');
+
     const handleLogin = async (e) => {
         e.preventDefault();
-    
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const isEmailValid = emailRegex.test(email);
+        const isPasswordValid = password.length >= 8;
+
         if (!email || !password) {
             setSnackbarOpen(true);
-            setSnackbarMessage("Please fill all fields !");
+            setSnackbarMessage("Please fill all fields!");
             setSnackbarVariant("error");
             return;
         }
-    
+
+        if (!isEmailValid) {
+            setSnackbarOpen(true);
+            setSnackbarMessage("Invalid email address!");
+            setSnackbarVariant("error");
+            return;
+        }
+
+        if (!isPasswordValid) {
+            setSnackbarOpen(true);
+            setSnackbarMessage("Password must be at least 8 characters long!");
+            setSnackbarVariant("error");
+            return;
+        }
+
         try {
             const response = await fetch("http://localhost:8080/api/auth/login", {
                 method: "POST",
@@ -30,8 +49,8 @@ function Login() {
                 body: JSON.stringify({ email, password })
             });
 
-            localStorage.setItem('email', email)
-    
+            localStorage.setItem('email', email);
+
             if (!response.ok) {
                 throw new Error("Failed to login");
             }
@@ -50,57 +69,36 @@ function Login() {
             setSnackbarVariant("error");
         }
     };
-    
+
     const handleCloseSnackbar = () => {
         setSnackbarOpen(false);
         setSnackbarMessage("");
-      };
-  
+    };
 
-      
-  const handleGoogleSignIn = async () => {
-  try {
-    const response = await fetch("http://localhost:8080/api/google-sign-in", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      credentials: 'include'
-    });
+    const handleGoogleSignIn = async () => {
+        try {
+            const response = await fetch("http://localhost:8080/api/google-sign-in", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: 'include'
+            });
+    
+            if (response.ok) {
+                const redirectUrl = await response.text(); 
+                console.log("Redirect URL", redirectUrl);
+                window.location.href = redirectUrl;
+            } else {
+                const errorText = await response.text();
+                console.error("Error response:", errorText);
+                throw new Error('Failed to get Google sign-in URL');
+            }
+        } catch (error) {
+            console.error("Error signing in with Google:", error.message);
+        }
+    };
 
-    if (response.ok) {
-      const redirectUrl = await response.json();
-      console.log("Redirect URL", redirectUrl);
-      window.location.href = redirectUrl;
-    } else {
-      const errorText = await response.text();
-      console.error("Error response:", errorText);
-      throw new Error('Failed to get Google sign-in URL');
-    }
-  } catch (error) {
-    console.error("Error signing in with Google:", error.message);
-  }
-};
-
-
-    //   const handleGoogleSignInCallback = async () => {
-    //     const code = new URLSearchParams(window.location.search).get("code");
-    //     if (code) {
-    //       try {
-    //         const response = await fetch("http://localhost:8080/api/google-sign-in/callback", {
-    //           method: "POST",
-    //           headers: {
-    //             "Content-Type": "application/json"
-    //           },
-    //           body: JSON.stringify({ code })
-    //         });
-      
-    //         const accessToken = response.json().access_token;
-    //       } catch (error) {
-    //         console.error("Error exchanging authorization code for access token:", error.message);
-    //       }
-    //     }
-    //   };
     return (
         <div className="image">
             <div className="left">
@@ -121,86 +119,84 @@ function Login() {
                 <div role="form" onKeyPress={(e) => { if (e.key === 'Enter') handleLogin(e); }}>
                     <form onSubmit={handleLogin}>
                         <div className="card1">
-                                <div>
-                                    <h1 className="gradient-text-login">Ta-HuB</h1>
-                                </div>
-                                <div className="form-container-login">
-                                    <label htmlFor="email" className="Email">Email Address</label>
-                                    <div className="input-container-login">
-                                        <TextField
-                                            className="input"
-                                            id="filled-basic-email"
-                                            variant="standard"
-                                            type="text"
-                                            name="email"
-                                            placeholder="Email Address"
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
-                                        />
-                                    </div>
-
-                                    <label htmlFor="password" className="Email">Password</label>
-                                    <div className="input-container-password">
-                                        <TextField
-                                            className="input"
-                                            id="filled-basic-password"
-                                            variant="standard"
-                                            type="password"
-                                            name="password"
-                                            placeholder="Password"
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
-                                        />
-                                    </div>
+                            <div>
+                                <h1 className="gradient-text-login">Ta-HuB</h1>
+                            </div>
+                            <div className="form-container-login">
+                                <label htmlFor="email" className="Email">Email Address</label>
+                                <div className="input-container-login">
+                                    <TextField
+                                        className="input"
+                                        id="filled-basic-email"
+                                        variant="standard"
+                                        type="text"
+                                        name="email"
+                                        placeholder="Email Address"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                    />
                                 </div>
 
-                                <Link to="/forget-password" className="login-href">
-                                    Having trouble signing in?
-                                </Link>
-
-                                <div className="checkbox">
-                                    <input type="checkbox" id="remember-device" name="remember-device" className="checkbox" />
-                                    <label htmlFor="remember-device">Remember this device</label>
+                                <label htmlFor="password" className="Email">Password</label>
+                                <div className="input-container-password">
+                                    <TextField
+                                        className="input"
+                                        id="filled-basic-password"
+                                        variant="standard"
+                                        type="password"
+                                        name="password"
+                                        placeholder="Password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                    />
                                 </div>
+                            </div>
 
+                            <Link to="/forget-password" className="login-href">
+                                Having trouble signing in?
+                            </Link>
 
-                                <button type="submit" className="button-login">
-                                    Sign In
-                                </button>
-                                <div className="or-divider">
-                                    <div className="divider"></div>
-                                    <span>Or</span>
-                                    <div className="divider"></div>
-                                </div>
-                                <button   onClick={handleGoogleSignIn} className="google-signin-button">
-                                    <span className="icon"></span>
-                                    Continue with Google
-                                </button>
+                            <div className="checkbox">
+                                <input type="checkbox" id="remember-device" name="remember-device" className="checkbox" />
+                                <label htmlFor="remember-device">Remember this device</label>
+                            </div>
 
-                                <div className="login-secondary-login">
-                                    <div className="text-center">
-                                        <div className="link-container">
-                                            <div className="link">New to TA-HUB?</div>
-                                            <span>
-                                                <Link to="/register" className="signup">
-                                                    Sign-up
-                                                </Link>
-                                            </span>
-                                        </div>
+                            <button type="submit" className="button-login">
+                                Sign In
+                            </button>
+                            <div className="or-divider">
+                                <div className="divider"></div>
+                                <span>Or</span>
+                                <div className="divider"></div>
+                            </div>
+                            <button type="button" onClick={handleGoogleSignIn} className="google-signin-button">
+                                <span className="icon"></span>
+                                Continue with Google
+                            </button>
+
+                            <div className="login-secondary-login">
+                                <div className="text-center">
+                                    <div className="link-container">
+                                        <div className="link">New to TA-HUB?</div>
+                                        <span>
+                                            <Link to="/register" className="signup">
+                                                Sign-up
+                                            </Link>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
+                        </div>
                     </form>
                 </div>
             </div>
             <CustomSnackbar
-        message={snackbarMessage}
-        variant={snackbarVariant}
-        onClose={handleCloseSnackbar}
-        open={snackbarOpen}
-      />
+                message={snackbarMessage}
+                variant={snackbarVariant}
+                onClose={handleCloseSnackbar}
+                open={snackbarOpen}
+            />
         </div>
-        
     );
 }
 
