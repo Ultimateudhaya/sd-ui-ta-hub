@@ -41,30 +41,33 @@ const Board = () => {
     fetchColumns();
   }, []);
 
-  useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/api/tasks/');
-        if (response.ok) {
-          const data = await response.json();
-          const updatedTasks = data.map(task => {
-            if (!task.taskStatus) {
-              return { ...task, taskStatus: "todo" };
-            }
-            return task;
-          });
-          setTasks(updatedTasks);
-          console.log("task datas", updatedTasks);
-        } else {
-          console.error('Failed to fetch tasks:', response.statusText);
-        }
-      } catch (error) {
-        console.error('An error occurred while fetching tasks:', error);
-      }
-    };
+ useEffect(() => {
+  const fetchTasks = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/tasks/task/view');
+      // const response = await fetch('http://localhost:8080/api/tasks');
 
-    fetchTasks();
-  }, []);
+      if (response.ok) {
+        const data = await response.json();
+        const updatedTasks = data.map(task => {
+          if (!task.taskStatus) {
+            return { ...task, taskStatus: "todo" };
+          }
+          return task;
+        });
+        setTasks(updatedTasks);
+        console.log("task datas", updatedTasks);
+      } else {
+        console.error('Failed to fetch tasks:', response.statusText);
+      }
+    } catch (error) {
+      console.error('An error occurred while fetching tasks:', error);
+    }
+  };
+
+  fetchTasks();
+}, []);
+
 
   useEffect(() => {
     const columnCounts = columns.map(column => ({
@@ -216,19 +219,23 @@ const Board = () => {
           {columns.map(column => (
             <div key={column.id} className="column" onDragOver={(event) => onDragOver(event)} onDrop={(event) => onDrop(event, column.column)}>
               <div className='cards'>
-                <div className="column-header d-flex justify-content-between">
-                  <h6 className='columnTitle'>{column.title}{" "}{column.count}</h6>
-                  <div className="delete-button" onClick={() => handleDeleteColumn(column.id)}>
-                    <span className="bi bi-trash"></span>
-                  </div>
-                </div>
+              <div className="column-header d-flex justify-content-between">
+  <h6 className='columnTitle'>{column.title} ({column.count})</h6>
+  {!column.count > 0 && (
+    <div className="delete-button" onClick={() => handleDeleteColumn(column.id)}>
+      <span className="bi bi-trash"></span>
+    </div>
+  )}
+</div>
+
+
                 {tasks.map((task) => (
                   (task.taskStatus === column.column) && (
                     <div className="draggable-item" key={task.taskId.toString()} draggable="true" onDragStart={(event) => onDragStart(event, task)}>
                       <Card className='card'>
                         <CardContent >
                           <p className='task-detail d-flex justify-content-between '>
-                            <h7 className="getstat clientName ">Tezzract</h7>
+                            <h7 className="getstat clientName ">{task.clientName}</h7>
                             <div className="delete-task-button " onClick={() => handleDeleteTask(task.taskId)}>
                               <span className="bi bi-trash"></span>
                             </div>
@@ -237,7 +244,9 @@ const Board = () => {
                             <h7 className="getstat ">{task.roleType}</h7>
                           </div>
                           <div className='d-flex justify-content-between mt-2'>
-                            <h7 className="getstat ">{task.workLocation}</h7>
+                            {/* <h7 className="getstat ">{task.workLocation}</h7> */}
+                            <h7 className="getstat ">Null</h7>
+
                             <h7 className="getstat">{task.modeOfWork}</h7>
                           </div>
                         </CardContent>

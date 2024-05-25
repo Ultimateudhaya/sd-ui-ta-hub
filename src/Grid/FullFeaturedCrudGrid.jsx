@@ -81,9 +81,9 @@ useEffect(() => {
             dispatch(setUsers(data));
             
             console.log("datas",data);
-        } else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
+        } else if (apiEndpoint === 'http://localhost:8080/api/clients/clientPositions') {
             dispatch(setClients(data));
-        } else if (apiEndpoint === 'http://localhost:8080/api/candidates/') {
+        } else if (apiEndpoint === 'http://localhost:8080/api/candidates/status') {
             dispatch(setCandidates(data));
         }
         setRows(data);
@@ -148,13 +148,13 @@ const handleConfirmDelete = async () => {
             dispatch(deleteUser(userId));
             handleOpenSnackbar('Record deleted successfully!', 'success');
 
-        } else if (apiEndpoint === 'http://localhost:8080/api/candidates/') {
+        } else if (apiEndpoint === 'http://localhost:8080/api/candidates/status') {
             const candidateId = rowData.candidateId;
             dispatch(deleteCandidateOnServer(candidateId));
             dispatch(deleteCandidate(candidateId));
             handleOpenSnackbar('Record deleted successfully!', 'success');
 
-        } else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
+        } else if (apiEndpoint === 'http://localhost:8080/api/clients/clientPositions') {
             const clientId = rowData.clientId;
             dispatch(deleteClientOnServer(clientId));
             dispatch(deleteClient(clientId));
@@ -197,10 +197,10 @@ const processRowUpdate = async (rowUpdate, row) => {
             if (apiEndpoint === 'http://localhost:8080/api/users/') {
                 await handleUserAdd(newRow);
                 handleOpenSnackbar('User Added successfully!', 'success');
-            } else if (apiEndpoint === 'http://localhost:8080/api/candidates/') {
+            } else if (apiEndpoint === 'http://localhost:8080/api/candidates/status') {
                 await handleCandidateAdd(newRow);
                 handleOpenSnackbar('Candidate Added successfully!', 'success');
-            } else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
+            } else if (apiEndpoint === 'http://localhost:8080/api/clients/clientPositions') {
                 await handleClientAdd(newRow);
                 handleOpenSnackbar('Client Added successfully!', 'success');
             }
@@ -210,7 +210,7 @@ const processRowUpdate = async (rowUpdate, row) => {
             if (apiEndpoint === 'http://localhost:8080/api/users/') {
                 await updateUserOnServer(newRow);
                 handleOpenSnackbar('User Updated successfully!', 'success');
-            } else if (apiEndpoint === 'http://localhost:8080/api/candidates/') {
+            } else if (apiEndpoint === 'http://localhost:8080/api/candidates/status') {
 
                 const response = await fetch(`http://localhost:8080/api/candidates/candidate/${newRow.candidateId}`, {
       method: 'PUT',
@@ -227,7 +227,7 @@ const processRowUpdate = async (rowUpdate, row) => {
                 // await updateCandidateOnServer(newRow);
                 // console.log("candidate row",newRow)
                 handleOpenSnackbar('Candidate Updated successfully!', 'success');
-            } else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
+            } else if (apiEndpoint === 'http://localhost:8080/api/clients/clientPositions') {
                 const response = await fetch(`http://localhost:8080/api/clients/client/${newRow.clientId}`, {
                     method: 'PUT',
                     headers: {
@@ -263,18 +263,19 @@ let columns= [];
 
 if (apiEndpoint === 'http://localhost:8080/api/users/') {
     columns = [
-    { field: 'userId', headerName: 'User ID', width:100, editable: true , headerAlign: 'center', align:'center',headerClassName: 'custom-header'} ,
-    { field: 'firstName', headerName: 'First Name', width: 100, editable: true, headerAlign: 'center', align:'center' ,headerClassName: 'custom-header'},
-    { field: 'lastName', headerName: 'Last Name', width: 100, editable: true , headerAlign: 'center', align:'center',headerClassName: 'custom-header'},
-    { field: 'username', headerName: 'Username', width: 100, editable: true, headerAlign: 'center', align:'center' ,headerClassName: 'custom-header'},
-    { field: 'email', headerName: 'Email', width: 140, editable: true, headerAlign: 'center', align:'center' ,headerClassName: 'custom-header'},
-    { field: 'phone', headerName: 'Phone', width: 100, editable: true, headerAlign: 'center', align:'center' ,headerClassName: 'custom-header'},
-    { field: 'resetToken', headerName: 'Reset Token', width: 100, editable: true, headerAlign: 'center', align:'center' ,headerClassName: 'custom-header'},
-    { field: 'password', headerName: 'Password', width: 100, editable: true, headerAlign: 'center', align:'center' ,headerClassName: 'custom-header'},
-    { field: 'isActive', headerName: 'Active', width: 100, editable: true, headerAlign: 'center', align:'center' ,headerClassName: 'custom-header'},
-    { field: 'currentSessionId', headerName: 'Current Session ID', width: 100, editable: true, headerAlign: 'center', align:'center' ,headerClassName: 'custom-header'},
-    { field: 'lastLoginTime', headerName: 'Last Login Time', width: 100, editable: true, headerAlign: 'center', align:'center' ,headerClassName: 'custom-header'},
-    { field: 'createdDate', headerName: 'Created Date', width: 200, editable: true, headerAlign: 'center', align:'center' ,headerClassName: 'custom-header'},
+        { field: 'userId', headerName: 'USER ID', width: 140, editable: true, headerAlign: 'center', align: 'center', headerClassName: 'custom-header' },
+        { field: 'firstName', headerName: 'FIRST NAME', width: 140, editable: true, headerAlign: 'center', align: 'center', headerClassName: 'custom-header' },
+        { field: 'lastName', headerName: 'LAST NAME', width: 140, editable: true, headerAlign: 'center', align: 'center', headerClassName: 'custom-header' },
+        { field: 'username', headerName: 'USERNAME', width: 140, editable: true, headerAlign: 'center', align: 'center', headerClassName: 'custom-header' },
+        { field: 'email', headerName: 'EMAIL', width: 140, editable: true, headerAlign: 'center', align: 'center', headerClassName: 'custom-header' },
+        { field: 'phone', headerName: 'PHONE', width: 140, editable: true, headerAlign: 'center', align: 'center', headerClassName: 'custom-header' },
+        { field: 'resetToken', headerName: 'RESET TOKEN', width: 140, editable: true, headerAlign: 'center', align: 'center', headerClassName: 'custom-header' },
+        { field: 'password', headerName: 'PASSWORD', width: 140, editable: true, headerAlign: 'center', align: 'center', headerClassName: 'custom-header' },
+        { field: 'isActive', headerName: 'ACTIVE', width: 140, editable: true, headerAlign: 'center', align: 'center', headerClassName: 'custom-header' },
+        { field: 'currentSessionId', headerName: 'CURRENT SESSION ID', width: 140, editable: true, headerAlign: 'center', align: 'center', headerClassName: 'custom-header' },
+        { field: 'lastLoginTime', headerName: 'LAST LOGIN TIME', width: 140, editable: true, headerAlign: 'center', align: 'center', headerClassName: 'custom-header' },
+        { field: 'createdDate', headerName: 'CREATED DATE', width: 140, editable: true, headerAlign: 'center', align: 'center', headerClassName: 'custom-header' },
+    
     {
         field: 'actions',
         type: 'actions',
@@ -330,24 +331,26 @@ if (apiEndpoint === 'http://localhost:8080/api/users/') {
         },
     },
     ];
-}  else if (apiEndpoint === 'http://localhost:8080/api/candidates/') {
+}  else if (apiEndpoint === 'http://localhost:8080/api/candidates/status') {
     columns = [
-    { field: 'candidateId', headerName: 'CandidateId', width: 100, editable: true, headerAlign: 'center', align:'center',headerClassName: 'custom-header'},
-    { field: 'candidateEmail', headerName: 'CandidateEmail', width: 100, editable: true , headerAlign: 'center', align:'center',headerClassName: 'custom-header'},
-    { field: 'candidateContact', headerName: 'CandidateContact', width: 100, editable: true, headerAlign: 'center', align:'center',headerClassName: 'custom-header' },
-    { field: 'technology', headerName: 'Technology', width: 100, editable: true , headerAlign: 'center', align:'center',headerClassName: 'custom-header'},
-    { field: 'totalExperience', headerName: 'TotalExperience', width: 100, editable: true, headerAlign: 'center', align:'center',headerClassName: 'custom-header' },
-    { field: 'currentCtc', headerName: 'CurrentCtc', width: 100, editable: true, headerAlign: 'center', align:'center',headerClassName: 'custom-header' },
-    { field: 'expectedCtc', headerName: 'ExpectedCtc', width: 100, editable: true , headerAlign: 'center', align:'center',headerClassName: 'custom-header'},
-    { field: 'noticePeriod', headerName: 'NoticePeriod', width: 100, editable: true , headerAlign: 'center', align:'center',headerClassName: 'custom-header'},
-    { field: 'modeOfWork', headerName: 'ModeOfWork', width: 100, editable: true, headerAlign: 'center', align:'center' ,headerClassName: 'custom-header'},
-    { field: 'currentLocation', headerName: 'CurrentLocation', width: 100, editable: true, headerAlign: 'center', align:'center' ,headerClassName: 'custom-header'},
-    { field: 'candidateStatus', headerName: 'CandidateStatus', width: 100, editable: true, headerAlign: 'center', align:'center',headerClassName: 'custom-header' },
-    { field: 'comments', headerName: 'Comments', width: 100, editable: true, headerAlign: 'center', align:'center',headerClassName: 'custom-header' },
-    { field: 'remarks', headerName: 'Remarks', width: 100, editable: true , headerAlign: 'center', align:'center',headerClassName: 'custom-header'},
-    { field: 'recruiter', headerName: 'Recruiter', width: 100, editable: true, headerAlign: 'center', align:'center',headerClassName: 'custom-header' },
-    { field: 'recruitedSource', headerName: 'RecruitedSource', width: 100, editable: true , headerAlign: 'center', align:'center',headerClassName: 'custom-header'},
-    { field: 'createdDate', headerName: 'CreatedDate', width: 100, editable: true , headerAlign: 'center', align:'center',headerClassName: 'custom-header'},
+        { field: 'candidateId', headerName: 'CANDIDATEID', width: 140, editable: true, headerAlign: 'center', align:'center',headerClassName: 'custom-header'},
+        { field: 'candidateEmail', headerName: 'CANDIDATEEMAIL', width: 140, editable: true , headerAlign: 'center', align:'center',headerClassName: 'custom-header'},
+        { field: 'candidateContact', headerName: 'CANDIDATECONTACT', width: 140, editable: true, headerAlign: 'center', align:'center',headerClassName: 'custom-header' },
+        { field: 'technology', headerName: 'TECHNOLOGY', width: 140, editable: true , headerAlign: 'center', align:'center',headerClassName: 'custom-header'},
+        { field: 'totalExperience', headerName: 'TOTALEXPERIENCE', width: 140, editable: true, headerAlign: 'center', align:'center',headerClassName: 'custom-header' },
+        { field: 'currentCtc', headerName: 'CURRENTCTC', width: 140, editable: true, headerAlign: 'center', align:'center',headerClassName: 'custom-header' },
+        { field: 'expectedCtc', headerName: 'EXPECTEDCTC', width: 140, editable: true , headerAlign: 'center', align:'center',headerClassName: 'custom-header'},
+        { field: 'noticePeriod', headerName: 'NOTICEPERIOD', width: 140, editable: true , headerAlign: 'center', align:'center',headerClassName: 'custom-header'},
+        { field: 'modeOfWork', headerName: 'MODEOFWORK', width: 140, editable: true, headerAlign: 'center', align:'center' ,headerClassName: 'custom-header'},
+        { field: 'currentLocation', headerName: 'CURRENTLOCATION', width: 140, editable: true, headerAlign: 'center', align:'center' ,headerClassName: 'custom-header'},
+        { field: 'candidateStatus', headerName: 'CANDIDATESTATUS', width: 140, editable: true, headerAlign: 'center', align:'center',headerClassName: 'custom-header' },
+        { field: 'comments', headerName: 'COMMENTS', width: 140, editable: true, headerAlign: 'center', align:'center',headerClassName: 'custom-header' },
+        { field: 'remarks', headerName: 'REMARKS', width: 140, editable: true , headerAlign: 'center', align:'center',headerClassName: 'custom-header'},
+        { field: 'recruiter', headerName: 'RECRUITER', width: 140, editable: true, headerAlign: 'center', align:'center',headerClassName: 'custom-header' },
+        { field: 'recruitedSource', headerName: 'RECRUITEDSOURCE', width: 140, editable: true , headerAlign: 'center', align:'center',headerClassName: 'custom-header'},
+        { field: 'createdDate', headerName: 'CREATEDDATE', width: 140, editable: true , headerAlign: 'center', align:'center',headerClassName: 'custom-header'},
+        { field: 'clientName', headerName: 'CLIENTNAME', width: 140, editable: false , headerAlign: 'center', align:'center',headerClassName: 'custom-header'},
+        { field: 'taskCandidateStatus', headerName: 'TASKCANDIDATESTATUS', width: 140, editable: false , headerAlign: 'center', align:'center',headerClassName: 'custom-header'},        
     {
          headerAlign: 'center', align:'center',
         field: 'actions',
@@ -403,22 +406,26 @@ if (apiEndpoint === 'http://localhost:8080/api/users/') {
     },
     ];
 } 
-else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
+else if (apiEndpoint === 'http://localhost:8080/api/clients/clientPositions') {
     columns = [
-    { field: 'clientId', align:'center', headerName: 'clientId', width: 100, editable: true,    headerAlign: 'center',    headerClassName: 'custom-header',
+    { field: 'clientId', align:'center', headerName: 'CLIENTID', width: 140, editable: true,    headerAlign: 'center',    headerClassName: 'custom-header',
 
 },
-    { field: 'clientName', align:'center',headerName: 'clientName', width: 100, editable: true ,    headerAlign: 'center',headerClassName: 'custom-header',
+    { field: 'clientName', align:'center',headerName: 'CLIENTNAME', width: 140, editable: true ,    headerAlign: 'center',headerClassName: 'custom-header',
 },
-    { field: 'clientSpocName', align:'center',headerName: 'clientSpocName', width: 100, editable: true,    headerAlign: 'center',headerClassName: 'custom-header',
+    { field: 'clientSpocName', align:'center',headerName: 'CLIENTSPOCNAME', width: 140, editable: true,    headerAlign: 'center',headerClassName: 'custom-header',
 },
-    { field: 'clientSpocContact', align:'center',headerName: 'clientSpocContact', width: 100, editable: true ,    headerAlign: 'center',headerClassName: 'custom-header',
+    { field: 'clientSpocContact', align:'center',headerName: 'CLIENTSPOCCONTACT', width: 140, editable: true ,    headerAlign: 'center',headerClassName: 'custom-header',
 },
-    { field: 'clientLocation', align:'center',headerName: 'clientLocation', width: 100, editable: true,    headerAlign: 'center',headerClassName: 'custom-header',
+    { field: 'clientLocation', align:'center',headerName: 'CLIENTLOCATION', width: 140, editable: true,    headerAlign: 'center',headerClassName: 'custom-header',
+},
+    { field: 'createdAt', align:'center',headerName: 'CREATEDAT', width: 200, editable: true,    headerAlign: 'center',headerClassName: 'custom-header',
+},
+{ field: 'jobTitle', align:'center',headerName: 'JOBTITLE', width: 140, editable: true,    headerAlign: 'center',headerClassName: 'custom-header',
 },
 
-    { field: 'createdAt', align:'center',headerName: 'createdAt', width: 100, editable: true,    headerAlign: 'center',headerClassName: 'custom-header',
-},
+
+
     {
         headerAlign: 'center',
         headerClassName: 'custom-header',
@@ -426,7 +433,7 @@ else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
         field: 'actions',
         type: 'actions',
         headerName: 'Actions',
-        width: 100,
+        width: 140,
         position:'relative',
         cellClassName: 'actions',
         
@@ -485,46 +492,44 @@ else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
         
         <Box
         
-
-        
         sx={{
-            // boxShadow: 2,
-            marginBottom:30,
-            paddingLeft:30,
-            backgroundColor:'white',
-            // fontSize: 10,
+            borderLeft: '1px solid lightgrey',
+            marginLeft: 30,
+            marginBottom: 50,
+            paddingRight: 30,
+            backgroundColor: 'white',
             fontWeight: 'medium',
             height: 600,
             width: '95%',
-            marginTop:5,
-            border:'none',
-            background:'none',
-            "& .MuiDataGrid-row--editing .MuiDataGrid-cell": {
-                height: 39,
-            
-
-              },
-                    
-                    // lineHeight:2,
-                    '& .textPrimary': {
-                        color: 'text.primary',
-                    },
-                    '& .MuiDataGrid-scrollbar': {
-                        '&::-webkit-scrollbar': {
-                            width: '5px',
-                            height: '2px',
-                        },
-                        '&::-webkit-scrollbar-thumb': {
-                            backgroundColor: '#888',
-                        },
-                    },
-                }}
-            >
-                            <Snackbar
+            paddingTop: 5,
+            paddingLeft: 4,
+            background: 'none',
+            // "& .MuiDataGrid-row--editing .MuiDataGrid-cell": {
+            //     height: 39,
+            // },
+            '& .textPrimary': {
+                color: 'text.primary',
+            },
+            '& .MuiDataGrid-scrollbar': {
+                '&::-webkit-scrollbar': {
+                    width: '5px',
+                    height: '2px',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                    backgroundColor: '#888',
+                },
+            },
+            '& .MuiDataGrid-cell': {
+                fontSize: 'small', 
+                
+            },
+        }}
+    >
+        <Snackbar
             open={snackbarOpen}
             autoHideDuration={6000}
             onClose={() => setSnackbarOpen(false)}
-            >
+        >
             <MuiAlert
                 elevation={6}
                 variant="filled"
@@ -533,47 +538,50 @@ else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
             >
                 {snackbarMessage}
             </MuiAlert>
-            </Snackbar>
-
-            <ConfirmDialog
-                open={openConfirmDialog}
-                setOpen={setOpenConfirmDialog} 
-                onConfirm={handleConfirmDelete}
-                onClose={handleCloseDialog}
-                deleteId={deleteId}
-                message="Are you sure you want to delete this row?"
-            />
-                <TextField
-                label="Search"
-                variant="outlined"
-                size="small"
-                value={searchValue}
-                onChange={handleSearchChange}
-                sx={{ marginBottom: 2 }}
-            />
-
-                <DataGrid
-                    rowHeight={35}
-                    rows={filteredRows}
-
-                    // rows={rows}
-                    columns={columns}
-                    editMode="row"
-                    rowModesModel={rowModesModel}
-                    onRowModesModelChange={handleRowModesModelChange}
-                    onRowEditStop={handleRowEditStop}
-                    processRowUpdate={processRowUpdate}
-                    // pinnedColumns={pinnedColumns}
-                    slots={{
-                        toolbar: EditToolbar,
-                      }}
-                      slotProps={{
-                        toolbar: { setRows, setRowModesModel },
-                      }}
-                />
-
-
-                
+        </Snackbar>
+    
+        <ConfirmDialog
+            open={openConfirmDialog}
+            setOpen={setOpenConfirmDialog} 
+            onConfirm={handleConfirmDelete}
+            onClose={handleCloseDialog}
+            deleteId={deleteId}
+            message="Are you sure you want to delete this row?"
+        />
+        {/* New Row Edit Toolbar */}
+        {/* <Toolbar>
+            <IconButton onClick={handleAddRow}>
+                <AddCircleIcon />
+            </IconButton>
+            <Typography variant="h6">Add New Row</Typography>
+        </Toolbar>
+     */}
+        <TextField
+            label="Search"
+            variant="outlined"
+            size="small"
+            value={searchValue}
+            onChange={handleSearchChange}
+            sx={{ marginBottom: 2 }}
+        />
+    
+        <DataGrid
+            rowHeight={29}
+            rows={filteredRows}
+            columns={columns}
+            editMode="row"
+            rowModesModel={rowModesModel}
+            onRowModesModelChange={handleRowModesModelChange}
+            onRowEditStop={handleRowEditStop}
+            processRowUpdate={processRowUpdate}
+            slots={{
+                toolbar: EditToolbar,
+            }}
+            slotProps={{
+                toolbar: { setRows, setRowModesModel },
+            }}
+        />
     </Box>
+    
 );
 }

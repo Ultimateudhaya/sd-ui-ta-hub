@@ -50,20 +50,18 @@ export const deleteCandidateOnServer = (candidateId) => async () => {
   }
 };
 
-// Function to update candidate on the server
 export const updateCandidateOnServer = (userData) => async () => {
   try {
-    // const {candidateId}=userData
-    // console.log("candiateid",candidateId);
+    // Destructure userData and exclude clientName and taskCandidateStatus
+    
+    // const { clientName, taskCandidateStatus, ...payload } = userData;
     const response = await fetch(`http://localhost:8080/api/candidates/candidate/${userData.candidateId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(userData),
+      body: JSON.stringify(userData), // Send the modified payload
     });
-    // console.log("id",candidateId);
-
 
     if (!response.ok) {
       throw new Error('Failed to update candidate on the server');

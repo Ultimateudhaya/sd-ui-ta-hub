@@ -63,13 +63,13 @@ const Navbar = () => {
 
   const handleLoadCandidatesClick = () => {
     setActiveNavItem('candidates');
-    setApiEndpoint('http://localhost:8080/api/candidates/');
+    setApiEndpoint('http://localhost:8080/api/candidates/status');
     setShowGrid(true);
   };
 
   const handleLoadClientsClick = () => {
     setActiveNavItem('clients');
-    setApiEndpoint('http://localhost:8080/api/clients/');
+    setApiEndpoint('http://localhost:8080/api/clients/clientPositions');
     setShowGrid(true);
   };
 
