@@ -157,11 +157,15 @@ const Board = () => {
     }
   };
 
-  const handleDeleteTask = (taskId) => {
+  const handleDeleteTask = (taskId, event) => {
+    // Prevent the event from propagating to the parent elements
+    event.stopPropagation();
+  
     setDeleteConfirmation(true);
     setDeleteItemId(taskId);
     setDeleteItemType("task");
   };
+  
 
   const handleConfirmDelete = async () => {
     if (deleteItemType === "column") {
@@ -237,15 +241,16 @@ const Board = () => {
               </div>
               <div className='cards'>
                 {tasks.map((task) => (
-                  (task.taskStatus === column.column) && (
-                    <div className="draggable-item" key={task.taskId.toString()} draggable="true" onDragStart={(event) => onDragStart(event, task)}>
+    (task.taskStatus === column.column && task.approvalStatus == null) && (
+      <div className="draggable-item" key={task.taskId.toString()} draggable="true" onDragStart={(event) => onDragStart(event, task)}>
                       <Card onClick={handleCardClick}>
                         <CardContent>
                           <p className='task-detail d-flex justify-content-between'>
                             <h7 className="getstat clientName">{task.clientName}</h7>
-                            <div className="delete-task-button" onClick={() => handleDeleteTask(task.taskId)}>
-                              <span className="bi bi-trash"></span>
-                            </div>
+                            <div className="delete-task-button" onClick={(event) => handleDeleteTask(task.taskId, event)}>
+  <span className="bi bi-trash"></span>
+</div>
+
                           </p>
                           <div className='d-flex justify-content-between'>
                             <h7 className="getstat">{task.roleType}</h7>
