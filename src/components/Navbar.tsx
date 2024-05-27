@@ -6,7 +6,7 @@ import Form from './Form';
 import MenuPopupState from "./MenuPopupState";
 import KanDash from './KanDash';
 import Sidebar from './Sidebar';
-import "../styles/KanDash.css";
+// import "../styles/KanDash.css";
 import styled from 'styled-components';
 import Board from './Dnd';
 import Timeline from './Timeline';
@@ -21,35 +21,7 @@ const Navbar = () => {
   const [clientDetails, setClientDetails] = useState([]);
   const [activeComponent, setActiveComponent] = useState('board');
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch('http://localhost:8080/api/requirement', {
-  //         method: 'GET',
-  //         headers: {
-  //           'Content-Type': 'application/json'
-  //         }
-  //       });
 
-  //       if (response.ok) {
-  //         const data = await response.json();
-  //         console.log('Fetched data:', data);
-  //         const clients = data.map((item) => ({
-  //           clientName: item.clientName,
-  //           clientSpocName: item.clientSpocName,
-  //           primarySkillSet: item.primarySkillSet
-  //         }));
-  //         setClientDetails(clients);
-  //       } else {
-  //         console.error('Failed to fetch data:', response.statusText);
-  //       }
-  //     } catch (error) {
-  //       console.error('An error occurred while fetching data:', error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
 
   const openForm = (event) => {
     event.preventDefault();

@@ -5,6 +5,7 @@ import { Card, CardContent, TextField, Button } from '@mui/material';
 import ConfirmDialog from "../Grid/ConfirmationDialog";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import AddBoxIcon from '@mui/icons-material/AddBox';
+import FullScreenPopup from './FullScreenPopup';
 
 const Board = () => {
   const [tasks, setTasks] = useState([]);
@@ -16,6 +17,7 @@ const Board = () => {
   const [deleteItemType, setDeleteItemType] = useState("");
   const [showPreview, setShowPreview] = useState(false);
   const [deleteErrorMessage, setDeleteErrorMessage] = useState("");
+  const [showFullScreenPopup, setShowFullScreenPopup] = useState(false);
 
   useEffect(() => {
     const fetchColumns = async () => {
@@ -203,50 +205,53 @@ const Board = () => {
     setDeleteErrorMessage("");
   };
 
+  const handleCardClick = () => {
+    setShowFullScreenPopup(true);
+  };
+
+  const handleCloseFullScreenPopup = () => {
+    setShowFullScreenPopup(false);
+  };
   return (
-    <div className="board-container ">
+    <div className="board-container">
       <div className="header1">
-        <h8>Projects / My Kandan Project</h8>
+        <h8>Projects / My Kanban Project</h8>
         <h8>KAN Board</h8>
         <div className="search-container">
           <TextField label="Search" variant="outlined" size="small" />
           <Button variant="contained" color="primary">Search</Button>
         </div>
       </div>
-
-      <div className={columns.length > 4 ? "kanboard-container scrollable" : "kanboard-container"}>
-        <div className="kanboard">
+  
+      <div className="kanboard">
+        <div className={columns.length > 2 ? "kanboard-container d-flex scrollable" : "kanboard-container"}>
           {columns.map(column => (
             <div key={column.id} className="column" onDragOver={(event) => onDragOver(event)} onDrop={(event) => onDrop(event, column.column)}>
-              <div className='cards'>
               <div className="column-header d-flex justify-content-between">
-  <h6 className='columnTitle'>{column.title} ({column.count})</h6>
-  {!column.count > 0 && (
-    <div className="delete-button" onClick={() => handleDeleteColumn(column.id)}>
-      <span className="bi bi-trash"></span>
-    </div>
-  )}
-</div>
-
-
+                <h6 className="columnTitle">{column.title} ({column.count})</h6>
+                {!column.count > 0 && (
+                  <div className="delete-button" onClick={() => handleDeleteColumn(column.id)}>
+                    <span className="bi bi-trash"></span>
+                  </div>
+                )}
+              </div>
+              <div className='cards'>
                 {tasks.map((task) => (
                   (task.taskStatus === column.column) && (
                     <div className="draggable-item" key={task.taskId.toString()} draggable="true" onDragStart={(event) => onDragStart(event, task)}>
-                      <Card className='card'>
-                        <CardContent >
-                          <p className='task-detail d-flex justify-content-between '>
-                            <h7 className="getstat clientName ">{task.clientName}</h7>
-                            <div className="delete-task-button " onClick={() => handleDeleteTask(task.taskId)}>
+                      <Card onClick={handleCardClick}>
+                        <CardContent>
+                          <p className='task-detail d-flex justify-content-between'>
+                            <h7 className="getstat clientName">{task.clientName}</h7>
+                            <div className="delete-task-button" onClick={() => handleDeleteTask(task.taskId)}>
                               <span className="bi bi-trash"></span>
                             </div>
                           </p>
                           <div className='d-flex justify-content-between'>
-                            <h7 className="getstat ">{task.roleType}</h7>
+                            <h7 className="getstat">{task.roleType}</h7>
                           </div>
                           <div className='d-flex justify-content-between mt-2'>
-                            {/* <h7 className="getstat ">{task.workLocation}</h7> */}
-                            <h7 className="getstat ">Null</h7>
-
+                            <h7 className="getstat">{task.workLocation}</h7>
                             <h7 className="getstat">{task.modeOfWork}</h7>
                           </div>
                         </CardContent>
@@ -257,47 +262,43 @@ const Board = () => {
               </div>
             </div>
           ))}
-
-        <div className="add-button-container">
-          <div onClick={handleAddButtonClick}><AddBoxIcon color='primary' sx={{ fontSize: 40 }}/></div>
+          <div className="add-button-container">
+            <div onClick={handleAddButtonClick}><AddBoxIcon color='primary' sx={{ fontSize: 40 }}/></div>
+          </div>
+          {showPreview && (
+            <div className="kanboard1">
+              <Card className='card'>
+                <CardContent>
+                  <TextField
+                    label="Enter Status"
+                    variant="outlined"
+                    size="small"
+                    value={newTaskStatus}
+                    onChange={(e) => setNewTaskStatus(e.target.value)}
+                  />
+                  <div className='addBtn'>
+                    <Button variant="contained" color="primary" onClick={handleAddFormSubmit}>Submit</Button>
+                    <Button variant="contained" color="primary" onClick={handlePreviewClose}>Cancel</Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+          {showAddForm && !showPreview && (
+            <div className="add-form-container">
+              <TextField
+                label="Enter Status"
+                variant="outlined"
+                size="small"
+                value={newTaskStatus}
+                onChange={(e) => setNewTaskStatus(e.target.value)}
+              />
+              <Button variant="contained" color="primary" onClick={handleAddFormSubmit}>Submit</Button>
+            </div>
+          )}
         </div>
-        {showPreview && (
-          <div className="kanboard1">
-            <Card className='card'>
-              <CardContent>
-                <TextField
-                  label="Enter Status"
-                  variant="outlined"
-                  size="small"
-                  value={newTaskStatus}
-                  onChange={(e) => setNewTaskStatus(e.target.value)}
-                />
-                <div className='addBtn'>
-                <Button variant="contained" color="primary" onClick={handleAddFormSubmit}>Submit</Button>
-                <Button variant="contained" color="primary" onClick={handlePreviewClose}>Cancel</Button>
-                </div>
-               
-              </CardContent>
-            </Card>
-          </div>
-        )}
-        {/* Show add form when showAddForm is true and showPreview is false */}
-        {showAddForm && !showPreview && (
-          <div className="add-form-container">
-            <TextField
-              label="Enter Status"
-              variant="outlined"
-              size="small"
-              value={newTaskStatus}
-              onChange={(e) => setNewTaskStatus(e.target.value)}
-            />
-            <Button variant="contained" color="primary" onClick={handleAddFormSubmit}>Submit</Button>
-          </div>
-        )}
       </div>
-      </div>
-
-      {/* Confirmation dialog for delete */}
+      <FullScreenPopup show={showFullScreenPopup} handleClose={handleCloseFullScreenPopup} />
       <ConfirmDialog
         open={deleteConfirmation}
         setOpen={setDeleteConfirmation}
@@ -307,6 +308,7 @@ const Board = () => {
       />
     </div>
   );
-};
+  
+  };
 
-export default Board;
+  export default Board;
