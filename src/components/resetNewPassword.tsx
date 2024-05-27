@@ -1,35 +1,63 @@
 import { TextField } from "@mui/material";
 import React, { useState } from "react";
 import '../styles/resetPassword.css';
+import CustomSnackbar from "./CustomSnackbar";
 
 function ResetPassword() {
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-
-    const email = localStorage.getItem("email");
-    console.log('Email from local storage:', email)
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarVariant, setSnackbarVariant] = useState('success');
 
     const handleResetPassword = async (e) => {
         e.preventDefault();
 
         try {
+            const sessionId = localStorage.getItem("sessionId") || '';
+            const email = localStorage.getItem("email") || '';
+
+            console.log("Session ID:", sessionId);
+
             const response = await fetch("http://localhost:8080/api/auth/reset-new-password", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Session-Id": sessionId,
+                    "Email": email
                 },
-                body: JSON.stringify({ email, oldPassword, newPassword, confirmPassword })
+                body: JSON.stringify({
+                    email,
+                    oldPassword,
+                    newPassword,
+                    confirmPassword
+                })
             });
-            console.log('Data:', response)
 
             if (!response.ok) {
                 throw new Error("Failed to reset password");
             }
 
+            // Show success message
+            setSnackbarMessage("Password reset successfully");
+            setSnackbarVariant("success");
+            setSnackbarOpen(true);
+
+            // Clear input fields
+            setOldPassword("");
+            setNewPassword("");
+            setConfirmPassword("");
         } catch (error) {
             console.error("Error resetting password:", error.message);
+            setSnackbarMessage("Error resetting password. Please try again.");
+            setSnackbarVariant("error");
+            setSnackbarOpen(true);
         }
+    };
+
+    const handleCloseSnackbar = () => {
+        setSnackbarOpen(false);
     };
 
     return (
@@ -106,6 +134,12 @@ function ResetPassword() {
                     </form>
                 </div>
             </div>
+            <CustomSnackbar
+                message={snackbarMessage}
+                variant={snackbarVariant}
+                onClose={handleCloseSnackbar}
+                open={snackbarOpen}
+            />
         </div>
     );
 }

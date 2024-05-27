@@ -50,7 +50,8 @@ function Login() {
             });
 
             localStorage.setItem('email', email);
-
+            const data = await response.json();
+            localStorage.setItem('sessionId', data.sessionId);
             if (!response.ok) {
                 throw new Error("Failed to login");
             }

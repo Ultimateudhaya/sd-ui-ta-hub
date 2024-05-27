@@ -9,6 +9,7 @@ import ResetNew from "./components/resetPassword";
 import Board from "./components/Dnd";
 // import Dashboard from "./components/Dashboard";
 import Sidebar from "./components/Sidebar";
+import ApprovalRequest from "./components/ApprovalRequest";
 
 const App = () => {
   return (
@@ -23,7 +24,8 @@ const App = () => {
             <Route path="/navbar" element={<Navbar />} />
             <Route path="/reset-new" element={<ResetNew/>} />
             <Route path="/side-bar" element={<Sidebar/>} />
-
+            <Route path="/side-bar" element={<Sidebar/>} />
+            <Route path="/approval-req" element={<ApprovalRequest/>} /> 
             <Route path="/board" element={<Board/>} />
             {/* <Route path="/dashboard" element={<Dashboard/>} /> */}
 
