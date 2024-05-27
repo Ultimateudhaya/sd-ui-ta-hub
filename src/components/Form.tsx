@@ -74,94 +74,99 @@ function Form() {
       }, [positions]);
       
 
-    const submitFormHandler = async (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      // const hasEmptyFields = ['']
-      // if (hasEmptyFields) {
-      //   setSnackbarOpen(true);
-      //   setSnackbarMessage("Please fill in all the fields.");
-      //   setSnackbarVariant("error");
-      //   return;
-      // }  
-
-      const formData = [{
-          requirementStartDate: reqStartDate?.toISOString(),
-          clientName,
-          clientSpocName,
-          clientSpocContact,
-          accountManager,
-          accountManagerEmail,
-          totalNoOfOpenings: positions.reduce((sum, position) => sum + parseInt(position.noOfOpenings, 10), 0),
-          positions: positions.map((position) => ({
-              jobTitle: position.jobTitle,
-              noOfOpenings: position.noOfOpenings.toString(),
-              roleType: position.roleType,
-              modeOfWork: position.modeOfWork,
-              workLocation: position.workLocation,
-              yearsOfExperienceRequired: position.yearsOfExperienceRequired,
-              primarySkillSet: position.primarySkillSet,
-              secondarySkillSet: position.secondarySkillSet
-          })),
-          salaryBudget: parseFloat(salaryBudget as string),
-          modeOfInterviews,
-          tentativeStartDate: startDate?.toISOString(),
-          tentativeDuration: projectStartDate,
-          approvedBy,
-      }];
-      console.log("Form Data:", formData);
+      const submitFormHandler = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
     
-      try {
-          const response = await fetch('http://localhost:8080/api/requirement', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(formData)
-          });
-
-          if (response.ok) {
-              console.log('Form data submitted successfully!');
-              setSnackbarOpen(true);
-              setSnackbarMessage("Form data submitted successfully!");
-              setSnackbarVariant("success");
-              setReqStartDate(null);
-              setStartDate(null);
-              setProjectStartDate('');
-              setPrimarySkill('');
-              setSecondarySkill('');
-              setClientName('');
-              setClientSpocName('');
-              setClientSpocContact('');
-              setAccountManager('');
-              setAccountManagerEmail('');
-              setSalaryBudget('');
-              setModeOfInterviews('');
-              setApprovedBy('');
-              setYearsOfExperienceRequired('');
-              setPositions([]);
-              dispatch(submitForm(formData));
-              const emailResponse = await fetch('http://localhost:8080/api/job-approval', {
+        const formData = [{
+            requirementStartDate: reqStartDate?.toISOString(),
+            clientName,
+            clientSpocName,
+            clientSpocContact,
+            accountManager,
+            accountManagerEmail,
+            totalNoOfOpenings: positions.reduce((sum, position) => sum + parseInt(position.noOfOpenings, 10), 0),
+            positions: positions.map((position) => ({
+                jobTitle: position.jobTitle,
+                noOfOpenings: position.noOfOpenings.toString(),
+                roleType: position.roleType,
+                modeOfWork: position.modeOfWork,
+                workLocation: position.workLocation,
+                yearsOfExperienceRequired: position.yearsOfExperienceRequired,
+                primarySkillSet: position.primarySkillSet,
+                secondarySkillSet: position.secondarySkillSet
+            })),
+            salaryBudget: parseFloat(salaryBudget as string),
+            modeOfInterviews,
+            tentativeStartDate: startDate?.toISOString(),
+            tentativeDuration: projectStartDate,
+            approvedBy,
+        }];
+        console.log("Form Data:", formData);
+    
+        try {
+            const response = await fetch('http://localhost:8080/api/requirement', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ email: approvedBy })
+                body: JSON.stringify(formData)
             });
-
-            if (emailResponse.ok) {
-                console.log('Approval email sent successfully!');
+    
+            if (response.ok) {
+                console.log('Form data submitted successfully!');
+                setSnackbarOpen(true);
+                setSnackbarMessage("Form data submitted successfully!");
+                setSnackbarVariant("success");
+                setReqStartDate(null);
+                setStartDate(null);
+                setProjectStartDate('');
+                setPrimarySkill('');
+                setSecondarySkill('');
+                setClientName('');
+                setClientSpocName('');
+                setClientSpocContact('');
+                setAccountManager('');
+                setAccountManagerEmail('');
+                setSalaryBudget('');
+                setModeOfInterviews('');
+                setApprovedBy('');
+                setYearsOfExperienceRequired('');
+                setPositions([]);
+                dispatch(submitForm(formData));
+    
+                const approvalPayload = {
+                    approvedBy,
+                    clientName,
+                    requirementStartDate: reqStartDate?.toISOString(),
+                    positions: positions.map((position) => ({
+                        jobTitle: position.jobTitle,
+                        noOfOpenings: parseInt(position.noOfOpenings, 10)
+                    }))
+                };
+    
+                const emailResponse = await fetch('http://localhost:8080/api/job-approval', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(approvalPayload)
+                });
+    
+                if (emailResponse.ok) {
+                    console.log('Approval email sent successfully!');
+                } else {
+                    const errorData = await emailResponse.json();
+                    console.error('Failed to send approval email.', errorData);
+                }
             } else {
-                const errorData = await emailResponse.json();
-                console.error('Failed to send approval email.', errorData);
+                const errorData = await response.json();
+                console.error('Failed to submit form data.', errorData);
             }
-        } else {
-            const errorData = await response.json();
-            console.error('Failed to submit form data.', errorData);
+        } catch (error) {
+            console.error('An error occurred while submitting form data:', error);
         }
-    } catch (error) {
-        console.error('An error occurred while submitting form data:', error);
-    }
-};
+    };
+    
 
   const handleAddField = () => {
     setShowPopup(true);
