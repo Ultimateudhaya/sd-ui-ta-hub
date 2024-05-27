@@ -9,10 +9,12 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { RiAddCircleFill } from 'react-icons/ri';
 import { submitForm } from '../GlobalRedux/Features/formSlice';
 import SimplePopup from './popUp';
-import { Grid, TextField, Select, MenuItem, Button } from '@mui/material';
+import { Grid, TextField, Select, MenuItem, Button, IconButton } from '@mui/material';
 import { DataGrid, GridColDef, GridToolbarContainer, GridActionsCellItem, GridRowId, GridRowModel, GridRowEditStopReasons, GridRowModesModel, GridRowModes } from '@mui/x-data-grid';
 import CustomSnackbar from "../components/CustomSnackbar";
 import { Tooltip } from '@mui/material';
+import { Delete as DeleteIcon, Edit as EditIcon, Save as SaveIcon } from '@mui/icons-material';
+
 
 
 
@@ -62,8 +64,6 @@ function Form() {
         projectStartDate: '',
         approvedBy: '',
     });
-    
-
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarVariant, setSnackbarVariant] = useState('success');
@@ -76,29 +76,13 @@ function Form() {
 
     const submitFormHandler = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-
-      const newErrors = {
-        clientName: clientName ? '' : 'Client Name is required',
-        clientSpocName: clientSpocName ? '' : 'Client SPOC Name is required',
-        reqStartDate: reqStartDate ? '' : 'Requirement Start Date is required',
-        clientSpocContact: clientSpocContact ? '' : 'Client Contact Details are required',
-        accountManager: accountManager ? '' : 'Account Manager Name is required',
-        accountManagerEmail: accountManagerEmail ? '' : 'Account Manager E-mail is required',
-        salaryBudget: salaryBudget ? '' : 'Salary Budget is required',
-        modeOfInterviews: modeOfInterviews ? '' : 'Mode of Interview is required',
-        startDate: startDate ? '' : 'Project Start Date is required',
-        projectStartDate: projectStartDate ? '' : 'Project Duration is required',
-        approvedBy: approvedBy ? '' : 'Approval request is required',
-    };
-
-    setErrors(newErrors);
-
-    // Check if there are any errors
-    const hasErrors = Object.values(newErrors).some((error) => error !== '');
-    if (hasErrors) {
-        return;
-    }
-
+      // const hasEmptyFields = ['']
+      // if (hasEmptyFields) {
+      //   setSnackbarOpen(true);
+      //   setSnackbarMessage("Please fill in all the fields.");
+      //   setSnackbarVariant("error");
+      //   return;
+      // }  
 
       const formData = [{
           requirementStartDate: reqStartDate?.toISOString(),
@@ -123,13 +107,9 @@ function Form() {
           tentativeStartDate: startDate?.toISOString(),
           tentativeDuration: projectStartDate,
           approvedBy,
-        //   primarySkillSet: primarySkill,
-        //   secondarySkillSet: secondarySkill
       }];
-
-      // Debugging: Log the formData to see its structure
       console.log("Form Data:", formData);
-
+    
       try {
           const response = await fetch('http://localhost:8080/api/requirement', {
               method: 'POST',
@@ -295,15 +275,11 @@ const handleAddPosition = () => {
       renderCell: (params) => (
         <>
           {rowModesModel[params.id]?.mode === GridRowModes.Edit ? (
-            <Button
-              onClick={handleSavePosition(params.id)}
-              color="primary"
-              size="small"
-            >
-              Save
-            </Button>
+            <IconButton onClick={handleSavePosition(params.id)} color="primary" size="small">
+              <SaveIcon />
+            </IconButton>
           ) : (
-            <Button
+            <IconButton
               onClick={() => {
                 setRowModesModel((prevModel) => ({
                   ...prevModel,
@@ -313,16 +289,12 @@ const handleAddPosition = () => {
               color="primary"
               size="small"
             >
-              Edit
-            </Button>
+              <EditIcon />
+            </IconButton>
           )}
-          <Button
-            onClick={handleDeletePosition(params.id)}
-            color="secondary"
-            size="small"
-          >
-            Delete
-          </Button>
+          <IconButton onClick={handleDeletePosition(params.id)} color="secondary" size="small">
+            <DeleteIcon />
+          </IconButton>
         </>
       ),
     },
@@ -352,9 +324,7 @@ const handleAddPosition = () => {
                                         name="cname"  
                                         value={clientName} 
                                         onChange={(e) => setClientName(e.target.value)}  
-                                        required
                                     />
-                                    {errors.clientName && <span className="error-message">{errors.clientName}</span>}
                                 </div>
                                 <div className="form-group p-2">
                                     <label htmlFor="spocname" className="form-label">Client SPOC Name</label>
@@ -364,9 +334,7 @@ const handleAddPosition = () => {
                                         name="spocname" 
                                         value={clientSpocName} 
                                         onChange={(e) => setClientSpocName(e.target.value)} 
-                                        required={true} 
                                     />
-                                    {errors.clientSpocName && <span className="error-message">{errors.clientSpocName}</span>}
                                 </div>
                                 <div className="form-group pt-3 p-2">
                                     <label htmlFor="date" className="form-label">Requirement Start Date</label>
@@ -377,9 +345,7 @@ const handleAddPosition = () => {
                                             className="calender"
                                             name="date"
                                             dateFormat="dd/MM/yyyy"
-                                            required={true}
                                         />
-                                        {errors.reqStartDate && <span className="error-message">{errors.reqStartDate}</span>}
                                     </div>
                                 </div>
                                 <div className="form-group p-2">
@@ -390,9 +356,7 @@ const handleAddPosition = () => {
                                         name="contact" 
                                         value={clientSpocContact} 
                                         onChange={(e) => setClientSpocContact(e.target.value)} 
-                                        required={true} 
                                     />
-                                    {errors.clientSpocContact && <span className="error-message">{errors.clientSpocContact}</span>}
                                 </div>
                                 <div className="form-group p-2">
                                     <label htmlFor="manager" className="form-label">Account Manager Name</label>
@@ -401,9 +365,7 @@ const handleAddPosition = () => {
                                         className="input-box" 
                                         name="manager" value={accountManager} 
                                         onChange={(e) => setAccountManager(e.target.value)} 
-                                        required={true} 
                                     />
-                                    {errors.accountManager && <span className="error-message">{errors.accountManager}</span>}
                                 </div>
                                 <div className="form-group p-2">
                                     <label htmlFor="email" className="form-label">Account Manager E-mail</label>
@@ -415,7 +377,6 @@ const handleAddPosition = () => {
                                         onChange={(e) => setAccountManagerEmail(e.target.value)} 
                                         aria-describedby="emailHelp" 
                                     />
-                                    {errors.accountManagerEmail && <span className="error-message">{errors.accountManagerEmail}</span>}
                                 </div>
 
                                 <div className="form-group p-2 pb-0 mt-0 position-relative">
@@ -429,7 +390,7 @@ const handleAddPosition = () => {
                                             readOnly
                                             aria-describedby="emailHelp"
                                         />
-                                        <RiAddCircleFill className="add-icon" onClick={handleAddField} />
+                                     <a href="#" className="add-icon" onClick={(e) => { e.preventDefault(); handleAddField(); }}> Add Positions</a>
                                     </div>
                                     <Tooltip
                                         title={
@@ -458,14 +419,15 @@ const handleAddPosition = () => {
                                         columns={columns}
                                         editMode="row"
                                         rowModesModel={rowModesModel}
-                                        onRowEditStop={(params, event) => {
-                                        if (event.reason === GridRowEditStopReasons.escapeKeyDown) {
-                                            setRowModesModel((prevModel) => ({
-                                            ...prevModel,
-                                            [params.id]: { mode: GridRowModes.View },
-                                            }));
-                                        }
-                                        }}
+                                        onRowEditStop={(params: any, event: any) => {
+                                          const editEvent = event as { reason: string };
+                                          if (editEvent.reason === GridRowEditStopReasons.escapeKeyDown) {
+                                              setRowModesModel((prevModel: any) => ({
+                                                  ...prevModel,
+                                                  [params.id]: { mode: GridRowModes.View },
+                                              }));
+                                          }
+                                      }}
                                         processRowUpdate={(newRow: GridRowModel) => {
                                         const updatedPositions = positions.map((position) =>
                                             position.id === newRow.id ? { ...position, ...newRow } : position
@@ -490,7 +452,6 @@ const handleAddPosition = () => {
                                             onChange={(e) => setSalaryBudget(e.target.value)} 
                                             aria-describedby="mobileHelp" 
                                         />
-                                        {errors.salaryBudget && <span className="error-message">{errors.salaryBudget}</span>}
                                     </div>
                                     <div className="col">
                                         <div className="form-group">
@@ -499,90 +460,42 @@ const handleAddPosition = () => {
                                                 className="input-box" 
                                                 name="modeOfInterview" 
                                                 value={modeOfInterviews} 
-                                                onChange={(e) => setModeOfInterviews(e.target.value)} 
-                                                required
+                                                onChange={(e) => setModeOfInterviews(e.target.value)}                                                
                                             >
                                                 <option value="">Select an option</option>
                                                 <option value="option1">Option 1</option>
                                                 <option value="option2">Option 2</option>
                                                 <option value="option3">Option 3</option>
                                             </select>
-                                            {errors.modeOfInterviews && <span className="error-message">{errors.modeOfInterviews}</span>}
                                         </div>
                                     </div>
                                 </div>
-                                <div className="form-group pt-3 p-2">
-                                    <label htmlFor="date" className="form-label">Project Start Date</label>
-                                    <div className="date-picker-container">
-                                        <DatePicker
-                                            selected={startDate}
-                                            onChange={(date) => setStartDate(date)}
-                                            className="calender"
-                                            name="date"
-                                            dateFormat="dd/MM/yyyy"
-                                            required={true}
-                                        />
-                                        {errors.startDate && <span className="error-message">{errors.startDate}</span>}
-                                    </div>
-                                </div>
-                                {/* <div className="form-group p-2">
-                                    <label htmlFor="date" className="form-label">Project Start Date</label>
-                                    <div className="date-picker-container">
-                                        <DatePicker
-                                            selected={startDate}
-                                            onChange={(date) => setStartDate(date)}
-                                            className="calender"
-                                            name="date"
-                                            dateFormat="dd/MM/yyyy"
-                                            required={true}
-                                        />
-                                    </div>
-                                </div> */}
-                                {/* <div className="form-group p-2">
-                                    <label htmlFor="proj-duration" className="form-label">Project Duration</label>
-                                    <div className="date-picker-container">
-                                        <DatePicker
-                                            selected={projectStartDate}
-                                            onChange={(date) => setProjectStartDate(date)}
-                                            className="calender"
-                                            name="proj-duration"
-                                            dateFormat="dd/MM/yyyy"
-                                            required={true}
-                                        />
-                                    </div>
-                                </div> */}
-                            <div className="form-group p-2">
+                                <div className="form-group p-2" style={{ display: showPopup ? 'none' : 'block' }}>
                                 <label htmlFor="proj-duration" className="form-label">Project Duration</label>
                                 <div className="input-with-label">
                                     <input 
-                                    type="number" 
-                                    id='proj-duration'
-                                    className="input-box" 
-                                    name="contact" 
-                                    value={projectStartDate} 
-                                    onChange={(e) => setProjectStartDate(e.target.value)} 
-                                    required={true} 
-                                    min="1"
+                                        type="number" 
+                                        id='proj-duration'
+                                        className="input-box-duration" 
+                                        name="contact" 
+                                        value={projectStartDate} 
+                                        onChange={(e) => setProjectStartDate(e.target.value)} 
+                                        min="1"
                                     />
-                                    <span className="input-label">months</span>
+                                    <span className="input-months">Months</span>
                                 </div>
-                                {errors.projectStartDate && <span className="error-message">{errors.projectStartDate}</span>}
-                                </div>
+                            </div>
 
-                                <div className="form-group p-2">
-                                    <label htmlFor="email" className="form-label">Approval request</label>
-                                    <input 
-                                        type="email" 
-                                        className="input-box" 
-                                        name="email" 
-                                        value={approvedBy} 
-                                        onChange={(e) => setApprovedBy(e.target.value)} 
-                                        required={true} 
-                                    />
-                                    {errors.approvedBy && <span className="error-message">{errors.approvedBy}</span>}
-                                </div>
-
-
+                            <div className="form-group p-2 mb-2" style={{ display: showPopup ? 'none' : 'block' }}>
+                                <label htmlFor="email" className="form-label">Approval Request</label>
+                                <input 
+                                    type="email" 
+                                    className="input-box-request" 
+                                    name="email" 
+                                    value={approvedBy} 
+                                    onChange={(e) => setApprovedBy(e.target.value)} 
+                                />
+                            </div>
                             </div>
                         </div>
                         <div className='footer'>

@@ -27,7 +27,7 @@ export default function CustomSnackbar({ message, variant, onClose, open }) {
       anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       open={open}
       onClose={handleClose}
-      // autoHideDuration={3000}
+      autoHideDuration={1000}
     >
       <div style={{ backgroundColor: `${bgColor}`, width: '700px', color: 'black', padding: '10px', borderRadius: '4px', position: 'relative' }}>
         <IconButton

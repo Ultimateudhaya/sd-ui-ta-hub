@@ -26,7 +26,7 @@ function Register() {
         e.preventDefault();
         
         // Validate each field
-        if (!formData.userName || !formData.phoneNo || !formData.email || !formData.password || !formData.confirmPassword) {
+        if (!formData.username || !formData.phoneNo || !formData.email || !formData.password || !formData.confirmPassword) {
             setSnackbarOpen(true);
             setSnackbarMessage("Please fill all fields !");
             setSnackbarVariant("error");
@@ -122,14 +122,14 @@ function Register() {
                                 <h1 className="gradient-text-sign">Sign up</h1>
                             </div>
                             <div className="form-container-register">
-                                <label htmlFor="userName" className="UserName">User Name</label>
+                                <label htmlFor="username" className="UserName">User Name</label>
                                 <div className="input-container-register">
                                     <TextField 
                                         className="input" 
                                         id="filled-basic-user" 
                                         variant="standard"
                                         type="text"
-                                        name="userName"
+                                        name="username"
                                         placeholder="User name" 
                                         onChange={handleInputChange}
                                     />
