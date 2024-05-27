@@ -25,7 +25,7 @@ const SidebarContainer = styled.div`
 `;
 
 const MenuItem = styled.div<{ active: boolean }>`
-  margin: 20px 0;
+  margin: 8px 0;
   text-align: center;
   width: 100%;
   cursor: pointer;
@@ -33,14 +33,18 @@ const MenuItem = styled.div<{ active: boolean }>`
   justify-content: space-between;
   align-items: center;
   padding: 0 10px;
-  background-color: ${({ active }) => (active ? '#A0DEFF' : 'transparent')};
+  background-color: ${({ active }) => (active ? '#1679AB' : 'transparent')};
   color: ${({ active }) => (active ? 'white' : 'black')};
+  border-radius:2px;
+
 
   &:hover {
-    background-color: #A0DEFF;
+    background-color: #1679AB;
     color: white;
+    border-radius:2px;
   }
 `;
+
 
 const MenuText = styled.span`
   flex: 1;
@@ -61,7 +65,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setActiveComponent }) => {
 
       <MenuItem active={activeComponent === 'board'} onClick={() => handleMenuItemClick('board')}>
         <FaTh />
-        <MenuText className="board plan">Board</MenuText>
+        <MenuText className="board plan ">Board</MenuText>
       </MenuItem>
       <MenuItem active={activeComponent === 'timeline'} onClick={() => handleMenuItemClick('timeline')}>
         <FaList />

@@ -44,10 +44,11 @@ p > a {
     color: rgb(70, 174, 85);
 }
 
-.kandash {
-    margin-top: 60px; /* to ensure content is not hidden behind the navbar */
-}
 
 .nav-link.active{
   color: rgb(0, 0, 0) !important;
+}
+
+.kandash{
+    margin-left: 200px;
 }

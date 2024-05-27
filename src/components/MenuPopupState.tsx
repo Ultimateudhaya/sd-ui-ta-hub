@@ -8,32 +8,42 @@ import ConfirmDialog from '../Grid/ConfirmationDialog';
 import IconButton from '@mui/material/IconButton';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import '../styles/MenuPopupState.css';
+import FullScreenPopup from './FullScreenPopup'; // Import the FullScreenPopup component
+import InvitePopup from './InvitePopup'; // Import the InvitePopup component
 
 export default function MenuPopupState() {
     const navigate = useNavigate();  
-    const [email,setEmail]=useState();
+    const [email, setEmail] = useState();
     const [logoutDialogOpen, setLogoutDialogOpen] = useState(false); 
+    const [showInvitePopup, setShowInvitePopup] = useState(false); // State for managing the invite popup visibility
 
     const confirmLogout = () => {
         setLogoutDialogOpen(true);
     }
 
     useEffect(() => {
-
         const storedEmail = localStorage.getItem('email');
         if (storedEmail) {
             setEmail(storedEmail);
         }
     }, []);
 
-    
     const handleLogoutConfirm = () => {
         navigate("/Login");
     };
     
-    const handleReset=()=>{
+    const handleReset = () => {
         navigate("/reset-password");
     }
+
+    const openInvitePopup = () => {
+        setShowInvitePopup(true);
+    };
+
+    const closeInvitePopup = () => {
+        setShowInvitePopup(false);
+    };
+
     return (
         <PopupState variant="popover" popupId="demo-popup-menu">
             {(popupState) => (
@@ -50,10 +60,10 @@ export default function MenuPopupState() {
                     </Button>
                     
                     <Menu {...bindMenu(popupState)}>
-                        {/* <MenuItem onClick={popupState.close}>Profile</MenuItem> */}
                         <MenuItem onClick={handleReset}>
                             Reset Password
                         </MenuItem>
+                        <MenuItem onClick={openInvitePopup}>Send Invite</MenuItem>
                         <MenuItem onClick={confirmLogout}>Logout</MenuItem>
                     </Menu>
                     <ConfirmDialog 
@@ -62,6 +72,7 @@ export default function MenuPopupState() {
                         onConfirm={handleLogoutConfirm}     
                         message="Are you sure you want to logout ?"
                     />
+                    <InvitePopup show={showInvitePopup} handleClose={closeInvitePopup} />
                 </React.Fragment>
             )}
         </PopupState>

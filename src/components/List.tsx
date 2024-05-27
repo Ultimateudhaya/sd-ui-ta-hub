@@ -191,7 +191,6 @@ const handleRowModesModelChange = (newRowModesModel) => {
 
             
     sx={{
-        boxShadow: 2,
         height: 600,
         width: '94%',
         paddingLeft:10,
