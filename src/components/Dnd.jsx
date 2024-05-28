@@ -48,7 +48,7 @@
     const fetchTasks = async () => {
       try {
         const response = await fetch('http://localhost:8080/api/tasks/task/view');
-
+        // const response = await fetch('http://localhost:8080/api/tasks/ ');
         if (response.ok) {
           const data = await response.json();
           const updatedTasks = data.map(task => {
@@ -246,7 +246,7 @@
                 </div>
                 <div className='cards'>
                   {tasks.map((task) => (
-      (task.taskStatus === column.column && task.approvalStatus == null) && (
+      (task.taskStatus === column.column && task.approvalStatus == true) && (
         <div className="draggable-item" key={task.taskId.toString()} draggable="true" onDragStart={(event) => onDragStart(event, task)}>
                         <Card onClick={handleCardClick}>
                           <CardContent>
@@ -261,7 +261,7 @@
                               <h7 className="getstat">{task.roleType}</h7>
                             </div>
                             <div className='d-flex justify-content-between mt-2'>
-                              <h7 className="getstat">{task.jobTitle}</h7>
+                              <h7 className="getstat">{task.workLocation}</h7>
                               <h7 className="getstat">{task.modeOfWork}</h7>
                             </div>
                           </CardContent>

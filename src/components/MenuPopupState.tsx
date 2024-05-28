@@ -8,14 +8,14 @@ import ConfirmDialog from '../Grid/ConfirmationDialog';
 import IconButton from '@mui/material/IconButton';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import '../styles/MenuPopupState.css';
-import FullScreenPopup from './FullScreenPopup'; // Import the FullScreenPopup component
-import InvitePopup from './InvitePopup'; // Import the InvitePopup component
+import FullScreenPopup from './FullScreenPopup'; 
+import InvitePopup from './InvitePopup'; 
 
 export default function MenuPopupState() {
     const navigate = useNavigate();  
     const [email, setEmail] = useState();
     const [logoutDialogOpen, setLogoutDialogOpen] = useState(false); 
-    const [showInvitePopup, setShowInvitePopup] = useState(false); // State for managing the invite popup visibility
+    const [showInvitePopup, setShowInvitePopup] = useState(false);
 
     const confirmLogout = () => {
         setLogoutDialogOpen(true);

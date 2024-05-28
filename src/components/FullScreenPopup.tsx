@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Button, TextField, Typography, Box, IconButton, Select, MenuItem, FormControl, InputLabel, Menu, ToggleButtonGroup, ToggleButton } from '@mui/material';
 import { Clear, Visibility, ThumbUp, Share, NoEncryption, AttachFile, Add } from '@mui/icons-material';
-
+import "../styles/FullScreenPopup.css";
 interface FullScreenPopupProps {
   show: boolean;
   handleClose: () => void;
@@ -55,8 +55,8 @@ const FullScreenPopup: React.FC<FullScreenPopupProps> = ({ show, handleClose }) 
         </IconButton>
         {/* Navbar */}
         <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', marginBottom: 2, alignItems: 'center' }}>
-          <a href="https://example.com/kaa-1" target="_blank" rel="noopener noreferrer">kaa-1</a>
-          <a href="https://example.com/kan-2" target="_blank" rel="noopener noreferrer">kan-2</a>
+          <a href="https://example.com/kaa-1" target="_blank" rel="noopener noreferrer">kan-1 / <a href="https://example.com/kan-2" target="_blank" rel="noopener noreferrer">kan-2</a></a>
+          
           <Button variant="text" startIcon={<NoEncryption />}>No Restriction</Button>
           <Button variant="text" startIcon={<Visibility />}>Watch Options</Button>
           <Button variant="text" startIcon={<ThumbUp />}>Vote Options</Button>
@@ -69,7 +69,25 @@ const FullScreenPopup: React.FC<FullScreenPopupProps> = ({ show, handleClose }) 
             <Typography variant="h6" gutterBottom>
               Connect Your Tools
             </Typography>
-            <Typography variant="h6" gutterBottom>
+          
+            {/* Buttons Row */}
+            <Box sx={{ display: 'flex', gap: 1, marginTop: 2 ,paddingTop:2}} >
+              <Button className='GreyBtn' variant="contained" startIcon={<AttachFile />}>Attach</Button>
+              <Button className='GreyBtn' variant="contained" startIcon={<Add />}>Add a Child Issue</Button>
+              <Button className='GreyBtn'variant="contained" onClick={handleMenuClick}>Link Issue</Button>
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleMenuClose}
+              >
+                <MenuItem onClick={handleMenuClose}>Link 1</MenuItem>
+                <MenuItem onClick={handleMenuClose}>Link 2</MenuItem>
+                <MenuItem onClick={handleMenuClose}>Link 3</MenuItem>
+              </Menu>
+              
+            </Box>
+          
+            <Typography variant="h6" gutterBottom sx={{paddingTop:5}}>
               Description
             </Typography>
             <TextField
@@ -80,31 +98,12 @@ const FullScreenPopup: React.FC<FullScreenPopupProps> = ({ show, handleClose }) 
               rows={4}
               margin="normal"
             />
-            {/* Buttons Row */}
-            <Box sx={{ display: 'flex', gap: 1, marginTop: 2 }}>
-              <Button variant="contained" startIcon={<AttachFile />}>Attach</Button>
-              <Button variant="contained" startIcon={<Add />}>Add a Child Issue</Button>
-              <Button variant="contained" onClick={handleMenuClick}>Link Issue</Button>
-              <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleMenuClose}
-              >
-                <MenuItem onClick={handleMenuClose}>Link 1</MenuItem>
-                <MenuItem onClick={handleMenuClose}>Link 2</MenuItem>
-                <MenuItem onClick={handleMenuClose}>Link 3</MenuItem>
-              </Menu>
-            </Box>
-            {/* List Items */}
-            <Typography variant="h6" gutterBottom>
-              List Items
-            </Typography>
             {/* Create Activity Heading */}
             <Typography variant="h6" gutterBottom>
               Create Activity
             </Typography>
             {/* Activity Filter */}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, marginTop: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, marginTop: 2 ,paddingTop:7}}>
               <Typography variant="subtitle1">
                 Activity
               </Typography>
@@ -143,12 +142,10 @@ const FullScreenPopup: React.FC<FullScreenPopupProps> = ({ show, handleClose }) 
           </Box>
           {/* Right section */}
           <Box sx={{ flex: 1, paddingLeft: 2 }}>
-            <Box sx={{ bgcolor: '#f0f0f0', padding: 2, marginBottom: 2 }}>
-              <Typography variant="h6" gutterBottom>
-                In Progress
-              </Typography>
-              {/* In Progress Dropdown */}
-              <FormControl fullWidth margin="normal">
+            <Box sx={{  padding: 2, marginBottom: 2 }}>
+            
+            <Box sx={{display:'flex'}}>
+              <FormControl sx={{width:150, marginRight:10,    }}>
                 <InputLabel id="inprogress-label">In Progress</InputLabel>
                 <Select
                   labelId="inprogress-label"
@@ -158,14 +155,16 @@ const FullScreenPopup: React.FC<FullScreenPopupProps> = ({ show, handleClose }) 
                   onChange={handleInProgressChange}
                 >
                   <MenuItem value="">
-                    <em>None</em>
                   </MenuItem>
-                  <MenuItem value="Yes">Yes</MenuItem>
-                  <MenuItem value="No">No</MenuItem>
+                  <MenuItem value="Todo">Todo</MenuItem>
+                  <MenuItem value="In-progress">In-progress</MenuItem>
+                  <MenuItem value="In-review">In-review</MenuItem>
+                  <MenuItem value="Completed">Completed</MenuItem>
                 </Select>
               </FormControl>
               {/* Actions */}
-              <FormControl fullWidth margin="normal">
+
+              <FormControl sx={{width:150,height:50}}>
                 <InputLabel id="status-label">Actions</InputLabel>
                 <Select
                   labelId="status-label"
@@ -183,7 +182,12 @@ const FullScreenPopup: React.FC<FullScreenPopupProps> = ({ show, handleClose }) 
                 </Select>
               </FormControl>
               {/* Pinned Fields */}
-              <Box>
+
+              </Box>
+
+
+              
+              <Box sx={{marginTop:10}}>
                 <Typography variant="h6" gutterBottom>
                   Pinned Fields
                 </Typography>
@@ -211,7 +215,7 @@ const FullScreenPopup: React.FC<FullScreenPopupProps> = ({ show, handleClose }) 
               </Box>
             </Box>
             {/* Details section */}
-            <Box sx={{ bgcolor: '#f0f0f0', padding: 2 }}>
+            <Box sx={{  padding: 2 }}>
               <Typography variant="h6" gutterBottom>
                 Details
               </Typography>
