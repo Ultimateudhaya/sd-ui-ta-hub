@@ -196,3 +196,7 @@ h4 {
 .cards {
   overflow-y: auto; /* Enable vertical scrolling within the cards column */
 }
+
+.delete-task-button{
+  margin: -7px;
+}

@@ -33,7 +33,7 @@ const InvitePopup = ({ show, handleClose }) => {
       }
 
       // Send invite with email and role ID
-      const response = await fetch('http://localhost:8080/api/send-invite', {
+      const response = await fetch('http://localhost:8080/api/auth/send-invite', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -59,7 +59,7 @@ export default function MenuPopupState() {
                         </IconButton>
                     </Button>
                     
-                    <Menu {...bindMenu(popupState)}>
+                    <Menu {...bindMenu(popupState)} className='dropDown'>
                         <MenuItem onClick={handleReset}>
                             Reset Password
                         </MenuItem>
