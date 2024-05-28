@@ -1,37 +1,46 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography, Container, Box } from '@mui/material';
 import { CheckCircleOutline, ErrorOutline } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export default function ApprovalRequest() {
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState('');
+  const [token, setToken] = useState<string>('');
   const navigate = useNavigate();
-  
+  const location = useLocation();
+
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
-    
+    const urlParams = new URLSearchParams(location.search);
+    const tokenFromUrl = urlParams.get('token');
+    setToken(tokenFromUrl || ""); 
+  }, [location]);
+
+  useEffect(() => {
     if (token) {
       approveRequirement(token);
     } else {
       setMessage('Invalid or missing token.');
       setStatus('error');
     }
-  }, []);
-  
-  const approveRequirement = async (token) => {
+  }, [token]);
+
+  const approveRequirement = async (token: string) => {
     try {
       const response = await fetch(`http://localhost:8080/api/approve-requirement?token=${token}`, {
         method: 'POST',
       });
 
+      console.log('Response status:', response.status);
+
+      const responseText = await response.text();
+      console.log('Response text:', responseText);
+
       if (response.ok) {
         setMessage('Your job openings have been successfully approved.');
         setStatus('success');
       } else {
-        const errorText = await response.text();
-        setMessage(errorText);
+        setMessage(responseText);
         setStatus('error');
       }
     } catch (error) {
@@ -44,16 +53,16 @@ export default function ApprovalRequest() {
   useEffect(() => {
     if (status) {
       const timer = setTimeout(() => {
-        navigate('/navbar'); // Redirect to the navbar page
-      }, 3000);
+        navigate('/navbar');
+      }, 5000);
 
-      return () => clearTimeout(timer); // Cleanup the timer on component unmount
+      return () => clearTimeout(timer);
     }
   }, [status, navigate]);
 
   return (
-    <Container>
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+    <Container disableGutters={true}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', overflow: 'hidden' }}>
         <Card sx={{ minWidth: 275 }}>
           <CardContent sx={{ textAlign: 'center' }}>
             {status === 'success' ? (
