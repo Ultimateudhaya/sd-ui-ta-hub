@@ -57,8 +57,8 @@ function Register() {
                 username: formData.username,
                 phoneNo: formData.phoneNo,
                 // email: formData.email,
-                password: formData.password,
-                confirmPassword: formData.confirmPassword
+                password: formData.confirmPassword,
+                // confirmPassword: formData.confirmPassword
             };
 
             const response = await fetch(`http://localhost:8080/api/auth/register?inviteToken=${inviteToken }`, {
