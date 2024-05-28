@@ -5,9 +5,15 @@ import { Link } from "react-router-dom";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import '../styles/forgetPassowrd.css';
+import CustomSnackbar from "./CustomSnackbar";
+
 
 function ForgetPassword() {
     const [email, setEmail] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarVariant, setSnackbarVariant] = useState("success");
 
     const handleForgetPassword = async (e) => {
         e.preventDefault();
@@ -23,14 +29,25 @@ function ForgetPassword() {
 
             if (!response.ok) {
                 throw new Error("Failed to request reset link");
-            }
+            }   
+            setSnackbarMessage("Password reset successfully");
+            setSnackbarVariant("success");
+            setSnackbarOpen(true);
 
             // Reset form fields or show a success message
         } catch (error) {
             console.error("Error requesting reset link:", error.message);
+            setErrorMessage("Error resetting password. Please try again later.");
+            setSnackbarMessage("Error resetting password. Please try again later.");
+            setSnackbarVariant("error");
+            setSnackbarOpen(true);
             // Handle error, e.g., display error message to the user
         }
     };
+    const handleCloseSnackbar = () => {
+        setSnackbarOpen(false);
+    };
+
  return(
     <div className="image">
     <div className="left">
@@ -99,6 +116,12 @@ password reset information sent to </p>
         </div>
 
     </div>
+    <CustomSnackbar
+                message={snackbarMessage}
+                variant={snackbarVariant}
+                onClose={handleCloseSnackbar}
+                open={snackbarOpen}
+            />
   </div>
 
  )   
