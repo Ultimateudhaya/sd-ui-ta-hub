@@ -285,6 +285,8 @@ input[type="number"] {
     transform: translateY(-50%);
     cursor: pointer;
     height: 16px;
+    color: #1b29e7;
+    text-decoration: underline;
 }
 
 

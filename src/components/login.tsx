@@ -182,12 +182,12 @@ function Login() {
                             <div className="login-secondary-login">
                                 <div className="text-center">
                                     <div className="link-container">
-                                        <div className="link">New to TA-HUB?</div>
+                                        {/* <div className="link">New to TA-HUB?</div>
                                         <span>
                                             <Link to="/register" className="signup">
                                                 Sign-up
                                             </Link>
-                                        </span>
+                                        </span> */}
                                     </div>
                                 </div>
                             </div>
