@@ -117,6 +117,7 @@ function Form() {
                 setSnackbarOpen(true);
                 setSnackbarMessage("Form data submitted successfully!");
                 setSnackbarVariant("success");
+                // setIsOpen(false);
                 setReqStartDate(null);
                 setStartDate(null);
                 setProjectStartDate('');
