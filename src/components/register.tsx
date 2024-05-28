@@ -8,7 +8,7 @@ function Register() {
     const [formData, setFormData] = useState({
         username: "",
         phoneNo: "",
-        email: "",
+        // email: "",
         password: "",
         confirmPassword: ""
     });
@@ -26,7 +26,7 @@ function Register() {
         e.preventDefault();
         
         // Validate each field
-        if (!formData.username || !formData.phoneNo || !formData.email || !formData.password || !formData.confirmPassword) {
+        if (!formData.username || !formData.phoneNo || !formData.password || !formData.confirmPassword) {
             setSnackbarOpen(true);
             setSnackbarMessage("Please fill all fields !");
             setSnackbarVariant("error");
@@ -42,13 +42,13 @@ function Register() {
         }
 
         // Check email format
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(formData.email)) {
-            setSnackbarOpen(true);
-            setSnackbarMessage("Please enter a valid email  !");
-            setSnackbarVariant("error");
-            return;
-        }
+        // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        // if (!emailRegex.test(formData.email)) {
+        //     setSnackbarOpen(true);
+        //     setSnackbarMessage("Please enter a valid email  !");
+        //     setSnackbarVariant("error");
+        //     return;
+        // }
 
         try {
             const roleId = 1;
@@ -77,7 +77,7 @@ function Register() {
             setFormData({
                 username: "",
                 phoneNo: "",
-                email: "",
+                // email: "",
                 password: "",
                 confirmPassword: ""
             });
@@ -122,7 +122,7 @@ function Register() {
                                 <h1 className="gradient-text-sign">Sign up</h1>
                             </div>
                             <div className="form-container-register">
-                                <label htmlFor="username" className="UserName">User Name</label>
+                                <label htmlFor="username" className="label-reg">User Name</label>
                                 <div className="input-container-register">
                                     <TextField 
                                         className="input" 
@@ -134,7 +134,7 @@ function Register() {
                                         onChange={handleInputChange}
                                     />
                                 </div>
-                                <label htmlFor="phoneNo" className="PhoneNo">Phone No</label>
+                                <label htmlFor="phoneNo" className="label-reg">Phone No</label>
                                 <div className="input-container-register">
                                     <TextField 
                                         className="input" 
@@ -146,7 +146,7 @@ function Register() {
                                         placeholder="Phone No" 
                                     />
                                 </div>
-                                <label htmlFor="email" className="Email">Email Address</label>
+                                {/* <label htmlFor="email" className="Email">Email Address</label>
                                 <div className="input-container-register">
                                     <TextField 
                                         className="input" 
@@ -157,8 +157,8 @@ function Register() {
                                         placeholder="Email Address" 
                                         onChange={handleInputChange}
                                     />
-                                </div>
-                                <label htmlFor="password" className="NewPassword">New Password</label>
+                                </div> */}
+                                <label htmlFor="password" className="label-reg">New Password</label>
                                 <div className="input-container-register">
                                     <TextField 
                                         className="input" 
@@ -170,7 +170,7 @@ function Register() {
                                         placeholder="New Password" 
                                     />
                                 </div>
-                                <label htmlFor="confirmPassword" className="confirmPassword">Confirm Password</label>
+                                <label htmlFor="confirmPassword" className="label-reg">Confirm Password</label>
                                 <div className="input-container-register">
                                     <TextField 
                                         className="input" 

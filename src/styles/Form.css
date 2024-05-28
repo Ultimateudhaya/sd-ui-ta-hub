@@ -221,7 +221,7 @@ input[type="number"] {
 }
 
 .input-box:focus,
-.calender,
+.calender:focus,
 .position-input-box:focus,
 .role-input-box:focus,
 .input-box-duration:focus,

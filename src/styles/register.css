@@ -33,6 +33,10 @@ body {
     color: red;
 }
 
+.label-reg{
+    margin-top: 10px;
+}
+
 .card1 {
     display: flex;
     flex-direction: column;
@@ -76,7 +80,7 @@ body {
 .input {
     width: calc(100% - 10px);
     padding: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     /* border: 1px solid #ccc; */
     background-color: #e3e2e2;
     border-radius: 15px 15px 0 0; /* Apply border radius only to the top corners */
