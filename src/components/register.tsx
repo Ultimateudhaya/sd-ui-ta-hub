@@ -8,7 +8,7 @@ function Register() {
     const [formData, setFormData] = useState({
         username: "",
         phoneNo: "",
-        email: "",
+        // email: "",
         password: "",
         confirmPassword: ""
     });
@@ -27,7 +27,7 @@ function Register() {
         
       
 
-        if (!formData.username || !formData.phoneNo || !formData.email || !formData.password || !formData.confirmPassword) {
+        if (!formData.username || !formData.phoneNo || !formData.password || !formData.confirmPassword) {
             setSnackbarOpen(true);
             setSnackbarMessage("Please fill all fields!");
             setSnackbarVariant("error");
@@ -41,13 +41,13 @@ function Register() {
             return;
         }
 
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(formData.email)) {
-            setSnackbarOpen(true);
-            setSnackbarMessage("Please enter a valid email!");
-            setSnackbarVariant("error");
-            return;
-        }
+        // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        // if (!emailRegex.test(formData.email)) {
+        //     setSnackbarOpen(true);
+        //     setSnackbarMessage("Please enter a valid email!");
+        //     setSnackbarVariant("error");
+        //     return;
+        // }
 
         try {
             const urlParams = new URLSearchParams(window.location.search);
@@ -56,7 +56,7 @@ function Register() {
             const payload = {
                 username: formData.username,
                 phoneNo: formData.phoneNo,
-                email: formData.email,
+                // email: formData.email,
                 password: formData.password,
                 confirmPassword: formData.confirmPassword
             };
@@ -82,7 +82,7 @@ function Register() {
             setFormData({
                 username: "",
                 phoneNo: "",
-                email: "",
+                // email: "",
                 password: "",
                 confirmPassword: ""
             });
