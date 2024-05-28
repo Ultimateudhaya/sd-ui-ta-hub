@@ -6,6 +6,7 @@
   import 'bootstrap-icons/font/bootstrap-icons.css';
   import AddBoxIcon from '@mui/icons-material/AddBox';
   import FullScreenPopup from './FullScreenPopup';
+  import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
   const Board = () => {
     const [tasks, setTasks] = useState([]);
@@ -47,7 +48,6 @@
     const fetchTasks = async () => {
       try {
         const response = await fetch('http://localhost:8080/api/tasks/task/view');
-        // const response = await fetch('http://localhost:8080/api/tasks');
 
         if (response.ok) {
           const data = await response.json();
@@ -232,7 +232,12 @@
             {columns.map(column => (
               <div key={column.id} className="column" onDragOver={(event) => onDragOver(event)} onDrop={(event) => onDrop(event, column.column)}>
                 <div className="column-header d-flex justify-content-between">
-                  <h6 className="columnTitle">{column.title} ({column.count})</h6>
+                <h6 className="columnTitle">
+            {column.title} {column.count} 
+            {column.title === 'COMPLETED' && (
+              <CheckCircleIcon style={{ color: 'green', marginLeft: '35px' }} />
+            )}
+          </h6>
                   {!column.count > 0 && (
                     <div className="delete-button" onClick={() => handleDeleteColumn(column.id)}>
                       <span className="bi bi-trash"></span>
