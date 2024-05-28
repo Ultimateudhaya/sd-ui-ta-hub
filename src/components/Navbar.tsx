@@ -51,30 +51,18 @@ const Navbar = () => {
     setShowGrid(true);
   };
 
-  const ProfileContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  `;
+  // const ProfileContainer = styled.div`
+  //   display: flex;
+  //   flex-direction: column;
+  //   align-items: center;
+  // `;
 
-  const ProfilePhoto = styled.div`
-    width: 35px;
-    height: 35px;
-    background-color: #bbb;
-    border-radius: 50%;
-    margin-left: 20px;
-    margin-top: 3px;
-    background-size: cover;
-    padding: 6px;
-  `;
 
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
-          <ProfileContainer>
-            {/* <ProfilePhoto /> */}
-          </ProfileContainer>
+          
           <a className="navbar-brand" href="/navbar">Tringapps</a>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
@@ -104,7 +92,7 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
-          <button className="btn btn-primary" onClick={openForm}>
+          <button className="btn btn-primary create-btn" onClick={openForm}>
             CREATE
           </button>
           <MenuPopupState />

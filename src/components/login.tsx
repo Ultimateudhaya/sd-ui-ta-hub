@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import '../styles/login.css';
 import CustomSnackbar from "./CustomSnackbar";
+import Loader from "./Loader";  // Make sure you create a Loader component or use a suitable library
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -11,6 +12,7 @@ function Login() {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarVariant, setSnackbarVariant] = useState('success');
+    const [loading, setLoading] = useState(false);  // Loader state
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -41,6 +43,7 @@ function Login() {
         }
 
         try {
+            setLoading(true);  // Start loader
             const response = await fetch("http://localhost:8080/api/auth/login", {
                 method: "POST",
                 headers: {
@@ -60,9 +63,10 @@ function Login() {
             setSnackbarMessage("Login success");
             setSnackbarVariant("success");
             setTimeout(() => {
+                setLoading(false);  // Stop loader before navigation
                 navigate('/navbar'); 
             }, 2000);
-            
+
         } catch (error) {
             console.error("Error logging in:", error.message);
             setSnackbarOpen(true);

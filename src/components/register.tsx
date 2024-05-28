@@ -3,6 +3,8 @@ import { TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import '../styles/register.css';
 import CustomSnackbar from "./CustomSnackbar";
+import { useLocation } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 function Register() {
     const [formData, setFormData] = useState({
@@ -17,9 +19,12 @@ function Register() {
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarVariant, setSnackbarVariant] = useState('success');
 
+    const location = useLocation();
+    const [searchParams] = useSearchParams();
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        setFormData({...formData, [name]: value });
     };
 
     const handleSubmit = async (e) => {
@@ -27,14 +32,14 @@ function Register() {
         
       
 
-        if (!formData.username || !formData.phoneNo || !formData.password || !formData.confirmPassword) {
+        if (!formData.username ||!formData.phoneNo ||!formData.password ||!formData.confirmPassword) {
             setSnackbarOpen(true);
             setSnackbarMessage("Please fill all fields!");
             setSnackbarVariant("error");
             return;
         }
 
-        if (formData.password !== formData.confirmPassword) {
+        if (formData.password!== formData.confirmPassword) {
             setSnackbarOpen(true);
             setSnackbarMessage("Passwords do not match!");
             setSnackbarVariant("error");
@@ -50,8 +55,7 @@ function Register() {
         // }
 
         try {
-            const urlParams = new URLSearchParams(window.location.search);
-            const inviteToken  = urlParams.get('token');
+            const inviteToken = searchParams.get('token');
 
             const payload = {
                 username: formData.username,

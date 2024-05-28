@@ -219,9 +219,9 @@
     return (
       <div className="board-container">
         <div className="header1">
-          <h8>Projects / My Kanban Project</h8>
-          <h8>KAN Board</h8>
-          <div className="search-container">
+          <h6>Projects / My Kanban Project</h6>
+          <h6>KAN Board</h6>
+          <div className="search-container ">
             <TextField label="Search" variant="outlined" size="small" />
             <Button variant="contained" color="primary">Search</Button>
           </div>
@@ -246,7 +246,7 @@
                 </div>
                 <div className='cards'>
                   {tasks.map((task) => (
-      (task.taskStatus === column.column && task.approvalStatus == true) && (
+      (task.taskStatus === column.column && task.approvalStatus == null  ) && (  
         <div className="draggable-item" key={task.taskId.toString()} draggable="true" onDragStart={(event) => onDragStart(event, task)}>
                         <Card onClick={handleCardClick}>
                           <CardContent>
@@ -263,6 +263,7 @@
                             <div className='d-flex justify-content-between mt-2'>
                               <h7 className="getstat">{task.workLocation}</h7>
                               <h7 className="getstat">{task.modeOfWork}</h7>
+                              <h7 className="kanid">KAN-{task.taskId}</h7>
                             </div>
                           </CardContent>
                         </Card>

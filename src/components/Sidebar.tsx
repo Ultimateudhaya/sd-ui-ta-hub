@@ -61,7 +61,6 @@ const Sidebar: React.FC<SidebarProps> = ({ setActiveComponent }) => {
 
   return (
     <SidebarContainer className="sidebar">
-      <MenuItem active={false} className="plan1">PLANNING</MenuItem>
 
       <MenuItem active={activeComponent === 'board'} onClick={() => handleMenuItemClick('board')}>
         <FaTh />
