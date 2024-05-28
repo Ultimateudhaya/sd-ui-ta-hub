@@ -19,8 +19,8 @@
     font-style: normal;
 }
 
-body {
-    overflow: hidden;
+.image {
+    overflow: hidden !important ;
     /* font-family: 'G Centra Book', sans-serif;  */
 }
 
