@@ -1,6 +1,6 @@
 import { TextField } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import '../styles/resetPassword.css';
 import CustomSnackbar from "./CustomSnackbar";
 
@@ -14,6 +14,7 @@ function ResetNew() {
     const [token, setToken] = useState("");
 
     const location = useLocation();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const urlParams = new URLSearchParams(location.search);
@@ -53,6 +54,9 @@ function ResetNew() {
             setErrorMessage("");
             setSnackbarMessage("Password reset successfully");
             setSnackbarVariant("success");
+            setTimeout(() => {
+                navigate('/login');
+            }, 2000);
             setSnackbarOpen(true);
 
         } catch (error) {

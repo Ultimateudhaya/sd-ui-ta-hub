@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography, Container, Box } from '@mui/material';
 import { CheckCircleOutline, ErrorOutline } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 export default function ApprovalRequest() {
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState('');
+  const navigate = useNavigate();
   
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -20,7 +22,7 @@ export default function ApprovalRequest() {
   
   const approveRequirement = async (token) => {
     try {
-      const response = await fetch(`http://localhost:8080/api/approve-requirement`, {
+      const response = await fetch(`http://localhost:8080/api/approve-requirement?token=${token}`, {
         method: 'POST',
       });
 
@@ -38,6 +40,16 @@ export default function ApprovalRequest() {
       setStatus('error');
     }
   };
+
+  useEffect(() => {
+    if (status) {
+      const timer = setTimeout(() => {
+        navigate('/navbar'); // Redirect to the navbar page
+      }, 3000);
+
+      return () => clearTimeout(timer); // Cleanup the timer on component unmount
+    }
+  }, [status, navigate]);
 
   return (
     <Container>
