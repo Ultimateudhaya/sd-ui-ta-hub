@@ -55,11 +55,12 @@ function Register() {
 
             const payload = {
                 username: formData.username,
-                phoneNo: formData.phoneNo,
-                // email: formData.email,
-                password: formData.confirmPassword,
-                // confirmPassword: formData.confirmPassword
+                phone: formData.phoneNo,
+                password: formData.confirmPassword
             };
+
+              // email: formData.email,
+              // confirmPassword: formData.confirmPassword
 
             const response = await fetch(`http://localhost:8080/api/auth/register?inviteToken=${inviteToken }`, {
                 method: "POST",
