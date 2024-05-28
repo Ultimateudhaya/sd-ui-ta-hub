@@ -1,4 +1,4 @@
-import React,{ useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import '../styles/register.css';
@@ -8,7 +8,7 @@ function Register() {
     const [formData, setFormData] = useState({
         username: "",
         phoneNo: "",
-        // email: "",
+        email: "",
         password: "",
         confirmPassword: ""
     });
@@ -25,39 +25,43 @@ function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        // Validate each field
-        if (!formData.username || !formData.phoneNo || !formData.password || !formData.confirmPassword) {
+      
+
+        if (!formData.username || !formData.phoneNo || !formData.email || !formData.password || !formData.confirmPassword) {
             setSnackbarOpen(true);
-            setSnackbarMessage("Please fill all fields !");
+            setSnackbarMessage("Please fill all fields!");
             setSnackbarVariant("error");
             return;
         }
 
-        // Check if password and confirm password match
         if (formData.password !== formData.confirmPassword) {
             setSnackbarOpen(true);
-            setSnackbarMessage(" password do not match !");
+            setSnackbarMessage("Passwords do not match!");
             setSnackbarVariant("error");
             return;
         }
 
-        // Check email format
-        // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        // if (!emailRegex.test(formData.email)) {
-        //     setSnackbarOpen(true);
-        //     setSnackbarMessage("Please enter a valid email  !");
-        //     setSnackbarVariant("error");
-        //     return;
-        // }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(formData.email)) {
+            setSnackbarOpen(true);
+            setSnackbarMessage("Please enter a valid email!");
+            setSnackbarVariant("error");
+            return;
+        }
 
         try {
-            const roleId = 1;
+            const urlParams = new URLSearchParams(window.location.search);
+            const inviteToken  = urlParams.get('token');
+
             const payload = {
-                ...formData,
-                roleId: roleId
+                username: formData.username,
+                phoneNo: formData.phoneNo,
+                email: formData.email,
+                password: formData.password,
+                confirmPassword: formData.confirmPassword
             };
 
-            const response = await fetch("http://localhost:8080/api/auth/register", {
+            const response = await fetch(`http://localhost:8080/api/auth/register?inviteToken=${inviteToken }`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -68,8 +72,9 @@ function Register() {
             if (!response.ok) {
                 throw new Error("Failed to register");
             }
+
             setSnackbarOpen(true);
-            setSnackbarMessage("Registration successful !");
+            setSnackbarMessage("Registration successful!");
             setSnackbarVariant("success");
             setTimeout(() => {
                 navigate('/login');
@@ -77,12 +82,11 @@ function Register() {
             setFormData({
                 username: "",
                 phoneNo: "",
-                // email: "",
+                email: "",
                 password: "",
                 confirmPassword: ""
             });
 
-          
         } catch (error) {
             console.error("Registration error:", error);
             setSnackbarOpen(true);
@@ -91,12 +95,10 @@ function Register() {
         }
     };
 
-
     const handleCloseSnackbar = () => {
         setSnackbarOpen(false);
         setSnackbarMessage("");
     };
-
 
     return (
         <div className="image">
@@ -197,7 +199,6 @@ function Register() {
                 onClose={handleCloseSnackbar}
                 open={snackbarOpen}
             />
-
         </div>
     );
 }

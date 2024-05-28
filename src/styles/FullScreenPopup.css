@@ -1,0 +1,19 @@
+a{
+    text-decoration: none;
+    color: black;
+}
+.GreyBtn{
+    background-color: rgb(232, 231, 231);
+    color: rgb(40, 36, 36);
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.GreyBtn:hover{
+        background-color: rgb(222, 219, 219);
+    color: rgb(44, 42, 42);
+    box-shadow: none;
+}
+#inprogress-label{
+}
