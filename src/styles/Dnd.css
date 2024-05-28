@@ -67,11 +67,14 @@ h4 {
   margin: 0;
 }
 
-.search-container, h8, h4 {
+.search-container, h6, h4 {
   padding-top: 20px;
   padding-left: 10px;
 }
 
+h6{
+  color: rgb(76, 75, 75);
+}
 .columnTitle {
   color: rgb(97, 96, 98) !important;
   padding: 10px;
@@ -198,4 +201,10 @@ h4 {
 
 .delete-task-button{
   margin: -7px;
+}
+
+.kanid{
+  font-size: x-small;
+  color: #42319a;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }

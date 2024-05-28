@@ -30,6 +30,7 @@ export default function MenuPopupState() {
 
     const handleLogoutConfirm = () => {
         navigate("/Login");
+        localStorage.clear();
     };
     
     const handleReset = () => {
