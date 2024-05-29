@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
+
 import 'bootstrap/dist/css/bootstrap.css';
 import '../styles/Navbar.css';
 import FullFeaturedCrudGrid from '../Grid/FullFeaturedCrudGrid';
@@ -11,6 +13,7 @@ import Board from './Dnd';
 import Timeline from './Timeline';
 import List from './List';
 import Loader from  "../components/Loader";
+
 const Navbar = () => {
   const [showGrid, setShowGrid] = useState(false);
   const [apiEndpoint, setApiEndpoint] = useState('');
@@ -19,7 +22,16 @@ const Navbar = () => {
   const [activeNavItem, setActiveNavItem] = useState('');
   const [clientDetails, setClientDetails] = useState([]);
   const [activeComponent, setActiveComponent] = useState('board');
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    if (!isLoggedIn) {
+      navigate("/login");
+    }
+  }, [navigate]);
 
   const openForm = (event) => {
     event.preventDefault();
@@ -34,14 +46,13 @@ const Navbar = () => {
   const handleLoadData = (navItem, endpoint) => {
     setActiveNavItem(navItem);
     setApiEndpoint(endpoint);
-    setLoading(true); // Show loader
+    setLoading(true);
     setShowGrid(false);
-    
-    // Simulate data fetching
+
     setTimeout(() => {
       setShowGrid(true);
-      setLoading(false); // Hide loader
-    }, 1000); // Simulate a delay
+      setLoading(false);
+    }, 1000);
   };
 
   const handleLoadCandidatesClick = () => handleLoadData('candidates', 'http://localhost:8080/api/candidates/status');
@@ -59,7 +70,7 @@ const Navbar = () => {
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <div className="container-fluid">
+        <div className="container-fluid ">
           <a className="navbar-brand" href="/navbar">Tringapps</a>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
@@ -89,7 +100,7 @@ const Navbar = () => {
               </li>
               <li className="nav-item">
                 <a
-                  className={`nav-link ${activeNavItem === 'users' ? 'active' : ''}`}
+                  className={`nav-link ${activeNavItem === 'loadclients' ? 'active' : ''}`}
                   onClick={handleloadlistClients}
                 >
                   Clients
@@ -105,10 +116,10 @@ const Navbar = () => {
           <MenuPopupState />
         </div>
       </nav>
-      
 
-      
-      {showGrid ? (
+      {loading ? (
+        <Loader />
+      ) : showGrid ? (
         <GridContainer>
           <FullFeaturedCrudGrid apiEndpoint={apiEndpoint} />
         </GridContainer>
@@ -124,18 +135,6 @@ const Navbar = () => {
       )}
 
       {showForm && <Form key={formKey} onClose={closeForm} />}
-      
-      {/* {clientDetails.length > 0 && (
-        <ul>
-          {clientDetails.map((client, index) => (
-            <li key={index}>
-              <div>Client Name: {client.clientName}</div>
-              <div>Client SPOC Name: {client.clientSpocName}</div>
-              <div>Primary Skill Set: {client.primarySkillSet}</div>
-            </li>
-          ))}
-        </ul>
-      )} */}
     </div>
   );
 };

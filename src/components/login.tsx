@@ -51,6 +51,7 @@ function Login() {
                 },
                 body: JSON.stringify({ email, password })
             });
+            localStorage.setItem('isLoggedIn', 'true');
 
             localStorage.setItem('email', email);
             const data = await response.json();
