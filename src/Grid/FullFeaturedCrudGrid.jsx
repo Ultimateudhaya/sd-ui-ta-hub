@@ -86,6 +86,11 @@ useEffect(() => {
         } else if (apiEndpoint === 'http://localhost:8080/api/candidates/status') {
             dispatch(setCandidates(data));
         }
+        else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
+            // dispatch(setCandidates(data));
+            setRows(data);
+
+        }
         setRows(data);
     }
 
@@ -161,6 +166,8 @@ const handleConfirmDelete = async () => {
             handleOpenSnackbar('Record deleted successfully!', 'success');
 
         }
+
+        
 
         setRows(rows.filter(row => row.id !== deleteId));
     } catch (error) {
@@ -258,6 +265,17 @@ const processRowUpdate = async (rowUpdate, row) => {
 const handleRowModesModelChange = (newRowModesModel) => {
     setRowModesModel(newRowModesModel);
 };
+
+const handleAddClick = () => {
+    const id = randomId();
+    const newEmptyRow = { id, name: '', age: '', roleId: 1, isNew: true };
+    setRows((oldRows) => [...oldRows, newEmptyRow]);
+    setRowModesModel((oldModel) => ({
+        ...oldModel,
+        [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
+    }));
+};
+
 
 let columns= [];
 
@@ -417,11 +435,11 @@ else if (apiEndpoint === 'http://localhost:8080/api/clients/clientPositions') {
 },
     { field: 'clientSpocContact', align:'center',headerName: 'CLIENTSPOCCONTACT', width: 140, editable: true ,    headerAlign: 'center',headerClassName: 'custom-header',
 },
-    { field: 'clientLocation', align:'center',headerName: 'CLIENTLOCATION', width: 140, editable: true,    headerAlign: 'center',headerClassName: 'custom-header',
+    { field: 'clientLocation', align:'center',headerName: 'CLIENTLOCATION', width: 250, editable: true,    headerAlign: 'center',headerClassName: 'custom-header',
 },
-    { field: 'createdAt', align:'center',headerName: 'CREATEDAT', width: 200, editable: true,    headerAlign: 'center',headerClassName: 'custom-header',
+    { field: 'createdAt', align:'center',headerName: 'CREATEDAT', width: 250, editable: true,    headerAlign: 'center',headerClassName: 'custom-header',
 },
-{ field: 'jobTitle', align:'center',headerName: 'JOBTITLE', width: 140, editable: true,    headerAlign: 'center',headerClassName: 'custom-header',
+{ field: 'jobTitle', align:'center',headerName: 'JOBTITLE', width: 240, editable: true,    headerAlign: 'center',headerClassName: 'custom-header',
 },
 
 
@@ -433,7 +451,70 @@ else if (apiEndpoint === 'http://localhost:8080/api/clients/clientPositions') {
         field: 'actions',
         type: 'actions',
         headerName: 'Actions',
-        width: 140,
+        width: 150,
+        position:'relative',
+        cellClassName: 'actions',
+        
+        getActions: ({ id }) => {
+        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+
+        if (isInEditMode) {
+            return [
+            <GridActionsCellItem
+                key="first"
+                icon={<SaveIcon />}
+                label="Save"
+                sx={{
+                color: 'primary.main',
+                }}
+                onClick={handleSaveClick(id)}
+            />,
+            <GridActionsCellItem
+                key="second"
+                icon={<CancelIcon />}
+                label="Cancel"
+                className="textPrimary"
+                onClick={handleCancelClick(id)}
+                color="inherit"
+            />,
+            ];
+        } else {
+            return [
+            <GridActionsCellItem
+                key="third"
+                icon={<EditIcon />}
+                label="Edit"
+                className="textPrimary"
+                onClick={handleEditClick(id)}
+                color="inherit"
+            />,
+            <GridActionsCellItem
+                key="fourth"
+                icon={<DeleteIcon />}
+                label="Delete"
+                onClick={handleDeleteClick(id)}
+                color="inherit"
+            />,
+            ];
+        }
+        },
+    },
+    ];
+} 
+else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
+    columns = [
+    { field: 'clientName', align:'center', headerName: 'CLIENTNAME', width: 1200, editable: true,    headerAlign: 'center',    headerClassName: 'custom-header',
+
+},
+
+    {
+        headerAlign: 'center',
+        headerClassName: 'custom-header',
+         align:'center',
+        field: 'actions',
+        type: 'actions',
+        headerName: 'Actions',
+        width: 247,
         position:'relative',
         cellClassName: 'actions',
         
@@ -486,100 +567,75 @@ else if (apiEndpoint === 'http://localhost:8080/api/clients/clientPositions') {
 
 
 
-
   
     return (
         
         <Box
-        
         sx={{
-            borderLeft: '1px solid lightgrey',
-            marginLeft: 30,
-            marginBottom: 50,
-            paddingRight: 30,
-            backgroundColor: 'white',
-            fontWeight: 'medium',
             height: 600,
-            width: '95%',
-            paddingTop: 5,
-            paddingLeft: 4,
-            background: 'none',
-            // "& .MuiDataGrid-row--editing .MuiDataGrid-cell": {
-            //     height: 39,
-            // },
-            '& .textPrimary': {
-                color: 'text.primary',
-            },
-            '& .MuiDataGrid-scrollbar': {
-                '&::-webkit-scrollbar': {
-                    width: '5px',
-                    height: '2px',
-                },
-                '&::-webkit-scrollbar-thumb': {
-                    backgroundColor: '#888',
-                },
+            width: '100%',
+            '& .custom-header': {
+                backgroundColor: '#2A3F54',
+                color: '#FFFFFF',
             },
             '& .MuiDataGrid-cell': {
                 fontSize: 'small', 
                 
             },
+             
+            // marginBottom: 30,
+            backgroundColor: 'white',
+            fontWeight: 'medium',
+           paddingRight:7,
+            paddingTop: 5,
+            paddingLeft: 4,
+            background: 'none',
+            
         }}
     >
-        <Snackbar
-            open={snackbarOpen}
-            autoHideDuration={6000}
-            onClose={() => setSnackbarOpen(false)}
-        >
-            <MuiAlert
-                elevation={6}
-                variant="filled"
-                onClose={() => setSnackbarOpen(false)}
-                severity={snackbarSeverity}
-            >
-                {snackbarMessage}
-            </MuiAlert>
-        </Snackbar>
-    
-        <ConfirmDialog
-            open={openConfirmDialog}
-            setOpen={setOpenConfirmDialog} 
-            onConfirm={handleConfirmDelete}
-            onClose={handleCloseDialog}
-            deleteId={deleteId}
-            message="Are you sure you want to delete this row?"
-        />
-        {/* New Row Edit Toolbar */}
-        {/* <Toolbar>
-            <IconButton onClick={handleAddRow}>
-                <AddCircleIcon />
-            </IconButton>
-            <Typography variant="h6">Add New Row</Typography>
-        </Toolbar>
-     */}
+      
         <TextField
             label="Search"
-            variant="outlined"
-            size="small"
             value={searchValue}
             onChange={handleSearchChange}
-            sx={{ marginBottom: 2 }}
+            variant="outlined"
+            sx={{ mb: 2 }}
+            size='small'
         />
-    
+          <Button
+            startIcon={<AddIcon />}
+            onClick={handleAddClick}
+            variant="contained"
+            sx={{ mb: 2, bgcolor: '#2A3F54', color: 'white',marginLeft:130 }}
+    >
+            Add Record
+        </Button>
         <DataGrid
-            rowHeight={29}
+                    rowHeight={34}
+
             rows={filteredRows}
             columns={columns}
             editMode="row"
             rowModesModel={rowModesModel}
-            onRowModesModelChange={handleRowModesModelChange}
             onRowEditStop={handleRowEditStop}
+            onRowModesModelChange={handleRowModesModelChange}
             processRowUpdate={processRowUpdate}
-            slots={{
-                toolbar: EditToolbar,
-            }}
-            slotProps={{
-                toolbar: { setRows, setRowModesModel },
-            }}
+        />
+        <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={() => setSnackbarOpen(false)}>
+            <MuiAlert elevation={6} variant="filled" onClose={() => setSnackbarOpen(false)} severity={snackbarSeverity}>
+                {snackbarMessage}
+            </MuiAlert>
+        </Snackbar>
+        <ConfirmDialog
+            open={openConfirmDialog}
+            setOpen={setOpenConfirmDialog} 
+
+            onClose={handleCloseDialog}
+            onConfirm={handleConfirmDelete}
+            title="Confirm Delete"
+            deleteId={deleteId}
+
+            message="Are you sure you want to delete this record?"
         />
     </Box>
     

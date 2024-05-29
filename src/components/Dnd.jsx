@@ -19,6 +19,19 @@
     const [showPreview, setShowPreview] = useState(false);
     const [deleteErrorMessage, setDeleteErrorMessage] = useState("");
     const [showFullScreenPopup, setShowFullScreenPopup] = useState(false);
+    const [checkedTasks, setCheckedTasks] = useState({});
+    const [searchQuery, setSearchQuery] = useState("");
+    const [filteredTasks, setFilteredTasks] = useState([]);
+
+   
+  const handleCheckboxClick = (taskId, event) => {
+    event.stopPropagation();
+    setCheckedTasks(prevState => ({
+      ...prevState,
+      [taskId]: !prevState[taskId]
+    }));
+  };
+
 
     useEffect(() => {
       const fetchColumns = async () => {
@@ -44,31 +57,30 @@
       fetchColumns();
     }, []);
 
-  useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/api/tasks/task/view');
-        // const response = await fetch('http://localhost:8080/api/tasks/ ');
-        if (response.ok) {
-          const data = await response.json();
-          const updatedTasks = data.map(task => {
-            if (!task.taskStatus) {
-              return { ...task, taskStatus: "todo" };
-            }
-            return task;
-          });
-          setTasks(updatedTasks);
-          console.log("task datas", updatedTasks);
-        } else {
-          console.error('Failed to fetch tasks:', response.statusText);
+    useEffect(() => {
+      const fetchTasks = async () => {
+        try {
+          const response = await fetch('http://localhost:8080/api/tasks/task/view');
+          if (response.ok) {
+            const data = await response.json();
+            const updatedTasks = data.map(task => {
+              if (!task.taskStatus) {
+                return { ...task, taskStatus: "todo" };
+              }
+              return task;
+            });
+            setTasks(updatedTasks);
+            setFilteredTasks(updatedTasks);
+          } else {
+            console.error('Failed to fetch tasks:', response.statusText);
+          }
+        } catch (error) {
+          console.error('An error occurred while fetching tasks:', error);
         }
-      } catch (error) {
-        console.error('An error occurred while fetching tasks:', error);
-      }
-    };
-
-    fetchTasks();
-  }, []);
+      };
+  
+      fetchTasks();
+    }, []);
 
 
     useEffect(() => {
@@ -83,6 +95,22 @@
       event.dataTransfer.setData("task", JSON.stringify(task));
     };
 
+
+    useEffect(() => {
+      const filtered = tasks.filter(task =>
+        task.clientName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        task.roleType.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        task.workLocation.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        task.modeOfWork.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredTasks(filtered);
+    }, [searchQuery, tasks]);
+  
+    // Handler for search query change
+    const handleSearchChange = (event) => {
+      setSearchQuery(event.target.value);
+    };
+  
     const onDragOver = (event) => {
       event.preventDefault();
     };
@@ -179,7 +207,7 @@
             setColumns(updatedColumns);
           } else {
             console.error('Failed to delete column:', response.statusText);
-          }
+        }
         } catch (error) {
           console.error('An error occurred while deleting column:', error);
         }
@@ -219,60 +247,85 @@
     return (
       <div className="board-container">
         <div className="header1">
-          <h6>Projects / My Kanban Project</h6>
+          <div className='d-flex'>
+          <h6>Projects / TA Board</h6>
           <h6>KAN Board</h6>
-          <div className="search-container ">
-            <TextField label="Search" variant="outlined" size="small" />
-            <Button variant="contained" color="primary">Search</Button>
           </div>
+          <div className="search-container">
+          <TextField
+            className="small-search"
+            label="Search"
+            variant="outlined"
+            size="small"
+            value={searchQuery}
+            onChange={handleSearchChange}
+          />
+          <Button
+            className="small-search-button"
+            variant="contained"
+            color="primary"
+          >
+            Search
+          </Button>
         </div>
+      </div>
     
         <div className="kanboard">
-          <div className={columns.length > 2 ? "kanboard-container d-flex scrollable" : "kanboard-container"}>
-            {columns.map(column => (
-              <div key={column.id} className="column" onDragOver={(event) => onDragOver(event)} onDrop={(event) => onDrop(event, column.column)}>
-                <div className="column-header d-flex justify-content-between">
-                <h6 className="columnTitle">
-            {column.title} {column.count} 
-            {column.title === 'COMPLETED' && (
-              <CheckCircleIcon style={{ color: 'green', marginLeft: '35px' }} />
-            )}
-          </h6>
-                  {!column.count > 0 && (
-                    <div className="delete-button" onClick={() => handleDeleteColumn(column.id)}>
-                      <span className="bi bi-trash"></span>
-                    </div>
-                  )}
-                </div>
-                <div className='cards'>
-                  {tasks.map((task) => (
-      (task.taskStatus === column.column && task.approvalStatus == null  ) && (  
-        <div className="draggable-item" key={task.taskId.toString()} draggable="true" onDragStart={(event) => onDragStart(event, task)}>
-                        <Card onClick={handleCardClick}>
-                          <CardContent>
-                            <p className='task-detail d-flex justify-content-between'>
-                              <h7 className="getstat clientName">{task.clientName}</h7>
-                              <div className="delete-task-button" onClick={(event) => handleDeleteTask(task.taskId, event)}>
-    <span className="bi bi-trash"></span>
+          <div className={columns.length > 2 ? "kanboard-container d-flex " : "kanboard-container"}>
+          {columns.map(column => (
+  <div key={column.id} className="column" onDragOver={(event) => onDragOver(event)} onDrop={(event) => onDrop(event, column.column)}>
+    <div className="column-header d-flex justify-content-between">
+      <h6 className="columnTitle">
+        {column.title} {column.count} 
+   
+      </h6>
+      {!column.count > 0 && (
+        <div className="delete-button" onClick={() => handleDeleteColumn(column.id)}>
+          <span className="bi bi-trash"></span>
+        </div>
+      )}
+    </div>
+    <div className='cards'>
+      {filteredTasks.map((task) => (
+        task.taskStatus === column.column && task.approvalStatus == null && (
+          <div className="draggable-item" key={task.taskId.toString()} draggable="true" onDragStart={(event) => onDragStart(event, task)}>
+            <Card onClick={handleCardClick}>
+  <CardContent className='cardcontent1'>
+    <div className='d-flex justify-content-between task-detail'>
+      <p>
+        Identify small chunks
+      </p>
+      <div className="delete-task-button" onClick={(event) => handleDeleteTask(task.taskId, event)}>
+        <span className="bi bi-trash"></span>
+      </div>
+    </div>
+    <p className='task-detail'>
+      <h7 className="getstat clientName">{task.clientName}</h7>
+    </p>
+    <div className='d-flex justify-content-between'>
+      <h7 className="getstat">{task.roleType}</h7>
+      <h7 className="getstat">{task.workLocation}</h7>
+      <h7 className="getstat">{task.modeOfWork}</h7>
+    </div>
+    <div className='d-flex justify-content-between align-items-center mt-2'>
+      <div className='d-flex align-items-center checkbox1'>
+      <input 
+              type="checkbox" 
+              className="task-checkbox" 
+                                checked={checkedTasks[task.taskId] || false}
+                                onClick={(event) => handleCheckboxClick(task.taskId, event)}
+            />        <h7 className="kanid ms-2">KAN-{task.taskId}</h7>
+      </div>
+    </div>
+  </CardContent>
+</Card>
+          </div>
+        )
+      ))}
+    </div>
   </div>
+))}
 
-                            </p>
-                            <div className='d-flex justify-content-between'>
-                              <h7 className="getstat">{task.roleType}</h7>
-                            </div>
-                            <div className='d-flex justify-content-between mt-2'>
-                              <h7 className="getstat">{task.workLocation}</h7>
-                              <h7 className="getstat">{task.modeOfWork}</h7>
-                              <h7 className="kanid">KAN-{task.taskId}</h7>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </div>
-                    )
-                  ))}
-                </div>
-              </div>
-            ))}
             <div className="add-button-container">
               <div onClick={handleAddButtonClick}><AddBoxIcon color='primary' sx={{ fontSize: 40 }}/></div>
             </div>
