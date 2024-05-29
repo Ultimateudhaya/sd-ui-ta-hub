@@ -1,210 +1,251 @@
-* {
-  font-family: inherit;
+  * {
+    font-family: inherit;
+  }
+
+  .card {
+    border: none !important;
+  }
+
+  h4 {
+    text-align: center;
+    text-transform: capitalize;
+  }
+
+  .container1 {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: auto;
+    padding: 1rem;
+    border-radius: 0.5rem;
+  }
+
+ 
+  .header1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    box-shadow: rgba(181, 181, 183, 0.2) 0px 7px 29px 0px;
+    position: sticky;
+    top: 0;
+    margin-left: 10px;
+    border-left: 1px solid rgb(232, 230, 230);
+  }
+
+  .search-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  
+  }
+
+  .kanboard {
+    display: flex;
+    flex-direction: column;
+    height: 600px; 
+    margin-left: 10px;
+    padding: 10px;
+    border-radius: 0px;
+    box-sizing: border-box;
+    box-shadow: rgba(158, 159, 158, 0.2) 0px 7px 29px 0px;
+    border-left: 1px solid rgb(232, 230, 230);
+    overflow-y: auto; 
+  }
+
+  .kanboard-container {
+    display: flex;
+    flex-wrap: nowrap; /* Prevent wrapping of columns */
+    /* overflow-x: auto; */
+   }
+
+  .kanboard1 {
+    width: 300px;
+    height: 200px;
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+  }
+
+  .search-container, h6, h4 {
+    padding-top: 20px;
+    padding-left: 10px;
+  }
+
+  h6{
+    color: rgb(76, 75, 75);
+  }
+  .columnTitle {
+    color: rgb(97, 96, 98) !important;
+    padding: 10px;
+    position: sticky;
+    top: 0;
+    background-color: #f7f8f9;
+    z-index: 1;
+    font-size: small !important;
+  }
+
+  .getstat {
+    background-color: #e5e5e6;
+    width: 60px;
+    height: 13px;
+    display: block;
+    margin-left: 3px;
+    padding-left: 5px;
+    color: #737179;
+    border-radius: 1px;
+    text-transform: capitalize;
+    font-weight: bold;
+    font-size: xx-small;
+    padding-bottom: 7px;
+    text-align: center;
+    
+  }
+
+  .taskId {
+    margin-right: 40px;
+    font-size: small;
+    text-transform: capitalize;
+  }
+
+  .css-46bh2p-MuiCardContent-root:last-child {
+    padding-bottom: 24px;
+  }
+
+  .task-detail {
+    font-size: smaller;
+  }
+
+  .cardcontent {
+    display: block;
+    float: right;
+
+  }
+
+  .addBtn {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .scrollable {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .scrollable::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .scrollable::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 5px;
+  }
+
+  .scrollable::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+
+  .clientName {
+    background-color: #82c6b8;
+    color: rgb(251, 252, 251);
+    height: 15px;
+    text-align: center;
+    padding-top: 1px;
+    width: 90px;
+    padding-right: 7px;
+  }
+  .column {
+    flex: 0 0 auto;
+    width: 260px;
+    margin-right: -30px !important;
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+  }
+
+  .column-header {
+    position: sticky;
+    top: 0;
+    width: 85%;
+    background-color: #f7f8f9; 
+    z-index: 1;
+    padding: 0px;
+    border-bottom: 1px solid #dee2e6;
+  }
+  
+  .cards {
+    width:85%;
+    flex-grow: 1;
+    background-color: #f7f8f9;
+    padding: 6px;
+    overflow-y: auto;
+    flex-direction: column;
+    border-radius: 3px;
+    box-sizing: border-box;
+  }
+
+  .draggable-item {
+    margin-bottom: 4px;
+    padding: 5px;
+    background-color: #f4f4f4;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+    max-height: 150px; /* Limit height of each card */
+    overflow-y: auto; /* Enable vertical scrolling within each card */
+  }
+  
+
+  .draggable-item:hover {
+    background-color: #e0e0e0;
+  }
+
+  /* Additional CSS for draggable items to be scrollable */
+  .cards {
+    overflow-y: auto; /* Enable vertical scrolling within the cards column */
+  }
+
+  .delete-task-button{
+    margin: -2px;
+  }
+
+  .kanid{
+    font-size: x-small;
+    color: #42319a;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .small-search {
+    width: 150px; /* Adjust the width as needed */
+  }
+  
+  .small-search-button {
+    height: 30px; /* Match the button height to the TextField height */
+    padding: 6px 16px; /* Adjust padding for the button */
+    font-size: 0.75rem; /* Adjust font size */
+  }
+  
+
+.cardcontent1{
+  padding: 10px !important;
 }
 
-.card {
-  border: none !important;
+.task-checkbox {
+  width: 16px;
+  height: 16px;
 }
 
-h4 {
-  text-align: center;
-  text-transform: capitalize;
+.ms-2 {
+  margin-left: 8px;
 }
-
-.container1 {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  height: auto;
-  padding: 1rem;
-  border-radius: 0.5rem;
-}
-
-.header1 {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 10px;
-  background-color: #f8f9fa;
-  border-bottom: 1px solid #dee2e6;
-  box-shadow: rgba(181, 181, 183, 0.2) 0px 7px 29px 0px;
-  position: sticky;
-  top: 0;
-  margin-left: 10px;
-  border-left: 1px solid rgb(232, 230, 230);
-}
-
-.search-container {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.kanboard {
-  display: flex;
-  flex-direction: column;
-  height: calc(100vh - 50px); /* Adjust height to fit viewport */
-  margin-left: 10px;
-  padding: 10px;
-  border-radius: 0px;
-  box-sizing: border-box;
-  box-shadow: rgba(158, 159, 158, 0.2) 0px 7px 29px 0px;
-  border-left: 1px solid rgb(232, 230, 230);
-  overflow-y: auto; /* Enable vertical scrolling for the entire board */
-}
-
-.kanboard-container {
-  display: flex;
-  flex-wrap: nowrap; /* Prevent wrapping of columns */
-  overflow-x: auto; /* Enable horizontal scrolling */
-}
-
-.kanboard1 {
-  width: 300px;
-  height: 200px;
-  display: flex;
-  flex-direction: row;
-  margin: 0;
-}
-
-.search-container, h6, h4 {
-  padding-top: 20px;
-  padding-left: 10px;
-}
-
-h6{
-  color: rgb(76, 75, 75);
-}
-.columnTitle {
-  color: rgb(97, 96, 98) !important;
-  padding: 10px;
-  position: sticky;
-  top: 0;
-  background-color: #f7f8f9;
-  z-index: 1;
-  font-size: small !important;
-}
-
-.getstat {
-  background-color: #dfd8fd;
-  width: 80px;
-  height: 15px;
-  display: block;
-  padding-left: 5px;
-  color: #42319a;
-  border-radius: 3px;
-  text-transform: uppercase;
-  font-weight: bold;
-  font-size: x-small;
-  padding-bottom: 4px;
-  font-family: var(--ds-font-family-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif);
-}
-
-.taskId {
-  margin-right: 40px;
-  font-size: small;
-  text-transform: capitalize;
-}
-
-.css-46bh2p-MuiCardContent-root:last-child {
-  padding-bottom: 24px;
-  height: 103px;
-}
-
-.task-detail {
-  font-size: smaller;
-}
-
-.cardcontent {
-  display: block;
-  float: right;
-}
-
-.addBtn {
-  margin-top: 30px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.scrollable {
-  overflow-x: auto;
-  white-space: nowrap;
-}
-
-.scrollable::-webkit-scrollbar {
-  width: 10px;
-}
-
-.scrollable::-webkit-scrollbar-thumb {
-  background-color: #888;
-  border-radius: 5px;
-}
-
-.scrollable::-webkit-scrollbar-thumb:hover {
-  background-color: #555;
-}
-
-.clientName {
-  background-color: #82c6b8;
-  color: rgb(251, 252, 251);
-  height: 23px;
-  text-align: center;
-  padding-top: 4px;
-  width: 90px;
-  padding-right: 7px;
-}
-
-.column {
-  flex: 0 0 auto;
-  width: 260px;
-  margin-right: 20px;
-  /* height: 500px; */
-}
-
-.column-header {
-  position: sticky;
-  top: 0;
-  background-color: #f7f8f9; 
-  z-index: 1;
-  padding: 10px;
-  border-bottom: 1px solid #dee2e6;
-}
-
-.cards {
-  width: 260px;
-  min-height: 700px;
-  cursor: pointer;
-  display: flex;
-  background-color: #f7f8f9;
-  padding: 6px;
-  overflow: hidden; 
-  flex-direction: column;
-  border-radius: 3px;
-  box-sizing: border-box;
-}
-
-.draggable-item {
-  margin-bottom: 1px;
-  background-color: #f4f4f4;
-  border-radius: 4px;
-  transition: background-color 0.2s ease;
-}
-
-.draggable-item:hover {
-  background-color: #e0e0e0;
-}
-
-/* Additional CSS for draggable items to be scrollable */
-.cards {
-  overflow-y: auto; /* Enable vertical scrolling within the cards column */
-}
-
-.delete-task-button{
-  margin: -7px;
+.checkbox1{
+ margin-top: 4px;
 }
 
 .kanid{
-  font-size: x-small;
-  color: #42319a;
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 600;
+  color: grey;
 }
