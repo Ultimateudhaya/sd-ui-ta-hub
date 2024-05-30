@@ -12,7 +12,7 @@ interface SidebarProps {
 const SidebarContainer = styled.div`
   width: 206px;
   height: 95vh;
-  color: black;
+  // color: black;
   background-color: lightwhite;
   display: flex;
   flex-direction: column;
@@ -22,6 +22,8 @@ const SidebarContainer = styled.div`
   top: 0;
   left: 0;
   border-left: 1px solid rgb(232, 230, 230);
+  font-size:15px;
+  
 `;
 
 const MenuItem = styled.div<{ active: boolean }>`
@@ -31,14 +33,17 @@ const MenuItem = styled.div<{ active: boolean }>`
   width: 100%;
   cursor: pointer;
   display: flex;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+  font-weight: small;
   justify-content: space-between;
   align-items: center;
   padding: 0 10px;
   background-color: ${({ active }) => (active ? '#E9F2FF' : 'transparent')};
-  color: ${({ active }) => (active ? '#0C66E4' : 'black')};
+  color: ${({ active }) => (active ? '#0C66E4' : '#44546F')};
   border-radius:2px;
-
-
+  
   &:hover {
     background-color: #E9F2FF;
     color: #0C66E4;

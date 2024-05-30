@@ -53,6 +53,7 @@
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1); 
         background-color: white;
         border-radius: 0px 0px 5px 5px;
+        
     }
 
   .calender{
@@ -199,7 +200,7 @@ input[type="number"] {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    background-color: #1b29e7;
+    background-color: #1976D2;
     color: #fff;
     cursor: pointer;
     width: 36%;
