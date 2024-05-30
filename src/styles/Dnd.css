@@ -218,15 +218,9 @@
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
 
-  .small-search {
-    width: 150px; /* Adjust the width as needed */
-  }
+ 
   
-  .small-search-button {
-    height: 30px; /* Match the button height to the TextField height */
-    padding: 6px 16px; /* Adjust padding for the button */
-    font-size: 0.75rem; /* Adjust font size */
-  }
+  
   
 
 .cardcontent1{

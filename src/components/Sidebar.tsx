@@ -25,7 +25,8 @@ const SidebarContainer = styled.div`
 `;
 
 const MenuItem = styled.div<{ active: boolean }>`
-  margin: 8px 0;
+  margin: 4px 0;
+  height:40px;
   text-align: center;
   width: 100%;
   cursor: pointer;
@@ -33,14 +34,14 @@ const MenuItem = styled.div<{ active: boolean }>`
   justify-content: space-between;
   align-items: center;
   padding: 0 10px;
-  background-color: ${({ active }) => (active ? '#1679AB' : 'transparent')};
-  color: ${({ active }) => (active ? 'white' : 'black')};
+  background-color: ${({ active }) => (active ? '#E9F2FF' : 'transparent')};
+  color: ${({ active }) => (active ? '#0C66E4' : 'black')};
   border-radius:2px;
 
 
   &:hover {
-    background-color: #1679AB;
-    color: white;
+    background-color: #E9F2FF;
+    color: #0C66E4;
     border-radius:2px;
   }
 `;

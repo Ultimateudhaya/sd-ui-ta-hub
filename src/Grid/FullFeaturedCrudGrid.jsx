@@ -159,7 +159,7 @@ const handleConfirmDelete = async () => {
             dispatch(deleteCandidate(candidateId));
             handleOpenSnackbar('Record deleted successfully!', 'success');
 
-        } else if (apiEndpoint === 'http://localhost:8080/api/clients/clientPositions') {
+        } else if (apiEndpoint === 'http://localhost:8080/api/clients/clientPositions ' || apiEndpoint === 'http://localhost:8080/api/clients/' ) {
             const clientId = rowData.clientId;
             dispatch(deleteClientOnServer(clientId));
             dispatch(deleteClient(clientId));
@@ -207,10 +207,11 @@ const processRowUpdate = async (rowUpdate, row) => {
             } else if (apiEndpoint === 'http://localhost:8080/api/candidates/status') {
                 await handleCandidateAdd(newRow);
                 handleOpenSnackbar('Candidate Added successfully!', 'success');
-            } else if (apiEndpoint === 'http://localhost:8080/api/clients/clientPositions') {
+            } else if (apiEndpoint === 'http://localhost:8080/api/clients/clientPositions ' || apiEndpoint === 'http://localhost:8080/api/clients/' ) {
                 await handleClientAdd(newRow);
                 handleOpenSnackbar('Client Added successfully!', 'success');
             }
+         
             newRow.isNew = false; // Set isNew to false after adding
         } else {
          
@@ -426,20 +427,11 @@ if (apiEndpoint === 'http://localhost:8080/api/users/') {
 } 
 else if (apiEndpoint === 'http://localhost:8080/api/clients/clientPositions') {
     columns = [
-    { field: 'clientId', align:'center', headerName: 'CLIENTID', width: 140, editable: true,    headerAlign: 'center',    headerClassName: 'custom-header',
-
+  
+    { field: 'clientName', align:'center',headerName: 'CLIENTNAME', width: 600, editable: true ,    headerAlign: 'center',headerClassName: 'custom-header',
 },
-    { field: 'clientName', align:'center',headerName: 'CLIENTNAME', width: 140, editable: true ,    headerAlign: 'center',headerClassName: 'custom-header',
-},
-    { field: 'clientSpocName', align:'center',headerName: 'CLIENTSPOCNAME', width: 140, editable: true,    headerAlign: 'center',headerClassName: 'custom-header',
-},
-    { field: 'clientSpocContact', align:'center',headerName: 'CLIENTSPOCCONTACT', width: 140, editable: true ,    headerAlign: 'center',headerClassName: 'custom-header',
-},
-    { field: 'clientLocation', align:'center',headerName: 'CLIENTLOCATION', width: 250, editable: true,    headerAlign: 'center',headerClassName: 'custom-header',
-},
-    { field: 'createdAt', align:'center',headerName: 'CREATEDAT', width: 250, editable: true,    headerAlign: 'center',headerClassName: 'custom-header',
-},
-{ field: 'jobTitle', align:'center',headerName: 'JOBTITLE', width: 240, editable: true,    headerAlign: 'center',headerClassName: 'custom-header',
+   
+{ field: 'jobTitle', align:'center',headerName: 'JOBTITLE', width: 600, editable: true,    headerAlign: 'center',headerClassName: 'custom-header',
 },
 
 
@@ -451,7 +443,7 @@ else if (apiEndpoint === 'http://localhost:8080/api/clients/clientPositions') {
         field: 'actions',
         type: 'actions',
         headerName: 'Actions',
-        width: 150,
+        width: 248,
         position:'relative',
         cellClassName: 'actions',
         
@@ -503,9 +495,19 @@ else if (apiEndpoint === 'http://localhost:8080/api/clients/clientPositions') {
 } 
 else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
     columns = [
-    { field: 'clientName', align:'center', headerName: 'CLIENTNAME', width: 1200, editable: true,    headerAlign: 'center',    headerClassName: 'custom-header',
+        { field: 'clientId', align:'center', headerName: 'CLIENTID', width: 140, editable: true,    headerAlign: 'center',    headerClassName: 'custom-header',
 
-},
+    },
+        { field: 'clientName', align:'center',headerName: 'CLIENTNAME', width: 140, editable: true ,    headerAlign: 'center',headerClassName: 'custom-header',
+    },
+        { field: 'clientSpocName', align:'center',headerName: 'CLIENTSPOCNAME', width: 140, editable: true,    headerAlign: 'center',headerClassName: 'custom-header',
+    },
+        { field: 'clientSpocContact', align:'center',headerName: 'CLIENTSPOCCONTACT', width: 140, editable: true ,    headerAlign: 'center',headerClassName: 'custom-header',
+    },
+        { field: 'clientLocation', align:'center',headerName: 'CLIENTLOCATION', width: 250, editable: true,    headerAlign: 'center',headerClassName: 'custom-header',
+    },
+        { field: 'createdAt', align:'center',headerName: 'CREATEDAT', width: 390, editable: true,    headerAlign: 'center',headerClassName: 'custom-header',
+    },
 
     {
         headerAlign: 'center',
