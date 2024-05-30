@@ -26,8 +26,11 @@ const App = () => {
             <Route path="/side-bar" element={<Sidebar/>} />
             <Route path="/side-bar" element={<Sidebar/>} />
             <Route path="/approval-req" element={<ApprovalRequest/>} /> 
-            <Route path="/board" element={<Board/>} />
+            {/* <Route path="/board" element={<Board/>} /> */}
+            
             {/* <Route path="/dashboard" element={<Dashboard/>} /> */}
+
+
 
           </Route>
         </Routes>

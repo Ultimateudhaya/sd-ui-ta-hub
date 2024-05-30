@@ -3,23 +3,18 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import ConfirmDialog from '../Grid/ConfirmationDialog';
 import IconButton from '@mui/material/IconButton';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import '../styles/MenuPopupState.css';
-import FullScreenPopup from './FullScreenPopup'; 
 import InvitePopup from './InvitePopup'; 
 
 export default function MenuPopupState() {
     const navigate = useNavigate();  
-    const [email, setEmail] = useState();
+    const [email, setEmail] = useState<string | null>(null);
     const [logoutDialogOpen, setLogoutDialogOpen] = useState(false); 
     const [showInvitePopup, setShowInvitePopup] = useState(false);
-
-    const confirmLogout = () => {
-        setLogoutDialogOpen(true);
-    }
 
     useEffect(() => {
         const storedEmail = localStorage.getItem('email');
@@ -29,14 +24,12 @@ export default function MenuPopupState() {
     }, []);
 
     const handleLogoutConfirm = () => {
-        navigate("/Login");
         localStorage.clear();
+        setLogoutDialogOpen(false);
+        navigate("/login"); 
+        
     };
     
-    const handleReset = () => {
-        navigate("/reset-password");
-    }
-
     const openInvitePopup = () => {
         setShowInvitePopup(true);
     };
@@ -61,11 +54,11 @@ export default function MenuPopupState() {
                     </Button>
                     
                     <Menu {...bindMenu(popupState)} className='dropDown'>
-                        <MenuItem onClick={handleReset}>
+                        <MenuItem component={Link} to="/reset-password">
                             Reset Password
                         </MenuItem>
                         <MenuItem onClick={openInvitePopup}>Send Invite</MenuItem>
-                        <MenuItem onClick={confirmLogout}>Logout</MenuItem>
+                        <MenuItem onClick={() => setLogoutDialogOpen(true)}>Logout</MenuItem>
                     </Menu>
                     <ConfirmDialog 
                         open={logoutDialogOpen} 
