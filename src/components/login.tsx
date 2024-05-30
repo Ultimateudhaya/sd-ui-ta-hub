@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import '../styles/login.css';
 import CustomSnackbar from "./CustomSnackbar";
-import Loader from "./Loader";  // Make sure you create a Loader component or use a suitable library
+// import Loader from "./Loader"; 
 
 function Login() {
     const [email, setEmail] = useState("");

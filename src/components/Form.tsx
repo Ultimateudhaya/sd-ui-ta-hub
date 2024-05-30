@@ -6,11 +6,10 @@ import '../styles/Form.css';
 import { FaTimes } from 'react-icons/fa'; 
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { RiAddCircleFill } from 'react-icons/ri';
 import { submitForm } from '../GlobalRedux/Features/formSlice';
 import SimplePopup from './popUp';
-import { Grid, TextField, Select, MenuItem, Button, IconButton } from '@mui/material';
-import { DataGrid, GridColDef, GridToolbarContainer, GridActionsCellItem, GridRowId, GridRowModel, GridRowEditStopReasons, GridRowModesModel, GridRowModes } from '@mui/x-data-grid';
+import { Select, MenuItem, Button, IconButton } from '@mui/material';
+import { DataGrid, GridColDef, GridRowId, GridRowModel, GridRowEditStopReasons, GridRowModesModel, GridRowModes } from '@mui/x-data-grid';
 import CustomSnackbar from "../components/CustomSnackbar";
 import { Tooltip } from '@mui/material';
 import { Delete as DeleteIcon, Edit as EditIcon, Save as SaveIcon } from '@mui/icons-material';
@@ -67,6 +66,7 @@ function Form() {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarVariant, setSnackbarVariant] = useState('success');
+    const [formSubmitted, setFormSubmitted] = useState(false);
 
     useEffect(() => {
         const totalOpenings = positions.reduce((sum, position) => sum + parseInt(position.noOfOpenings, 10), 0);
@@ -76,6 +76,25 @@ function Form() {
 
       const submitFormHandler = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setFormSubmitted(true); 
+     if (
+        !clientName ||
+        !clientSpocName ||
+        !reqStartDate ||
+        !clientSpocContact ||
+        !accountManager ||
+        !accountManagerEmail ||
+        !salaryBudget ||
+        !modeOfInterviews ||
+        !projectStartDate ||
+        !approvedBy ||
+        !noOfOpenings
+    ) {
+        setSnackbarOpen(true);
+        setSnackbarMessage("Please fill all fields!");
+        setSnackbarVariant("error");
+        return;
+    }
     
         const formData = [{
             requirementStartDate: reqStartDate?.toISOString(),
@@ -117,7 +136,6 @@ function Form() {
                 setSnackbarOpen(true);
                 setSnackbarMessage("Form data submitted successfully!");
                 setSnackbarVariant("success");
-                // setIsOpen(false);
                 setReqStartDate(null);
                 setStartDate(null);
                 setProjectStartDate('');
@@ -134,6 +152,10 @@ function Form() {
                 setYearsOfExperienceRequired('');
                 setPositions([]);
                 dispatch(submitForm(formData));
+
+                setTimeout(() => {
+                  setIsOpen(false);
+                }, 3000);
     
                 const approvalPayload = {
                     approvedBy,
@@ -181,7 +203,7 @@ function Form() {
     setIsOpen(false);
 };
 const handleAddPosition = () => {
-    const newPosition: Position = {
+  const newPosition: Position = {
       id: positions.length ? positions[positions.length - 1].id + 1 : 0,
       jobTitle: '',
       noOfOpenings: '',
@@ -191,13 +213,14 @@ const handleAddPosition = () => {
       yearsOfExperienceRequired: '',
       primarySkillSet: '',
       secondarySkillSet: '',
-    };
-    setPositions([...positions, newPosition]);
-    setRowModesModel((prevModel) => ({
+  };
+  setPositions([...positions, newPosition]);
+  setRowModesModel((prevModel) => ({
       ...prevModel,
       [newPosition.id]: { mode: GridRowModes.Edit, fieldToFocus: 'jobTitle' },
-    }));
-  };
+  }));
+};
+
 
   const handleSavePosition = (id: GridRowId) => () => {
     setRowModesModel((prevModel) => ({
@@ -249,6 +272,33 @@ const handleAddPosition = () => {
       </Select>
     );
   };
+  const processRowUpdate = (newRow: GridRowModel, oldRow: GridRowModel) => {
+    // Check if any field in the new row is empty
+    const isEmptyField = Object.values(newRow).some(value => value === '');
+
+    if (isEmptyField) {
+        setSnackbarOpen(true);
+        setSnackbarMessage("Please fill all fields before saving.");
+        setSnackbarVariant("error");
+        return oldRow; // Return the old row to prevent updating
+    }
+
+    // Update the row in the positions state
+    const updatedPositions = positions.map((position) => {
+        if (position.id === newRow.id) {
+            // Update only the fields that are not empty in the new row
+            const updatedPosition = { ...position, ...newRow };
+            return updatedPosition;
+        } else {
+            return position;
+        }
+    });
+
+    setPositions(updatedPositions);
+    return newRow;
+};
+
+
 
   const columns: GridColDef[] = [
     { field: 'jobTitle', headerName: 'Job Title', width: 150, editable: true },
@@ -326,6 +376,7 @@ const handleAddPosition = () => {
                                     <label htmlFor="cname" className="form-label">Client Name</label>
                                     <input 
                                         type="text" 
+                                        style={{ borderColor: (formSubmitted && clientName.trim() === '') ? 'red' : '' }} 
                                         className="input-box" 
                                         name="cname"  
                                         value={clientName} 
@@ -357,7 +408,7 @@ const handleAddPosition = () => {
                                 <div className="form-group p-2">
                                     <label htmlFor="contact" className="form-label">Client Contact Details</label>
                                     <input 
-                                        type="text" 
+                                        type="number" 
                                         className="input-box" 
                                         name="contact" 
                                         value={clientSpocContact} 
@@ -386,18 +437,16 @@ const handleAddPosition = () => {
                                 </div>
 
                                 <div className="form-group p-2 pb-0 mt-0 position-relative">
-                                    <label htmlFor="openings" className="form-label">No. of Openings</label>
-                                    <div className="input-container">
-                                        <input
-                                            type="number"
-                                            className="input-box"
-                                            name="openings"
-                                            value={noOfOpenings}
-                                            readOnly
-                                            aria-describedby="emailHelp"
-                                        />
-                                     <a href="#" className="add-icon" onClick={(e) => { e.preventDefault(); handleAddField(); }}> Add Positions</a>
-                                    </div>
+                                <label htmlFor="openings" className="form-label">No. of Openings</label>
+                                <div className="input-container">
+                                    <input
+                                        type="number"
+                                        className="input-box"
+                                        name="openings"
+                                        value={noOfOpenings}
+                                        readOnly
+                                        aria-describedby="emailHelp"
+                                    />
                                     <Tooltip
                                         title={
                                             <div>
@@ -412,9 +461,10 @@ const handleAddPosition = () => {
                                         placement="right"
                                         arrow
                                     >
-                                        <div className="view-positions">View Positions</div>
+                                        <a href="#" className="add-icon" onClick={(e) => { e.preventDefault(); handleAddField(); }}> Add/View Positions</a>
                                     </Tooltip>
                                 </div>
+                            </div>
 
                                 {showPopup && (
                                 <SimplePopup onClose={handleClosePopup}>
@@ -433,20 +483,13 @@ const handleAddPosition = () => {
                                                   [params.id]: { mode: GridRowModes.View },
                                               }));
                                           }
-                                      }}
-                                        processRowUpdate={(newRow: GridRowModel) => {
-                                        const updatedPositions = positions.map((position) =>
-                                            position.id === newRow.id ? { ...position, ...newRow } : position
-                                        );
-                                        setPositions(updatedPositions);
-                                        return newRow;
-                                        }}
-                                        onRowModesModelChange={setRowModesModel}
+                                      }} 
+                                      processRowUpdate={processRowUpdate} 
+                                      onRowModesModelChange={setRowModesModel}
                                     />
                                     </div>
                                 </SimplePopup>
                                 )}
-
                                 <div className="form-group row p-2">
                                     <div className="col">
                                         <label htmlFor="buget" className="form-label">Salary Budget</label>
@@ -466,8 +509,7 @@ const handleAddPosition = () => {
                                                 className="input-box" 
                                                 name="modeOfInterview" 
                                                 value={modeOfInterviews} 
-                                                onChange={(e) => setModeOfInterviews(e.target.value)}                                                
-                                            >
+                                                onChange={(e) => setModeOfInterviews(e.target.value)}                                                                                            >
                                                 <option value="">Select an option</option>
                                                 <option value="option1">Option 1</option>
                                                 <option value="option2">Option 2</option>
