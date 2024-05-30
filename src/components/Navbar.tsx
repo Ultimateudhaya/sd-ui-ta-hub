@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import {  Button } from '@mui/material';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import '../styles/Navbar.css';
@@ -71,7 +72,7 @@ const Navbar = () => {
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid ">
-          <a className="navbar-brand" href="/navbar">Tringapps</a>
+          <a className="navbar-brand" href="/navbar">tringapps</a>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
               <li className="nav-item">
@@ -107,9 +108,19 @@ const Navbar = () => {
                 </a>
               </li>
               <li>
-                <button className="btn btn-success" onClick={openForm}>
+
+              <Button
+            className="small-search-button1 mt-1"
+            variant="contained"
+            color="primary"
+            onClick={openForm}
+          >
+                              CREATE
+
+          </Button>
+                {/* <button className="btn btn-success" onClick={openForm}>
                   CREATE
-                </button>
+                </button> */}
               </li>
             </ul>
           </div>
