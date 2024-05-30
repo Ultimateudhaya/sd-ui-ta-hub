@@ -243,3 +243,8 @@
   font-weight: 600;
   color: grey;
 }
+
+.delete-button{
+  padding: 7px;
+
+}
