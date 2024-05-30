@@ -203,7 +203,7 @@ function Form() {
     setIsOpen(false);
 };
 const handleAddPosition = () => {
-    const newPosition: Position = {
+  const newPosition: Position = {
       id: positions.length ? positions[positions.length - 1].id + 1 : 0,
       jobTitle: '',
       noOfOpenings: '',
@@ -213,13 +213,14 @@ const handleAddPosition = () => {
       yearsOfExperienceRequired: '',
       primarySkillSet: '',
       secondarySkillSet: '',
-    };
-    setPositions([...positions, newPosition]);
-    setRowModesModel((prevModel) => ({
+  };
+  setPositions([...positions, newPosition]);
+  setRowModesModel((prevModel) => ({
       ...prevModel,
       [newPosition.id]: { mode: GridRowModes.Edit, fieldToFocus: 'jobTitle' },
-    }));
-  };
+  }));
+};
+
 
   const handleSavePosition = (id: GridRowId) => () => {
     setRowModesModel((prevModel) => ({
@@ -271,7 +272,7 @@ const handleAddPosition = () => {
       </Select>
     );
   };
-const processRowUpdate = (newRow: GridRowModel, oldRow: GridRowModel) => {
+  const processRowUpdate = (newRow: GridRowModel, oldRow: GridRowModel) => {
     // Check if any field in the new row is empty
     const isEmptyField = Object.values(newRow).some(value => value === '');
 
@@ -286,12 +287,7 @@ const processRowUpdate = (newRow: GridRowModel, oldRow: GridRowModel) => {
     const updatedPositions = positions.map((position) => {
         if (position.id === newRow.id) {
             // Update only the fields that are not empty in the new row
-            const updatedPosition = { ...position };
-            Object.entries(newRow).forEach(([key, value]) => {
-                if (value !== '') {
-                    updatedPosition[key] = value;
-                }
-            });
+            const updatedPosition = { ...position, ...newRow };
             return updatedPosition;
         } else {
             return position;
@@ -301,7 +297,6 @@ const processRowUpdate = (newRow: GridRowModel, oldRow: GridRowModel) => {
     setPositions(updatedPositions);
     return newRow;
 };
-
 
 
 
@@ -442,17 +437,17 @@ const processRowUpdate = (newRow: GridRowModel, oldRow: GridRowModel) => {
                                 </div>
 
                                 <div className="form-group p-2 pb-0 mt-0 position-relative">
-                                    <label htmlFor="openings" className="form-label">No. of Openings</label>
-                                    <div className="input-container">
-                                        <input
-                                            type="number"
-                                            className="input-box"
-                                            name="openings"
-                                            value={noOfOpenings}
-                                            readOnly
-                                            aria-describedby="emailHelp"
-                                        />
-                                        <Tooltip
+                                <label htmlFor="openings" className="form-label">No. of Openings</label>
+                                <div className="input-container">
+                                    <input
+                                        type="number"
+                                        className="input-box"
+                                        name="openings"
+                                        value={noOfOpenings}
+                                        readOnly
+                                        aria-describedby="emailHelp"
+                                    />
+                                    <Tooltip
                                         title={
                                             <div>
                                                 {positions.map((position, index) => (
@@ -466,10 +461,11 @@ const processRowUpdate = (newRow: GridRowModel, oldRow: GridRowModel) => {
                                         placement="right"
                                         arrow
                                     >
-                                     <a href="#" className="add-icon" onClick={(e) => { e.preventDefault(); handleAddField(); }}> Add/View Positions</a>
+                                        <a href="#" className="add-icon" onClick={(e) => { e.preventDefault(); handleAddField(); }}> Add/View Positions</a>
                                     </Tooltip>
-                                    </div>
                                 </div>
+                            </div>
+
                                 {showPopup && (
                                 <SimplePopup onClose={handleClosePopup}>
                                     <Button onClick={handleAddPosition}>Add Position</Button>
