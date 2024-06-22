@@ -53,7 +53,7 @@ function EditToolbar(props) {
     );
   }
 
-
+  
 export default function FullFeaturedCrudGrid(props) {
     // eslint-disable-next-line react/prop-types
     const { apiEndpoint } = props;
@@ -277,7 +277,20 @@ const handleAddClick = () => {
     }));
 };
 
-
+const getButtonLabel = () => {
+    switch (apiEndpoint) {
+        case 'http://localhost:8080/api/users/':
+            return 'Add User';
+        case 'http://localhost:8080/api/candidates/status':
+            return 'Add Candidate';
+        case 'http://localhost:8080/api/clients/clientPositions':
+            return 'Add Position';
+        case 'http://localhost:8080/api/clients/':
+            return 'Add Client';
+        default:
+            return 'Add';
+    }
+};
 let columns= [];
 
 if (apiEndpoint === 'http://localhost:8080/api/users/') {
@@ -506,8 +519,7 @@ else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
     },
         { field: 'clientLocation', align:'center',headerName: 'CLIENTLOCATION', width: 250, editable: true,    headerAlign: 'center',headerClassName: 'custom-header',
     },
-        { field: 'createdAt', align:'center',headerName: 'CREATEDAT', width: 390, editable: true,    headerAlign: 'center',headerClassName: 'custom-header',
-    },
+        
 
     {
         headerAlign: 'center',
@@ -610,7 +622,7 @@ else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
             variant="contained"
             sx={{ mb: 2, bgcolor: '#2A3F54', color: 'white',marginLeft:130 }}
     >
-            Add Record
+            {getButtonLabel()}
         </Button>
         <DataGrid
                     rowHeight={34}

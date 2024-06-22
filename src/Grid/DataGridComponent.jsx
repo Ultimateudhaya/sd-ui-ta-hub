@@ -207,7 +207,7 @@ const DataGridComponent: React.FC<DataGridComponentProps> = (props) => {
       },
     ];
   } 
-  else if (apiEndpoint === 'http://localhost:8080/api/clients/') {
+  else if (apiEndpoint === 'http://localhost:8090/api/clients/') {
     columns = [
       { field: 'clientId', headerName: 'clientId', width: 180, editable: true },
       { field: 'clientName', headerName: 'clientName', width: 180, editable: true },
